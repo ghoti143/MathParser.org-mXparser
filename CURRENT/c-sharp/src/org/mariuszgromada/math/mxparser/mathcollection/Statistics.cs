@@ -54,6 +54,7 @@
  *                              "Yes, up to isomorphism."
  */
 using System;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
 	/**
@@ -94,7 +95,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double avg(Expression f, Argument index, double from, double to, double delta) {
+		public static double avg(CancellationToken token,Expression f, Argument index, double from, double to, double delta) {
 			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
 				return Double.NaN;
 			double sum = 0;
@@ -102,29 +103,29 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if ( (to >= from) && (delta > 0) ) {
 				double i;
 				for (i = from; i < to; i+=delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					sum += mXparser.getFunctionValue(f, index, i);
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+					sum += mXparser.getFunctionValue(token,f, index, i);
 					n++;
 				}
 				if ( delta - (i - to) > 0.5 * delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					sum += mXparser.getFunctionValue(f, index, to);
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+					sum += mXparser.getFunctionValue(token,f, index, to);
 					n++;
 				}
 			} else if ( (to <= from) && (delta < 0) ) {
 				double i;
 				for (i = from; i > to; i+=delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					sum += mXparser.getFunctionValue(f, index, i);
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+					sum += mXparser.getFunctionValue(token,f, index, i);
 					n++;
 				}
 				if ( -delta - (to - i) > -0.5 * delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					sum += mXparser.getFunctionValue(f, index, to);
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+					sum += mXparser.getFunctionValue(token,f, index, to);
 					n++;
 				}
 			} else if (from == to)
-				return mXparser.getFunctionValue(f, index, from);
+				return mXparser.getFunctionValue(token,f, index, from);
 			return sum / n;
 		}
 		/**
@@ -141,10 +142,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double var(Expression f, Argument index, double from, double to, double delta) {
+		public static double var(CancellationToken token,Expression f, Argument index, double from, double to, double delta) {
 			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
 				return Double.NaN;
-			return var(mXparser.getFunctionValues(f, index, from, to, delta));
+			return var(token,mXparser.getFunctionValues(token,f, index, from, to, delta));
 		}
 		/**
 		 * Bias-corrected standard deviation from sample function values - iterative operator.
@@ -160,10 +161,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double std(Expression f, Argument index, double from, double to, double delta) {
+		public static double std(CancellationToken token,Expression f, Argument index, double from, double to, double delta) {
 			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
 				return Double.NaN;
-			return std(mXparser.getFunctionValues(f, index, from, to, delta));
+			return std(token,mXparser.getFunctionValues(token,f, index, from, to, delta));
 		}
 		/**
 		 * Sample average.
@@ -174,13 +175,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             avg(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double avg(params double[] numbers) {
+		public static double avg(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) return numbers[0];
 			double sum = 0;
 			foreach (double xi in numbers) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				if (Double.IsNaN(xi))
 					return Double.NaN;
 				sum += xi;
@@ -197,17 +198,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             Var(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double var(params double[] numbers) {
+		public static double var(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) {
 				if (Double.IsNaN(numbers[0])) return Double.NaN;
 				return 0;
 			}
-			double m = avg(numbers);
+			double m = avg(token,numbers);
 			double sum = 0;
 			foreach (double xi in numbers) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				if (Double.IsNaN(xi))
 					return Double.NaN;
 				sum += (xi - m) * (xi - m);
@@ -223,30 +224,30 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             Std(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double std(params double[] numbers) {
+		public static double std(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) {
 				if (Double.IsNaN(numbers[0])) return Double.NaN;
 				return 0;
 			}
-			return MathFunctions.sqrt(var(numbers));
+			return MathFunctions.sqrt(var(token,numbers));
 		}
 		/**
 		 * Sample median
 		 * @param numbers   List of number
 		 * @return          Sample median, if table was empty or null then Double.NaN is returned.
 		 */
-		public static double median(params double[] numbers) {
+		public static double median(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) return numbers[0];
 			if (numbers.Length == 2) return (numbers[0] + numbers[1]) / 2.0;
 			foreach (double v in numbers) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				if (Double.IsNaN(v)) return Double.NaN;
 			}
-			NumberTheory.sortAsc(numbers);
+			NumberTheory.sortAsc(token,numbers);
 			if ((numbers.Length % 2) == 1) {
 				int i = (numbers.Length - 1) / 2;
 				return numbers[i];
@@ -261,15 +262,15 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param numbers   List of number
 		 * @return          Sample median, if table was empty or null then Double.NaN is returned.
 		 */
-		public static double mode(params double[] numbers) {
+		public static double mode(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) return numbers[0];
 			foreach (double v in numbers) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				if (Double.IsNaN(v)) return Double.NaN;
 			}
-			double[,] dist = NumberTheory.getDistValues(numbers, true);
+			double[,] dist = NumberTheory.getDistValues(token,numbers, true);
 			return dist[0, 0];
 		}
 	}

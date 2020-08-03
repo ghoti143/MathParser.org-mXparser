@@ -54,6 +54,7 @@
  *                              "Yes, up to isomorphism."
  */
 using System;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
 	/**
@@ -137,7 +138,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * Eratosthenes Sieve implementation
 		 */
-		private void EratosthenesSieve() {
+		private void EratosthenesSieve(CancellationToken token) {
 			long startTime = mXparser.currentTimeMillis();
 			try {
 				int size = maxNumInCache+1;
@@ -158,17 +159,17 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				isPrime[1] = false;
 				for (int i = 2; i <= maxNumInCache; i++) {
 					isPrime[i] = true;
-					if (mXparser.isCurrentCalculationCancelled()) return;
+					if (mXparser.isCurrentCalculationCancelled(token)) return;
 				}
 				/*
 				 * Sieve of Eratosthenes - marking non-primes
 				 */
 				for (int i = 2; i*i <= maxNumInCache; i++) {
-					if (mXparser.isCurrentCalculationCancelled()) return;
+					if (mXparser.isCurrentCalculationCancelled(token)) return;
 					if (isPrime[i] == true)
 						for (int j = i; i*j <= maxNumInCache; j++) {
 							isPrime[i*j] = false;
-							if (mXparser.isCurrentCalculationCancelled()) return;
+							if (mXparser.isCurrentCalculationCancelled(token)) return;
 						}
 				}
 				initSuccessful = true;
@@ -182,22 +183,22 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		/**
 		 * Counting found primes
 		 */
-		private void countPrimes() {
+		private void countPrimes(CancellationToken token) {
 			for (int i = 0; i <= maxNumInCache; i++) {
 				if (isPrime[i] == true) numberOfPrimes++;
-				if (mXparser.isCurrentCalculationCancelled()) return;
+				if (mXparser.isCurrentCalculationCancelled(token)) return;
 			}
 		}
 		/**
 		 * Default constructor - setting prime cache for a default range if integers
 		 */
-		public PrimesCache() {
+		public PrimesCache(CancellationToken token) {
 			initSuccessful = false;
 			cacheStatus = CACHE_EMPTY;
 			maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
-			EratosthenesSieve();
+			EratosthenesSieve(token);
 			if (initSuccessful) {
-				countPrimes();
+				countPrimes(token);
 				cacheStatus = CACHING_FINISHED;
 			} else {
 				maxNumInCache = 0;
@@ -208,7 +209,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * Constructor - setting prime cache for a given range if integers
 		 * @param maxNumInCache Range of integers to be stored in prime cache
 		 */
-		public PrimesCache(int maxNumInCache) {
+		public PrimesCache(CancellationToken token,int maxNumInCache) {
 			if (maxNumInCache > 2)
 				this.maxNumInCache = Math.Min(maxNumInCache, int.MaxValue - 1);
 			else
@@ -216,9 +217,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			initSuccessful = false;
 			cacheStatus = CACHE_EMPTY;
 			maxNumInCache = DEFAULT_MAX_NUM_IN_CACHE;
-			EratosthenesSieve();
+			EratosthenesSieve(token);
 			if (initSuccessful) {
-				countPrimes();
+				countPrimes(token);
 				cacheStatus = CACHING_FINISHED;
 			} else {
 				maxNumInCache = 0;

@@ -54,6 +54,7 @@
  *                              "Yes, up to isomorphism."
  */
 using System;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
 	/**
@@ -100,12 +101,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @see        Expression
 		 */
-		public static double integralTrapezoid(Expression f, Argument x, double a, double b,
+		public static double integralTrapezoid(CancellationToken token,Expression f, Argument x, double a, double b,
 				double eps, int maxSteps) {
 			double h = 0.5 * (b-a);
-			double fa = mXparser.getFunctionValue(f, x, a);
-			double fb = mXparser.getFunctionValue(f, x, b);
-			double fah = mXparser.getFunctionValue(f, x, a + h);
+			double fa = mXparser.getFunctionValue(token,f, x, a);
+			double fb = mXparser.getFunctionValue(token,f, x, b);
+			double fah = mXparser.getFunctionValue(token,f, x, a + h);
 			double ft;
 			double s = fa + fb + 2 * fah;
 			double intF = s * h * 0.5;
@@ -118,8 +119,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				t = a + 0.5*h;
 				intFprev = intF;
 				for (j = 1; j <= n; j++) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					ft = mXparser.getFunctionValue(f, x, t);
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+					ft = mXparser.getFunctionValue(token,f, x, t);
 					s += 2 * ft;
 					t += h;
 				}
@@ -127,7 +128,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				intF = s * h * 0.5;
 				if (Math.Abs(intF - intFprev) <= eps)
 					return intF;
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			}
 			return intF;
 		}
@@ -146,7 +147,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @see        Expression
 		 */
-		public static double derivative(Expression f, Argument x, double x0,
+		public static double derivative(CancellationToken token,Expression f, Argument x, double x0,
 				int derType, double eps, int maxSteps) {
 			const double START_DX = 0.1;
 			int step = 0;
@@ -161,22 +162,22 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				dx = START_DX;
 			double dy = 0.0;
 			if ( (derType == LEFT_DERIVATIVE) || (derType == RIGHT_DERIVATIVE) ) {
-				y0 = mXparser.getFunctionValue(f, x, x0);
-				dy = mXparser.getFunctionValue(f, x, x0+dx) - y0;
+				y0 = mXparser.getFunctionValue(token,f, x, x0);
+				dy = mXparser.getFunctionValue(token,f, x, x0+dx) - y0;
 				derF = dy/dx;
 			} else
-				derF = ( mXparser.getFunctionValue(f, x, x0+dx) - mXparser.getFunctionValue(f, x, x0-dx) ) / (2.0*dx);
+				derF = ( mXparser.getFunctionValue(token,f, x, x0+dx) - mXparser.getFunctionValue(token,f, x, x0-dx) ) / (2.0*dx);
 			do {
 				derFprev = derF;
 				dx = dx/2.0;
 				if ( (derType == LEFT_DERIVATIVE) || (derType == RIGHT_DERIVATIVE) ) {
-					dy = mXparser.getFunctionValue(f, x, x0+dx) - y0;
+					dy = mXparser.getFunctionValue(token,f, x, x0+dx) - y0;
 					derF = dy/dx;
 				} else
-					derF = ( mXparser.getFunctionValue(f, x, x0+dx) - mXparser.getFunctionValue(f, x, x0-dx) ) / (2.0*dx);
+					derF = ( mXparser.getFunctionValue(token,f, x, x0+dx) - mXparser.getFunctionValue(token,f, x, x0-dx) ) / (2.0*dx);
 				error = Math.Abs(derF - derFprev);
 				step++;
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			} while ( (step < maxSteps) && ( (error > eps) || Double.IsNaN(derF) ));
 			return derF;
 		}
@@ -197,7 +198,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @see        Expression
 		 */
-		public static double derivativeNth(Expression f, double n, Argument x,
+		public static double derivativeNth(CancellationToken token,Expression f, double n, Argument x,
 				double x0, int derType, double eps, int maxSteps) {
 			n = Math.Round(n);
 			int step = 0;
@@ -207,10 +208,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double derF = 0;
 			if (derType == RIGHT_DERIVATIVE)
 				for (int i = 1; i <= n; i++)
-					derF += MathFunctions.binomCoeff(-1,n-i) * MathFunctions.binomCoeff(n,i) * mXparser.getFunctionValue(f,x,x0+i*dx);
+					derF += MathFunctions.binomCoeff(token,-1,n-i) * MathFunctions.binomCoeff(token,n,i) * mXparser.getFunctionValue(token,f,x,x0+i*dx);
 			else
 				for (int i = 1; i <= n; i++)
-					derF += MathFunctions.binomCoeff(-1,i)*MathFunctions.binomCoeff(n,i) * mXparser.getFunctionValue(f,x,x0-i*dx);
+					derF += MathFunctions.binomCoeff(token,-1,i)*MathFunctions.binomCoeff(token,n,i) * mXparser.getFunctionValue(token,f,x,x0-i*dx);
 			derF = derF / Math.Pow(dx, n);
 			do {
 				derFprev = derF;
@@ -218,14 +219,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				derF = 0;
 				if (derType == RIGHT_DERIVATIVE)
 					for (int i = 1; i <= n; i++)
-						derF += MathFunctions.binomCoeff(-1,n-i) * MathFunctions.binomCoeff(n,i) * mXparser.getFunctionValue(f,x,x0+i*dx);
+						derF += MathFunctions.binomCoeff(token,-1,n-i) * MathFunctions.binomCoeff(token,n,i) * mXparser.getFunctionValue(token,f,x,x0+i*dx);
 				else
 					for (int i = 1; i <= n; i++)
-						derF += MathFunctions.binomCoeff(-1,i)*MathFunctions.binomCoeff(n,i) * mXparser.getFunctionValue(f,x,x0-i*dx);
+						derF += MathFunctions.binomCoeff(token,-1,i)*MathFunctions.binomCoeff(token,n,i) * mXparser.getFunctionValue(token,f,x,x0-i*dx);
 				derF = derF / Math.Pow(dx, n);
 				error = Math.Abs(derF - derFprev);
 				step++;
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			} while ( (step < maxSteps) && ( (error > eps) || Double.IsNaN(derF) ));
 			return derF;
 		}
@@ -241,11 +242,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double forwardDifference(Expression f, Argument x, double x0) {
+		public static double forwardDifference(CancellationToken token,Expression f, Argument x, double x0) {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
-			double xb = x.getArgumentValue();
-			double delta = mXparser.getFunctionValue(f, x, x0 + 1) - mXparser.getFunctionValue(f, x, x0);
+			double xb = x.getArgumentValue(token);
+			double delta = mXparser.getFunctionValue(token,f, x, x0 + 1) - mXparser.getFunctionValue(token,f, x, x0);
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -260,13 +261,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double forwardDifference(Expression f, Argument x) {
-			double xb = x.getArgumentValue();
+		public static double forwardDifference(CancellationToken token,Expression f, Argument x) {
+			double xb = x.getArgumentValue(token);
 			if (Double.IsNaN(xb))
 				return Double.NaN;
-			double fv = f.calculate();
+			double fv = f.calculate(token);
 			x.setArgumentValue(xb + 1);
-			double delta = f.calculate() - fv;
+			double delta = f.calculate(token) - fv;
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -282,11 +283,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double backwardDifference(Expression f, Argument x, double x0) {
+		public static double backwardDifference(CancellationToken token,Expression f, Argument x, double x0) {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
-			double xb = x.getArgumentValue();
-			double delta = mXparser.getFunctionValue(f, x, x0) - mXparser.getFunctionValue(f, x, x0 - 1);
+			double xb = x.getArgumentValue(token);
+			double delta = mXparser.getFunctionValue(token,f, x, x0) - mXparser.getFunctionValue(token,f, x, x0 - 1);
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -301,13 +302,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double backwardDifference(Expression f, Argument x) {
-			double xb = x.getArgumentValue();
+		public static double backwardDifference(CancellationToken token,Expression f, Argument x) {
+			double xb = x.getArgumentValue(token);
 			if (Double.IsNaN(xb))
 				return Double.NaN;
-			double fv = f.calculate();
+			double fv = f.calculate(token);
 			x.setArgumentValue(xb - 1);
-			double delta = fv - f.calculate();
+			double delta = fv - f.calculate(token);
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -324,11 +325,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double forwardDifference(Expression f, double h, Argument x, double x0) {
+		public static double forwardDifference(CancellationToken token,Expression f, double h, Argument x, double x0) {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
-			double xb = x.getArgumentValue();
-			double delta = mXparser.getFunctionValue(f, x, x0 + h) - mXparser.getFunctionValue(f, x, x0);
+			double xb = x.getArgumentValue(token);
+			double delta = mXparser.getFunctionValue(token,f, x, x0 + h) - mXparser.getFunctionValue(token,f, x, x0);
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -344,13 +345,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double forwardDifference(Expression f, double h, Argument x) {
-			double xb = x.getArgumentValue();
+		public static double forwardDifference(CancellationToken token,Expression f, double h, Argument x) {
+			double xb = x.getArgumentValue(token);
 			if (Double.IsNaN(xb))
 				return Double.NaN;
-			double fv = f.calculate();
+			double fv = f.calculate(token);
 			x.setArgumentValue(xb + h);
-			double delta = f.calculate() - fv;
+			double delta = f.calculate(token) - fv;
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -367,11 +368,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double backwardDifference(Expression f, double h, Argument x, double x0) {
+		public static double backwardDifference(CancellationToken token,Expression f, double h, Argument x, double x0) {
 			if (Double.IsNaN(x0))
 				return Double.NaN;
-			double xb = x.getArgumentValue();
-			double delta = mXparser.getFunctionValue(f, x, x0) - mXparser.getFunctionValue(f, x, x0 - h);
+			double xb = x.getArgumentValue(token);
+			double delta = mXparser.getFunctionValue(token,f, x, x0) - mXparser.getFunctionValue(token,f, x, x0 - h);
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -387,13 +388,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double backwardDifference(Expression f, double h, Argument x) {
-			double xb = x.getArgumentValue();
+		public static double backwardDifference(CancellationToken token,Expression f, double h, Argument x) {
+			double xb = x.getArgumentValue(token);
 			if (Double.IsNaN(xb))
 				return Double.NaN;
-			double fv = f.calculate();
+			double fv = f.calculate(token);
 			x.setArgumentValue(xb - h);
-			double delta = fv - f.calculate();
+			double delta = fv - f.calculate(token);
 			x.setArgumentValue(xb);
 			return delta;
 		}
@@ -406,7 +407,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param b  Right limit
 		 * @return   Function root - if found, otherwise Double.NaN.
 		 */
-		public static double solveBrent(Expression f, Argument x, double a, double b, double eps, double maxSteps) {
+		public static double solveBrent(CancellationToken token,Expression f, Argument x, double a, double b, double eps, double maxSteps) {
 			double fa, fb, fc, fs, c, c0, c1, c2;
 			double tmp, d, s;
 			bool mflag;
@@ -419,8 +420,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				a = b;
 				b = tmp;
 			}
-			fa = mXparser.getFunctionValue(f, x, a);
-			fb = mXparser.getFunctionValue(f, x, b);
+			fa = mXparser.getFunctionValue(token,f, x, a);
+			fb = mXparser.getFunctionValue(token,f, x, b);
 			/*
 			 * If already root then no need to solve
 			 */
@@ -441,8 +442,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 						ap = bp;
 						bp = tmp;
 					}
-					fa = mXparser.getFunctionValue(f, x, ap);
-					fb = mXparser.getFunctionValue(f, x, bp);
+					fa = mXparser.getFunctionValue(token,f, x, ap);
+					fb = mXparser.getFunctionValue(token,f, x, bp);
 					if (MathFunctions.abs(fa) <= eps) return ap;
 					if (MathFunctions.abs(fb) <= eps) return bp;
 					if (fa * fb < 0) {
@@ -451,13 +452,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 						b = bp;
 						break;
 					}
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				}
 				if (rndflag == false) return Double.NaN;
 			}
 			c = a;
 			d = c;
-			fc = mXparser.getFunctionValue(f, x, c);
+			fc = mXparser.getFunctionValue(token,f, x, c);
 			if (MathFunctions.abs(fa) < MathFunctions.abs(fb)) {
 				tmp = a;
 				a = b;
@@ -486,7 +487,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					mflag = true;
 				} else
 					mflag = true;
-				fs = mXparser.getFunctionValue(f, x, s);
+				fs = mXparser.getFunctionValue(token,f, x, s);
 				d = c;
 				c = b;
 				fc = fb;
@@ -503,7 +504,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					fb = tmp;
 				}
 				iter++;
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			}
 			return MathFunctions.round(b, MathFunctions.decimalDigitsBefore(eps) - 1);
 		}

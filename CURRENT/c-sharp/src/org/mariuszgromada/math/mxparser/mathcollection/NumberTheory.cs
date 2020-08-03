@@ -56,6 +56,7 @@
 using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser.mathcollection {
 	/**
@@ -128,7 +129,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     if each number form numbers <> Double.NaN returns the smallest number,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double min(params double[] numbers) {
+		public static double min(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			double min = Double.PositiveInfinity;
@@ -137,7 +138,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return Double.NaN;
 				if (number < min)
 					min = number;
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			}
 			return min;
 		}
@@ -149,7 +150,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     Returns the index of the first smallest number,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double argmin(params double[] numbers) {
+		public static double argmin(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			double min = Double.PositiveInfinity;
@@ -162,7 +163,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					min = number;
 					minIndex = i;
 				}
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			}
 			return minIndex + 1;
 		}
@@ -188,7 +189,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     if each number form numbers <> Double.NaN returns the highest number,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double max(params double[] numbers) {
+		public static double max(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			double max = Double.NegativeInfinity;
@@ -197,7 +198,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					return Double.NaN;
 				if (number > max)
 					max = number;
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			}
 			return max;
 		}
@@ -209,7 +210,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     Returns the index of the first biggest number,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double argmax(params double[] numbers) {
+		public static double argmax(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			double max = Double.NegativeInfinity;
@@ -222,7 +223,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					max = number;
 					maxIndex = i;
 				}
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			}
 			return maxIndex + 1;
 		}
@@ -234,7 +235,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param rightIndex    Starting right index.
 		 * @return              Initial ordering swapped according to sorting order.
 		 */
-		private static void sortAsc(double[] array, int[] initOrder, int leftIndex, int rightIndex) {
+		private static void sortAsc(CancellationToken token,double[] array, int[] initOrder, int leftIndex, int rightIndex) {
 			int i = leftIndex;
 			int j = rightIndex;
 			double x = array[(leftIndex + rightIndex) / 2];
@@ -244,11 +245,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 
 				while (BinaryRelations.lt(array[i], x) == BooleanAlgebra.TRUE) {
 					i++;
-					if (mXparser.isCurrentCalculationCancelled()) return;
+					if (mXparser.isCurrentCalculationCancelled(token)) return;
 				}
 				while (BinaryRelations.gt(array[j], x) == BooleanAlgebra.TRUE) {
 					j--;
-					if (mXparser.isCurrentCalculationCancelled()) return;
+					if (mXparser.isCurrentCalculationCancelled(token)) return;
 				}
 				if (i <= j) {
 					w = array[i];
@@ -260,10 +261,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					i++;
 					j--;
 				}
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(token)) break;
 			} while (i <= j);
-			if (leftIndex < j) sortAsc(array, initOrder, leftIndex, j);
-			if (i < rightIndex) sortAsc(array, initOrder, i, rightIndex);
+			if (leftIndex < j) sortAsc(token,array, initOrder, leftIndex, j);
+			if (i < rightIndex) sortAsc(token,array, initOrder, i, rightIndex);
 		}
 		/**
 		 * Array sort - ascending - quick sort algorithm.
@@ -271,15 +272,15 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return       Sorts array and additionally returns
 		 *               initial ordering swapped according to sorting order.
 		 */
-		public static int[] sortAsc(double[] array) {
+		public static int[] sortAsc(CancellationToken token,double[] array) {
 			if (array == null) return null;
 			int[] initOrder = new int[array.Length];
 			for (int i = 0; i < array.Length; i++) {
 				initOrder[i] = i;
-				if (mXparser.isCurrentCalculationCancelled()) return initOrder;
+				if (mXparser.isCurrentCalculationCancelled(token)) return initOrder;
 			}
 			if (array.Length < 2) return initOrder;
-			sortAsc(array, initOrder, 0, array.Length - 1);
+			sortAsc(token,array, initOrder, 0, array.Length - 1);
 			return initOrder;
 		}
 		/**
@@ -290,7 +291,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return List of values in the form of: first index - value index, second index: 0 - value, 1 - value count,
 		 *                                        2 - minimal value position in original array
 		 */
-		public static double[,] getDistValues(double[] array, bool returnOrderByDescFreqAndAscOrigPos) {
+		public static double[,] getDistValues(CancellationToken token,double[] array, bool returnOrderByDescFreqAndAscOrigPos) {
 			if (array == null) return null;
 			/*
 			 * double[n][3] is returned
@@ -313,7 +314,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			/*
 			 * Sort ascending by value
 			 */
-			int[] initPos = sortAsc(array);
+			int[] initPos = sortAsc(token,array);
 			/*
 			 * Building unique values list
 			 */
@@ -329,7 +330,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			 * First element is considered above
 			 */
 			for (int i = 1; i < array.Length; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(token)) break;
 				/* if the same value */
 				if (BinaryRelations.eq(unqValue, array[i]) == BooleanAlgebra.TRUE) {
 					/*
@@ -398,7 +399,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double[,] distValFinal = new double[unqCnt, 3];
 			double maxBase = 0;
 			for (int i = 0; i < unqCnt; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(token)) break;
 				distValFinal[i, value] = distVal[i, value];
 				distValFinal[i, count] = distVal[i, count];
 				distValFinal[i, initPosFirst] = distVal[i, initPosFirst];
@@ -423,12 +424,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			/*
 			 * Sorting descending
 			 */
-			int[] keyInitOrder = sortAsc(key);
+			int[] keyInitOrder = sortAsc(token,key);
 			/*
 			 * Getting final ordering
 			 */
 			for (int i = 0; i < unqCnt; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(token)) break;
 				distValFinal[i, value] = distVal[keyInitOrder[i], value];
 				distValFinal[i, count] = distVal[keyInitOrder[i], count];
 				distValFinal[i, initPosFirst] = distVal[keyInitOrder[i], initPosFirst];
@@ -441,15 +442,15 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return           Number of unique values. If list is null or any Double.NaN
 		 *                   is found then Double.NaN is returned.
 		 */
-		public static double numberOfDistValues(params double[] numbers) {
+		public static double numberOfDistValues(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return 0;
 			foreach (double v in numbers) {
 				if (Double.IsNaN(v)) return Double.NaN;
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			}
 			if (numbers.Length == 1) return 1;
-			return getDistValues(numbers, false).GetLength(0);
+			return getDistValues(token,numbers, false).GetLength(0);
 		}
 		/**
 		 * Greatest common divisor (GCD)
@@ -458,7 +459,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param      b                   the b function parameter
 		 * @return     GCD(a,b)
 		 */
-		public static long gcd(long a, long b) {
+		public static long gcd(CancellationToken token,long a, long b) {
 			if (a < 0) a = -a;
 			if (b < 0) b = -b;
 			if ((a == 0) && (b != 0)) return b;
@@ -469,7 +470,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			long quotient;
 			double NAN = Double.NaN;
 			while (b != 0) {
-				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return (long)NAN;
 				if (a > b) {
 					quotient = a / b - 1;
 					if (quotient > 0)
@@ -496,7 +497,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     if a, b <> Double.NaN returns gcd( (int)Math.round(a),(int)Math.round(b) ),
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double gcd(double a, double b) {
+		public static double gcd(CancellationToken token,double a, double b) {
 			if (Double.IsNaN(a) || Double.IsNaN(a))
 				return Double.NaN;
 			if (a < 0) a = -a;
@@ -510,7 +511,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (a == b) return a;
 			double quotient;
 			while (b != 0.0) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				if (a > b) {
 					quotient = Math.Floor(a / b) - 1;
 					if (quotient > 0)
@@ -535,18 +536,18 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return     GCD(a_1,...,a_n) a_1,...,a_n in numbers
 		 */
-		public static long gcd(params long[] numbers) {
+		public static long gcd(CancellationToken token,params long[] numbers) {
 			if (numbers == null) return -1;
 			if (numbers.Length == 0) return -1;
 			if (numbers.Length == 1)
 				if (numbers[0] >= 0) return numbers[0];
 				else return -numbers[0];
 			if (numbers.Length == 2)
-				return gcd(numbers[0], numbers[1]);
+				return gcd(token,numbers[0], numbers[1]);
 			double NAN = Double.NaN;
 			for (int i = 1; i < numbers.Length; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
-				numbers[i] = gcd(numbers[i - 1], numbers[i]);
+				if (mXparser.isCurrentCalculationCancelled(token)) return (long)NAN;
+				numbers[i] = gcd(token,numbers[i - 1], numbers[i]);
 			}
 			return numbers[numbers.Length - 1];
 		}
@@ -559,16 +560,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             GCD(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double gcd(params double[] numbers) {
+		public static double gcd(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1)
 				return MathFunctions.floor(MathFunctions.abs(numbers[0]));
 			if (numbers.Length == 2)
-				return gcd(numbers[0], numbers[1]);
+				return gcd(token,numbers[0], numbers[1]);
 			for (int i = 1; i < numbers.Length; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				numbers[i] = gcd(numbers[i - 1], numbers[i]);
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+				numbers[i] = gcd(token,numbers[i - 1], numbers[i]);
 			}
 			return numbers[numbers.Length - 1];
 		}
@@ -580,12 +581,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return     LCM(a,b)
 		 */
-		public static long lcm(long a, long b) {
+		public static long lcm(CancellationToken token,long a, long b) {
 			a = Math.Abs(a);
 			b = Math.Abs(b);
 			if ((a == 0) || (b == 0))
 				return 0;
-			return (a * b) / gcd(a, b);
+			return (a * b) / gcd(token,a, b);
 		}
 		/**
 		 * Latest common multiply (LCM)
@@ -596,12 +597,12 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     if a, b <> Double.NaN returns lcm( (int)Math.round(a), (int)Math.round(b) ),
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double lcm(double a, double b) {
+		public static double lcm(CancellationToken token,double a, double b) {
 			if (Double.IsNaN(a) || Double.IsNaN(a))
 				return Double.NaN;
 			a = MathFunctions.floor(MathFunctions.abs(a));
 			b = MathFunctions.floor(MathFunctions.abs(b));
-			return (a * b) / gcd(a, b);
+			return (a * b) / gcd(token,a, b);
 		}
 		/**
 		 * Latest common multiply (LCM)
@@ -610,18 +611,18 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return     LCM(a_1,...,a_n) a_1,...,a_n in numbers
 		 */
-		public static long lcm(params long[] numbers) {
+		public static long lcm(CancellationToken token,params long[] numbers) {
 			if (numbers == null) return -1;
 			if (numbers.Length == 0) return -1;
 			if (numbers.Length == 1)
 				if (numbers[0] >= 0) return numbers[0];
 				else return -numbers[0];
 			if (numbers.Length == 2)
-				return lcm(numbers[0], numbers[1]);
+				return lcm(token,numbers[0], numbers[1]);
 			double NAN = Double.NaN;
 			for (int i = 1; i < numbers.Length; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
-				numbers[i] = lcm(numbers[i - 1], numbers[i]);
+				if (mXparser.isCurrentCalculationCancelled(token)) return (long)NAN;
+				numbers[i] = lcm(token,numbers[i - 1], numbers[i]);
 			}
 			return numbers[numbers.Length - 1];
 		}
@@ -634,16 +635,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             LCM(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double lcm(params double[] numbers) {
+		public static double lcm(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1)
 				MathFunctions.floor(MathFunctions.abs(numbers[0]));
 			if (numbers.Length == 2)
-				return lcm(numbers[0], numbers[1]);
+				return lcm(token,numbers[0], numbers[1]);
 			for (int i = 1; i < numbers.Length; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-				numbers[i] = lcm(numbers[i - 1], numbers[i]);
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+				numbers[i] = lcm(token,numbers[i - 1], numbers[i]);
 			}
 			return numbers[numbers.Length - 1];
 		}
@@ -656,7 +657,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             sum(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double sum(params double[] numbers) {
+		public static double sum(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) return numbers[0];
@@ -677,7 +678,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 							dsum = dsum + dxi;
 						}
 					}
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				}
 				if (decimalStillInRange) return (double)dsum;
 				else return sum;
@@ -686,7 +687,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					if ( Double.IsNaN(xi) ) return Double.NaN;
 					if ( Double.IsInfinity(xi)) return Double.NaN;
 					sum += xi;
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				}
 				return sum;
 			}
@@ -701,7 +702,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *             prod(a_1,...,a_n) a_1,...,a_n in numbers,
 		 *             otherwise returns Double.NaN.
 		 */
-		public static double prod(params double[] numbers) {
+		public static double prod(CancellationToken token,params double[] numbers) {
 			if (numbers == null) return Double.NaN;
 			if (numbers.Length == 0) return Double.NaN;
 			if (numbers.Length == 1) return numbers[0];
@@ -722,7 +723,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 							dprod = dprod * dxi;
 						}
 					}
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				}
 				if (decimalStillInRange) return (double)dprod;
 				else return prod;
@@ -732,7 +733,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					if ( Double.IsNaN(xi) ) return Double.NaN;
 					if ( Double.IsInfinity(xi)) return Double.NaN;
 					prod *= xi;
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				}
 			}
 			return prod;
@@ -744,7 +745,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return true if number is prime, otherwise false
 		 */
-		public static bool primeTest(long n) {
+		public static bool primeTest(CancellationToken token,long n) {
 			/*
 			 * 2 is a prime :-)
 			 */
@@ -787,7 +788,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 						for (i = 3; i <= topCache; i += 2) {
 							if (mXparser.primesCache.isPrime[(int)i] == true)
 								if (n % i == 0) return false;
-							if (mXparser.isCurrentCalculationCancelled()) return false;
+							if (mXparser.isCurrentCalculationCancelled(token)) return false;
 						}
 						/*
 						 * If no prime divisor of n in primes cache
@@ -803,7 +804,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			 */
 			for (long i = primesCacheOddEnd; i <= top; i += 2) {
 				if (n % i == 0) return false;
-				if (mXparser.isCurrentCalculationCancelled()) return false;
+				if (mXparser.isCurrentCalculationCancelled(token)) return false;
 			}
 			return true;
 		}
@@ -814,9 +815,9 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return true if number is prime, otherwise false
 		 */
-		public static double primeTest(double n) {
+		public static double primeTest(CancellationToken token,double n) {
 			if (Double.IsNaN(n)) return Double.NaN;
-			bool isPrime = primeTest((long)n);
+			bool isPrime = primeTest(token,(long)n);
 			if (isPrime == true)
 				return 1;
 			else
@@ -829,14 +830,14 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return Number of primes below or equal x
 		 */
-		public static long primeCount(long n) {
+		public static long primeCount(CancellationToken token,long n) {
 			if (n <= 1) return 0;
 			if (n == 2) return 1;
 			long numberOfPrimes = 1;
 			double NAN = Double.NaN;
 			for (long i = 3; i <= n; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
-				if (primeTest(i) == true)
+				if (mXparser.isCurrentCalculationCancelled(token)) return (long)NAN;
+				if (primeTest(token,i) == true)
 					numberOfPrimes++;
 			}
 			return numberOfPrimes;
@@ -848,8 +849,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return Number of primes below or equal x
 		 */
-		public static double primeCount(double n) {
-			return primeCount((long)n);
+		public static double primeCount(CancellationToken token,double n) {
+			return primeCount(token,(long)n);
 		}
 		class CanonicalResult {
 			internal const bool SUMMATION = true;
@@ -912,7 +913,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * @return     summation operation (for empty summation operations returns 0).
 		 */
-		public static double sigmaSummation(Expression f, Argument index, double from, double to, double delta) {
+		public static double sigmaSummation(CancellationToken token,Expression f, Argument index, double from, double to, double delta) {
 			if ( (Double.IsNaN(delta) ) || (Double.IsNaN(from) ) || (Double.IsNaN(to) ) || (delta == 0) )
 				return Double.NaN;
 			double i;
@@ -920,30 +921,30 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (mXparser.checkIfCanonicalRounding()) {
 				if ( (to >= from) && (delta > 0) ) {
 					for (i = from; i < to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+						opRes.fval = mXparser.getFunctionValue(token,f, index, i);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.add();
 					}
 					if ( delta - (i - to) > 0.5 * delta) {
-						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						opRes.fval = mXparser.getFunctionValue(token,f, index, to);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.add();
 					}
 				} else if ( (to <= from) && (delta < 0) ) {
 					for (i = from; i > to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+						opRes.fval = mXparser.getFunctionValue(token,f, index, i);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.add();
 					}
 					if ( -delta - (to - i) > -0.5 * delta) {
-						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						opRes.fval = mXparser.getFunctionValue(token,f, index, to);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.add();
 					}
 				} else if (from == to) {
-					opRes.fval = mXparser.getFunctionValue(f, index, from);
+					opRes.fval = mXparser.getFunctionValue(token,f, index, from);
 					if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 					opRes.add();
 				}
@@ -953,30 +954,30 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				double result = 0;
 				if ( (to >= from) && (delta > 0) ) {
 					for (i = from; i < to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
+						if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+						fval = mXparser.getFunctionValue(token,f, index, i);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result += fval;
 					}
 					if ( delta - (i - to) > 0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
+						fval = mXparser.getFunctionValue(token,f, index, to);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result += fval;
 					}
 				} else if ( (to <= from) && (delta < 0) ) {
 					for (i = from; i > to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
+						if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+						fval = mXparser.getFunctionValue(token,f, index, i);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result += fval;
 					}
 					if ( -delta - (to - i) > -0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
+						fval = mXparser.getFunctionValue(token,f, index, to);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result += fval;
 					}
 				} else if (from == to) {
-					fval = mXparser.getFunctionValue(f, index, from);
+					fval = mXparser.getFunctionValue(token,f, index, from);
 					if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 					result += fval;
 				}
@@ -997,7 +998,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double piProduct(Expression f, Argument index, double from, double to, double delta) {
+		public static double piProduct(CancellationToken token,Expression f, Argument index, double from, double to, double delta) {
 			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
 				return Double.NaN;
 			double i;
@@ -1005,31 +1006,31 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (mXparser.checkIfCanonicalRounding()) {
 				if ( (to >= from) && (delta > 0) ) {
 					for (i = from; i < to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+						opRes.fval = mXparser.getFunctionValue(token,f, index, i);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.multiply();
 					}
 					if ( delta - (i - to) > 0.5 * delta) {
-						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						opRes.fval = mXparser.getFunctionValue(token,f, index, to);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.multiply();
 
 					}
 				} else if ( (to <= from) && (delta < 0) ) {
 					for (i = from; i > to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						opRes.fval = mXparser.getFunctionValue(f, index, i);
+						if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+						opRes.fval = mXparser.getFunctionValue(token,f, index, i);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.multiply();
 					}
 					if ( -delta - (to - i) > -0.5 * delta) {
-						opRes.fval = mXparser.getFunctionValue(f, index, to);
+						opRes.fval = mXparser.getFunctionValue(token,f, index, to);
 						if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 						opRes.multiply();
 					}
 				} else if (from == to) {
-					opRes.fval = mXparser.getFunctionValue(f, index, from);
+					opRes.fval = mXparser.getFunctionValue(token,f, index, from);
 					if (Double.IsNaN(opRes.fval) || Double.IsInfinity(opRes.fval)) return Double.NaN;
 					opRes.multiply();
 				}
@@ -1039,30 +1040,30 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				double result = 1;
 				if ( (to >= from) && (delta > 0) ) {
 					for (i = from; i < to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
+						if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+						fval = mXparser.getFunctionValue(token,f, index, i);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result *= fval;
 					}
 					if ( delta - (i - to) > 0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
+						fval = mXparser.getFunctionValue(token,f, index, to);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result *= fval;
 					}
 				} else if ( (to <= from) && (delta < 0) ) {
 					for (i = from; i > to; i+=delta) {
-						if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-						fval = mXparser.getFunctionValue(f, index, i);
+						if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+						fval = mXparser.getFunctionValue(token,f, index, i);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result *= fval;
 					}
 					if ( -delta - (to - i) > -0.5 * delta) {
-						fval = mXparser.getFunctionValue(f, index, to);
+						fval = mXparser.getFunctionValue(token,f, index, to);
 						if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 						result *= fval;
 					}
 				} else if (from == to) {
-					fval = mXparser.getFunctionValue(f, index, from);
+					fval = mXparser.getFunctionValue(token,f, index, from);
 					if (Double.IsNaN(fval) || Double.IsInfinity(fval)) return Double.NaN;
 					result *= fval;
 				}
@@ -1084,29 +1085,29 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double min(Expression f, Argument index, double from, double to, double delta) {
+		public static double min(CancellationToken token,Expression f, Argument index, double from, double to, double delta) {
 			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
 				return Double.NaN;
 			double min = Double.PositiveInfinity;
 			double v;
 			if ((to >= from) && (delta > 0)) {
 				for (double i = from; i < to; i += delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					v = mXparser.getFunctionValue(f, index, i);
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+					v = mXparser.getFunctionValue(token,f, index, i);
 					if (v < min) min = v;
 				}
-				v = mXparser.getFunctionValue(f, index, to);
+				v = mXparser.getFunctionValue(token,f, index, to);
 				if (v < min) min = v;
 			} else if ((to <= from) && (delta < 0)) {
 				for (double i = from; i > to; i += delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					v = mXparser.getFunctionValue(f, index, i);
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+					v = mXparser.getFunctionValue(token,f, index, i);
 					if (v < min) min = v;
 				}
-				v = mXparser.getFunctionValue(f, index, to);
+				v = mXparser.getFunctionValue(token,f, index, to);
 				if (v < min) min = v;
 			} else if (from == to)
-				min = mXparser.getFunctionValue(f, index, from);
+				min = mXparser.getFunctionValue(token,f, index, from);
 			return min;
 		}
 		/**
@@ -1123,29 +1124,29 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see        Expression
 		 * @see        Argument
 		 */
-		public static double max(Expression f, Argument index, double from, double to, double delta) {
+		public static double max(CancellationToken token,Expression f, Argument index, double from, double to, double delta) {
 			if ((Double.IsNaN(delta)) || (Double.IsNaN(from)) || (Double.IsNaN(to)) || (delta == 0))
 				return Double.NaN;
 			double max = Double.NegativeInfinity;
 			double v;
 			if ((to >= from) && (delta > 0)) {
 				for (double i = from; i < to; i += delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					v = mXparser.getFunctionValue(f, index, i);
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+					v = mXparser.getFunctionValue(token,f, index, i);
 					if (v > max) max = v;
 				}
-				v = mXparser.getFunctionValue(f, index, to);
+				v = mXparser.getFunctionValue(token,f, index, to);
 				if (v > max) max = v;
 			} else if ((to <= from) && (delta < 0)) {
 				for (double i = from; i > to; i += delta) {
-					if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
-					v = mXparser.getFunctionValue(f, index, i);
+					if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
+					v = mXparser.getFunctionValue(token,f, index, i);
 					if (v > max) max = v;
 				}
-				v = mXparser.getFunctionValue(f, index, to);
+				v = mXparser.getFunctionValue(token,f, index, to);
 				if (v > max) max = v;
 			} else if (from == to)
-				max = mXparser.getFunctionValue(f, index, from);
+				max = mXparser.getFunctionValue(token,f, index, from);
 			return max;
 		}
 		/**
@@ -1372,7 +1373,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return                 Decimal number after conversion. If conversion was not
 		 *                         possible the Double.NaN is returned.
 		 */
-		public static double convOthBase2Decimal(String numberLiteral, int numeralSystemBase) {
+		public static double convOthBase2Decimal(CancellationToken token,String numberLiteral, int numeralSystemBase) {
 			if (numberLiteral == null) return Double.NaN;
 			numberLiteral = numberLiteral.Trim();
 			if (numberLiteral.Length == 0) {
@@ -1395,7 +1396,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double decValue = 0;
 			int digit;
 			for (int i = 0; i < length; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				digit = digitIndex(numberLiteral[i]);
 				if (numeralSystemBase > 1) {
 					if ((digit >= 0) && (digit < numeralSystemBase)) decValue = numeralSystemBase * decValue + digit;
@@ -1428,7 +1429,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return     Decimal number after conversion. If conversion was not
 		 *             possible the Double.NaN is returned.
 		 */
-		public static double convOthBase2Decimal(String numberLiteral) {
+		public static double convOthBase2Decimal(CancellationToken token,String numberLiteral) {
 			if (numberLiteral == null) return Double.NaN;
 			numberLiteral = numberLiteral.Trim();
 			int numberLiteralStrLenght = numberLiteral.Length;
@@ -1443,7 +1444,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (signChar == '-') sign = -1;
 			String finalLiteral = "";
 			if (numberLiteralStrLenght > dotPos + 1) finalLiteral = numberLiteral.Substring(dotPos + 1);
-			return sign * convOthBase2Decimal(finalLiteral, numeralSystemBase);
+			return sign * convOthBase2Decimal(token,finalLiteral, numeralSystemBase);
 		}
 		/**
 		 * Other base to decimal conversion.
@@ -1453,7 +1454,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return                    Number after conversion. If conversion is not possible then
 		 *                            Double.NaN is returned.
 		 */
-		public static double convOthBase2Decimal(int numeralSystemBase, params int[] digits) {
+		public static double convOthBase2Decimal(CancellationToken token,int numeralSystemBase, params int[] digits) {
 			if (numeralSystemBase < 1) return Double.NaN;
 			if (digits == null) return Double.NaN;
 			int length = digits.Length;
@@ -1473,7 +1474,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					if (digit == 1) decValue = numeralSystemBase * decValue + digit;
 					else return Double.NaN;
 				}
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			}
 			return decValue;
 		}
@@ -1485,7 +1486,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return                    Number after conversion. If conversion is not possible then
 		 *                            Double.NaN is returned.
 		 */
-		public static double convOthBase2Decimal(double numeralSystemBase, params double[] digits) {
+		public static double convOthBase2Decimal(CancellationToken token,double numeralSystemBase, params double[] digits) {
 			if (numeralSystemBase < 0) return Double.NaN;
 			if (Double.IsNaN(numeralSystemBase)) return Double.NaN;
 			int numeralSystemBaseInt = (int)MathFunctions.floor(numeralSystemBase);
@@ -1502,7 +1503,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				if (Double.IsNaN(digit)) return Double.NaN;
 				digitsInt[i] = (int)digit;
 			}
-			return convOthBase2Decimal(numeralSystemBaseInt, digitsInt);
+			return convOthBase2Decimal(token,numeralSystemBaseInt, digitsInt);
 		}
 		/**
 		 * Other base to decimal conversion.
@@ -1514,16 +1515,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return                Number after conversion. If conversion is not possible then
 		 *                        Double.NaN is returned.
 		 */
-		public static double convOthBase2Decimal(int[] baseAndDigits) {
+		public static double convOthBase2Decimal(CancellationToken token,int[] baseAndDigits) {
 			if (baseAndDigits == null) return Double.NaN;
 			if (baseAndDigits.Length == 0) return Double.NaN;
 			int numeralSystemBase = baseAndDigits[0];
 			int[] digits = new int[baseAndDigits.Length - 1];
 			for (int i = 1; i < baseAndDigits.Length; i++) {
 				digits[i - 1] = baseAndDigits[i];
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			}
-			return convOthBase2Decimal(numeralSystemBase, digits);
+			return convOthBase2Decimal(token,numeralSystemBase, digits);
 		}
 		/**
 		 * Other base to decimal conversion.
@@ -1535,16 +1536,16 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return                Number after conversion. If conversion is not possible then
 		 *                        Double.NaN is returned.
 		 */
-		public static double convOthBase2Decimal(double[] baseAndDigits) {
+		public static double convOthBase2Decimal(CancellationToken token,double[] baseAndDigits) {
 			if (baseAndDigits == null) return Double.NaN;
 			if (baseAndDigits.Length == 0) return Double.NaN;
 			double numeralSystemBase = baseAndDigits[0];
 			double[] digits = new double[baseAndDigits.Length - 1];
 			for (int i = 1; i < baseAndDigits.Length; i++) {
 				digits[i - 1] = baseAndDigits[i];
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 			}
-			return convOthBase2Decimal(numeralSystemBase, digits);
+			return convOthBase2Decimal(token,numeralSystemBase, digits);
 		}
 		/**
 		 * Decimal number to other numeral system conversion with base
@@ -1561,7 +1562,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *                   33:X, 34:Y, 35:Z. If conversion was not possible
 		 *                   the "NaN" string is returned.
 		 */
-		public static String convDecimal2OthBase(double decimalNumber, int numeralSystemBase) {
+		public static String convDecimal2OthBase(CancellationToken token,double decimalNumber, int numeralSystemBase) {
 			if (Double.IsNaN(decimalNumber)) return "NaN";
 			if (numeralSystemBase < 1) return "NaN";
 			if (numeralSystemBase > 36) return "NaN";
@@ -1582,7 +1583,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 					reminder = (int)(quotient % numeralSystemBase);
 					quotient = MathFunctions.floor(quotient / numeralSystemBase);
 					numberLiteral = digitChar(reminder) + numberLiteral;
-					if (mXparser.isCurrentCalculationCancelled()) return "NaN";
+					if (mXparser.isCurrentCalculationCancelled(token)) return "NaN";
 				}
 			else {
 				char[] repeat = new char[(int)intPart];
@@ -1616,7 +1617,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *
 		 * If conversion was not possible the "NaN" string is returned.
 		 */
-		public static String convDecimal2OthBase(double decimalNumber, int numeralSystemBase, int format) {
+		public static String convDecimal2OthBase(CancellationToken token,double decimalNumber, int numeralSystemBase, int format) {
 			if (Double.IsNaN(decimalNumber)) return "NaN";
 			if (numeralSystemBase < 1) return "NaN";
 			if (numeralSystemBase > 36) return "NaN";
@@ -1629,7 +1630,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			}
 			String sign = "";
 			if (decimalNumber < 0) sign = "-";
-			return sign + prefix + convDecimal2OthBase(MathFunctions.abs(decimalNumber), numeralSystemBase);
+			return sign + prefix + convDecimal2OthBase(token,MathFunctions.abs(decimalNumber), numeralSystemBase);
 		}
 		/**
 		 * Number of digits needed to represent given number in base 10 numeral system.
@@ -1978,7 +1979,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @return                    Returns number of digits. In case when numeralSystemBase is lower than
 		 *                            1 then -1 is returned.
 		 */
-		public static long numberOfDigits(long number, long numeralSystemBase) {
+		public static long numberOfDigits(CancellationToken token,long number, long numeralSystemBase) {
 			if (numeralSystemBase < 1) return -1;
 			if (number < 0) number = -number;
 			if (numeralSystemBase == 10) return numberOfDigits(number);
@@ -1988,7 +1989,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			long digitsNum = 0;
 			double NAN = Double.NaN;
 			while (quotient >= 1) {
-				if (mXparser.isCurrentCalculationCancelled()) return (long)NAN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return (long)NAN;
 				quotient = quotient / numeralSystemBase;
 				digitsNum++;
 			}
@@ -2003,7 +2004,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *                            then Double.NaN is returned. If numeralSystemBase is infinite then Double.NaN
 		 *                            is returned.
 		 */
-		public static double numberOfDigits(double number, double numeralSystemBase) {
+		public static double numberOfDigits(CancellationToken token,double number, double numeralSystemBase) {
 			if (Double.IsNaN(number)) return Double.NaN;
 			if (Double.IsNaN(numeralSystemBase)) return Double.NaN;
 			if (Double.IsInfinity(numeralSystemBase)) return Double.NaN;
@@ -2018,7 +2019,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double quotient = number;
 			double digitsNum = 0;
 			while (quotient >= 1.0) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				quotient = MathFunctions.floor(quotient / numeralSystemBase);
 				digitsNum++;
 			}
@@ -2032,10 +2033,10 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param numeralSystemBase   Base of numeral system - above 0
 		 * @return                    Return digit at given position. If digit finding was not possible then -1 is returned.
 		 */
-		public static int digitAtPosition(long number, int position, int numeralSystemBase) {
+		public static int digitAtPosition(CancellationToken token,long number, int position, int numeralSystemBase) {
 			if (numeralSystemBase < 1) return -1;
 			if (number < 0) number = -number;
-			int digitsNum = (int)numberOfDigits(number, numeralSystemBase);
+			int digitsNum = (int)numberOfDigits(token,number, numeralSystemBase);
 			if (position <= -digitsNum) {
 				if (numeralSystemBase > 1) return 0;
 				else return -1;
@@ -2048,7 +2049,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			int digitIndex = digitsNum;
 			double NAN = Double.NaN;
 			while (quotient >= 1) {
-				if (mXparser.isCurrentCalculationCancelled()) return (int)NAN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return (int)NAN;
 				digit = (int)quotient % numeralSystemBase;
 				quotient = quotient / numeralSystemBase;
 				digitIndex--;
@@ -2064,8 +2065,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
 		 * @return                    Return digit at given position. If digit finding was not possible then -1 is returned.
 		 */
-		public static int digitAtPosition(long number, int position) {
-			return digitAtPosition(number, position, 10);
+		public static int digitAtPosition(CancellationToken token,long number, int position) {
+			return digitAtPosition(token,number, position, 10);
 		}
 		/**
 		 * Digit at position - numeral system with given base
@@ -2075,7 +2076,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param numeralSystemBase   Base of numeral system - above 0
 		 * @return                    Return digit at given position. If digit finding was not possible then Double.NaN is returned.
 		 */
-		public static double digitAtPosition(double number, double position, double numeralSystemBase) {
+		public static double digitAtPosition(CancellationToken token,double number, double position, double numeralSystemBase) {
 			if (Double.IsNaN(number)) return Double.NaN;
 			if (Double.IsNaN(position)) return Double.NaN;
 			if (Double.IsNaN(numeralSystemBase)) return Double.NaN;
@@ -2086,7 +2087,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (number < 0) number = -number;
 			number = MathFunctions.floor(number);
 			numeralSystemBase = MathFunctions.floor(numeralSystemBase);
-			int digitsNum = (int)numberOfDigits(number, numeralSystemBase);
+			int digitsNum = (int)numberOfDigits(token,number, numeralSystemBase);
 			if (position <= -digitsNum) {
 				if (numeralSystemBase > 1.0) return 0;
 				else return Double.NaN;
@@ -2098,7 +2099,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double digit;
 			int digitIndex = digitsNum;
 			while (quotient >= 1.0) {
-				if (mXparser.isCurrentCalculationCancelled()) return Double.NaN;
+				if (mXparser.isCurrentCalculationCancelled(token)) return Double.NaN;
 				digit = MathFunctions.floor(quotient % numeralSystemBase);
 				quotient = MathFunctions.floor(quotient / numeralSystemBase);
 				digitIndex--;
@@ -2114,8 +2115,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param position            Position from 1 ... n (left to right) or from 0 ... -(n-1) (right to left).
 		 * @return                    Return digit at given position. If digit finding was not possible then Double.NaN is returned.
 		 */
-		public static double digitAtPosition(double number, double position) {
-			return digitAtPosition(number, position, 10.0);
+		public static double digitAtPosition(CancellationToken token,double number, double position) {
+			return digitAtPosition(token,number, position, 10.0);
 		}
 		/**
 		 * Prime decomposition (prime factorization)
@@ -2123,7 +2124,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param number     Number to be decomposed
 		 * @return           List of prime factors (non-distinct)
 		 */
-		public static long[] primeFactors(long number) {
+		public static long[] primeFactors(CancellationToken token,long number) {
 			long[] longZeroArray = new long[0];
 			long[] factors;
 			if (number == 0) return longZeroArray;
@@ -2147,7 +2148,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				while (n % i == 0) {
 					factorsList.Add(i);
 					n /= i;
-					if (mXparser.isCurrentCalculationCancelled()) return longZeroArray;
+					if (mXparser.isCurrentCalculationCancelled(token)) return longZeroArray;
 				}
 			}
 			if (n > 1) factorsList.Add(n);
@@ -2155,7 +2156,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			factors = new long[nfact];
 			for (int i = 0; i < nfact; i++) {
 				factors[i] = factorsList[i];
-				if (mXparser.isCurrentCalculationCancelled()) return longZeroArray;
+				if (mXparser.isCurrentCalculationCancelled(token)) return longZeroArray;
 			}
 			return factors;
 		}
@@ -2165,7 +2166,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param number     Number to be decomposed
 		 * @return           List of prime factors (non-distinct)
 		 */
-		public static double[] primeFactors(double number) {
+		public static double[] primeFactors(CancellationToken token,double number) {
 			double[] doubleZeroArray = new double[0];
 			double[] factors;
 			if (Double.IsNaN(number)) return doubleZeroArray;
@@ -2191,7 +2192,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				while (n % i == 0) {
 					factorsList.Add(i);
 					n = MathFunctions.floor(n / i);
-					if (mXparser.isCurrentCalculationCancelled()) return doubleZeroArray;
+					if (mXparser.isCurrentCalculationCancelled(token)) return doubleZeroArray;
 				}
 			}
 			if (n > 1.0) factorsList.Add(n);
@@ -2199,7 +2200,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			factors = new double[nfact];
 			for (int i = 0; i < nfact; i++) {
 				factors[i] = factorsList[i];
-				if (mXparser.isCurrentCalculationCancelled()) return doubleZeroArray;
+				if (mXparser.isCurrentCalculationCancelled(token)) return doubleZeroArray;
 			}
 			return factors;
 		}
@@ -2209,11 +2210,11 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @param number     Number to be decomposed
 		 * @return           Number of distinct prime factors
 		 */
-		public static double numberOfPrimeFactors(double number) {
+		public static double numberOfPrimeFactors(CancellationToken token,double number) {
 			if (Double.IsNaN(number)) return Double.NaN;
-			double[] factors = primeFactors(number);
+			double[] factors = primeFactors(token,number);
 			if (factors.Length <= 1) return factors.Length;
-			double[,] factorsDist = NumberTheory.getDistValues(factors, false);
+			double[,] factorsDist = NumberTheory.getDistValues(token,factors, false);
 			return factorsDist.GetLength(0);
 		}
 		/**
@@ -2225,7 +2226,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double.NaN
 		 *                   is returned.
 		 */
-		public static double primeFactorValue(double number, double id) {
+		public static double primeFactorValue(CancellationToken token,double number, double id) {
 			if (Double.IsNaN(number)) return Double.NaN;
 			if (Double.IsNaN(id)) return Double.NaN;
 			if (Double.IsInfinity(number)) return Double.NaN;
@@ -2235,8 +2236,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (id < 1) return 1;
 			id = MathFunctions.floor(id);
 			if (id > int.MaxValue) return 1;
-			double[] factors = primeFactors(number);
-			double[,] factorsDist = NumberTheory.getDistValues(factors, false);
+			double[] factors = primeFactors(token,number);
+			double[,] factorsDist = NumberTheory.getDistValues(token,factors, false);
 			int nfact = factorsDist.GetLength(0);
 			if (id > nfact) return 1;
 			return factorsDist[(int)(id - 1), 0];
@@ -2250,7 +2251,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 *                   For NaN of infinite parameters Double NaN is returned. For number eq 0 Double.NaN
 		 *                   is returned.
 		 */
-		public static double primeFactorExponent(double number, double id) {
+		public static double primeFactorExponent(CancellationToken token,double number, double id) {
 			if (Double.IsNaN(number)) return Double.NaN;
 			if (Double.IsNaN(id)) return Double.NaN;
 			if (Double.IsInfinity(number)) return Double.NaN;
@@ -2260,8 +2261,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			if (id < 1) return 0;
 			id = MathFunctions.floor(id);
 			if (id > int.MaxValue) return 0;
-			double[] factors = primeFactors(number);
-			double[,] factorsDist = NumberTheory.getDistValues(factors, false);
+			double[] factors = primeFactors(token,number);
+			double[,] factorsDist = NumberTheory.getDistValues(token,factors, false);
 			int nfact = factorsDist.GetLength(0);
 			if (id > nfact) return 0;
 			return factorsDist[(int)(id - 1), 1];
@@ -2312,7 +2313,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * If conversion is not possible then Double.NaN is
 		 * assigned to all the fields.
 		 */
-		public static double[] toFraction(double value) {
+		public static double[] toFraction(CancellationToken token,double value) {
 			if (Double.IsNaN(value)) return fractionToDoubleArray(Double.NaN, Double.NaN, Double.NaN);
 			if (Double.IsInfinity(value)) return fractionToDoubleArray(Double.NaN, Double.NaN, Double.NaN);
 			if (value == 0) return fractionToDoubleArray(0, 0, 1);
@@ -2321,7 +2322,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 				value = -value;
 				sign = -1;
 			}
-			double valueRound0 = MathFunctions.roundHalfUp(value, 0);
+			double valueRound0 = MathFunctions.roundHalfUp(token,value, 0);
 			double valueInt = Math.Floor(value);
 			double valueIntNumOfDigits = NumberTheory.numberOfDigits(valueInt);
 			double multiplier = 1;
@@ -2353,15 +2354,15 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			double quotient;
 			double quotientRound0;
 			while (n <= TO_FRACTION_INIT_SEARCH_SIZE) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(token)) break;
 				n++;
 				quotient = n / valueDecimal;
-				quotientRound0 = MathFunctions.roundHalfUp(quotient, 0);
+				quotientRound0 = MathFunctions.roundHalfUp(token,quotient, 0);
 				fracDecimal = n / quotientRound0;
 				if ( ( Math.Abs(quotient - quotientRound0) <= ERROR) || ( Math.Abs(fracDecimal - valueDecimal) <= ERROR) ) {
 					numerator = n;
 					denominator = quotientRound0;
-					gcd = NumberTheory.gcd(numerator, denominator);
+					gcd = NumberTheory.gcd(token,numerator, denominator);
 					numerator = Math.Floor(numerator / gcd);
 					denominator = Math.Floor(denominator / gcd);
 					return fractionToDoubleArray(sign, Math.Floor(valueInt * denominator + numerator), denominator);
@@ -2370,13 +2371,13 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			/*
 			 * Second step based o GCD if initial search was not successful
 			 */
-			double valueRound = MathFunctions.roundHalfUp(value, ulpPosition);
+			double valueRound = MathFunctions.roundHalfUp(token,value, ulpPosition);
 			multiplier = 1;
 			for (int place = 1; place < ulpPosition; place++)
 				multiplier = Math.Floor(multiplier * 10);
 			double initNumerator = Math.Floor(valueRound * multiplier);
 			double initDenominator = multiplier;
-			gcd = NumberTheory.gcd(initNumerator, initDenominator);
+			gcd = NumberTheory.gcd(token,initNumerator, initDenominator);
 			numerator = Math.Floor(initNumerator / gcd);
 			denominator = Math.Floor(initDenominator / gcd);
 			double finalQuotient;
@@ -2392,7 +2393,7 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 			finalQuotient = a / b;
 			int finalQuotientUlpPos = MathFunctions.ulpDecimalDigitsBefore(finalQuotient);
 			if (finalQuotientUlpPos > 0)
-				finalQuotient = MathFunctions.roundHalfUp(finalQuotient, finalQuotientUlpPos - 1);
+				finalQuotient = MathFunctions.roundHalfUp(token,finalQuotient, finalQuotientUlpPos - 1);
 			double finalQuotientFloor = Math.Floor(finalQuotient);
 			if (Math.Abs(finalQuotient - finalQuotientFloor) <= ERROR) {
 				numerator = Math.Floor(numerator / b);
@@ -2411,8 +2412,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * If conversion is not possible then Double.NaN is
 		 * assigned to both numerator and denominator.
 		 */
-		public static double[] toMixedFraction(double value) {
-			double[] fraction = toFraction(value);
+		public static double[] toMixedFraction(CancellationToken token,double value) {
+			double[] fraction = toFraction(token,value);
 			double sign = fraction[0];
 			double numerator = fraction[1];
 			double denominator = fraction[2];
@@ -2515,8 +2516,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see NumberTheory#toFraction(double)
 		 * @see NumberTheory#fractionToString(double[])
 		 */
-		public static String toFractionString(double value) {
-			return fractionToString(toFraction(value));
+		public static String toFractionString(CancellationToken token,double value) {
+			return fractionToString(toFraction(token,value));
 		}
 		/**
 		 * Converts number to its mixed fraction string representation.
@@ -2527,8 +2528,8 @@ namespace org.mariuszgromada.math.mxparser.mathcollection {
 		 * @see NumberTheory#toMixedFraction(double)
 		 * @see NumberTheory#fractionToString(double[])
 		 */
-		public static String toMixedFractionString(double value) {
-			return fractionToString(toMixedFraction(value));
+		public static String toMixedFractionString(CancellationToken token,double value) {
+			return fractionToString(toMixedFraction(token,value));
 		}
 	}
 }

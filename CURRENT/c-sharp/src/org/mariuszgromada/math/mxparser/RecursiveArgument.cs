@@ -56,6 +56,7 @@
 using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser {
 	/**
@@ -135,13 +136,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      recursiveExpressionString     the recursive expression string
 		 * @param      indexName                     index argument name
 		 */
-		public RecursiveArgument(String argumentName, String recursiveExpressionString, String indexName)
+		public RecursiveArgument(CancellationToken token,String argumentName, String recursiveExpressionString, String indexName)
 			: base(argumentName, recursiveExpressionString)
 		{
 			if (argumentName.Equals(this.getArgumentName())) {
 				this.argumentType = RECURSIVE_ARGUMENT;
 				baseValues = new List<Double>();
-				this.n = new Argument(indexName);
+				this.n = new Argument(token,indexName);
 				base.argumentExpression.addArguments(n);
 				base.argumentExpression.addArguments(this);
 				base.argumentExpression.setDescription(argumentName);
@@ -193,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    PrimitiveElement
 		 * @see    Argument
 		 */
-		public RecursiveArgument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(argumentDefinitionString)
+		public RecursiveArgument(CancellationToken token,String argumentDefinitionString, params PrimitiveElement[] elements) : base(token,argumentDefinitionString)
 		{
 			if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.function1ArgDefStrRegExp)) {
 				this.argumentType = RECURSIVE_ARGUMENT;
@@ -242,7 +243,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return     value as double
 		 */
-		public double getArgumentValue(double index) {
+		public double getArgumentValue(CancellationToken token,double index) {
 			/*
 			 * Remember starting index
 			 */
@@ -297,7 +298,7 @@ namespace org.mariuszgromada.math.mxparser {
 					/*
 					 * perform recursive call
 					 */
-					double value = newExp.calculate();
+					double value = newExp.calculate(token);
 					/*
 					 * remember calculated in the base values array
 					 */

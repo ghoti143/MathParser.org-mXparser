@@ -632,8 +632,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		protected override void testScenario() {
 			Expression e = new Expression(test.exprStr);
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				e.calculate();
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
+				e.calculate(CancellationToken.None);
 			}
 		}
 	}
@@ -647,12 +647,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	class Test011Thread : TestThread {
 		internal Test011Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
-			Argument x = new Argument("x");
+			Argument x = new Argument(CancellationToken.None, "x");
 			Expression e = new Expression(test.exprStr, x);
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
 				x.setArgumentValue(i);
-				e.calculate();
+				e.calculate(CancellationToken.None);
 			}
 		}
 	}
@@ -666,15 +666,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	class Test012Thread : TestThread {
 		internal Test012Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
-			Argument x = new Argument("x");
-			Argument y = new Argument("y");
-			Function f = new Function("f(x,y)=3*x+4*y");
+			Argument x = new Argument(CancellationToken.None, "x");
+			Argument y = new Argument(CancellationToken.None, "y");
+			Function f = new Function(CancellationToken.None, "f(x,y)=3*x+4*y");
 			Expression e = new Expression(test.exprStr, f, x, y);
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
 				x.setArgumentValue(i);
 				y.setArgumentValue(i);
-				e.calculate();
+				e.calculate(CancellationToken.None);
 			}
 		}
 	}
@@ -688,7 +688,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		protected override void testScenario() {
 			Constant c = new Constant("c", 5);
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
 				c = new Constant("c", 5);
 			}
 			c.getConstantValue();
@@ -704,8 +704,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		protected override void testScenario() {
 			Constant c = new Constant("c", 5);
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				c = new Constant("c=5");
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
+				c = new Constant(CancellationToken.None, "c=5");
 			}
 			c.getConstantValue();
 		}
@@ -720,10 +720,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		protected override void testScenario() {
 			Argument x = new Argument("x", 2);
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
 				x = new Argument("x", 5);
 			}
-			x.getArgumentValue();
+			x.getArgumentValue(CancellationToken.None);
 		}
 	}
 	/**
@@ -736,10 +736,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		protected override void testScenario() {
 			Argument x = new Argument("x", 2);
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				x = new Argument("x=5");
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
+				x = new Argument(CancellationToken.None, "x=5");
 			}
-			x.getArgumentValue();
+			x.getArgumentValue(CancellationToken.None);
 		}
 	}
 	/**
@@ -750,12 +750,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	class Test017Thread : TestThread {
 		internal Test017Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
-			Function f = new Function("f", "x", "x");
+			Function f = new Function(CancellationToken.None, "f", "x", "x");
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				f = new Function("f", "x+y", "x", "y");
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
+				f = new Function(CancellationToken.None, "f", "x+y", "x", "y");
 			}
-			f.calculate(1);
+			f.calculate(CancellationToken.None, 1);
 		}
 	}
 	/**
@@ -766,12 +766,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	class Test018Thread : TestThread {
 		internal Test018Thread(PerformanceTestResult test) : base(test) { }
 		protected override void testScenario() {
-			Function f = new Function("f", "x", "x");
+			Function f = new Function(CancellationToken.None, "f", "x", "x");
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
-				f = new Function("f(x,y)=x+y");
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
+				f = new Function(CancellationToken.None, "f(x,y)=x+y");
 			}
-			f.calculate(1, 2);
+			f.calculate(CancellationToken.None, 1, 2);
 		}
 	}
 	/**
@@ -784,10 +784,10 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		protected override void testScenario() {
 			Expression e = new Expression("");
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
 				e = new Expression("sin(2+(3*4)^2)/10");
 			}
-			e.calculate();
+			e.calculate(CancellationToken.None);
 		}
 	}
 	/**
@@ -803,9 +803,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting {
 		protected override void testScenario() {
 			Expression e = new Expression("");
 			for (int i = 0; i <= base.iterNum; i++) {
-				if (mXparser.isCurrentCalculationCancelled()) break;
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) break;
 				e.setExpressionString("sin(2+(3*4)^2)/10");
-				e.checkSyntax();
+				e.checkSyntax(CancellationToken.None);
 			}
 		}
 	}

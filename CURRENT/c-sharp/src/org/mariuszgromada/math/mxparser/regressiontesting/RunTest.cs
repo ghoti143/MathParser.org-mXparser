@@ -54,6 +54,7 @@
  *                              "Yes, up to isomorphism."
  */
 using System;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser.regressiontesting {
 	/**

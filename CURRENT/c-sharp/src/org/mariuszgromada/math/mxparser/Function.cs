@@ -56,6 +56,7 @@
 using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser {
 	/**
@@ -230,7 +231,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see        Expression
 		 */
-		public Function(String functionName
+		public Function(CancellationToken token,String functionName
 						,String  functionExpressionString
 						,params String[] argumentsNames ) : base(Function.TYPE_ID) {
 			if (mXparser.regexMatch(functionName, ParserSymbol.nameOnlyTokenRegExp)) {
@@ -240,7 +241,7 @@ namespace org.mariuszgromada.math.mxparser {
 				functionExpression.UDFExpression = true;
 				isVariadic = false;
 				foreach (String argName in argumentsNames)
-					functionExpression.addArguments(new Argument(argName));
+					functionExpression.addArguments(new Argument(token,argName));
 				parametersNumber = argumentsNames.Length - countRecursiveArguments();
 				description = "";
 				functionBodyType = BODY_RUNTIME;
@@ -267,10 +268,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    PrimitiveElement
 		 *
 		 */
-		public Function(String functionDefinitionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
+		public Function(CancellationToken token,String functionDefinitionString, params PrimitiveElement[] elements) : base(Function.TYPE_ID) {
 			parametersNumber = 0;
 			if (mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp)) {
-				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+				HeadEqBody headEqBody = new HeadEqBody(token,functionDefinitionString);
 				this.functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
 				functionExpression.setDescription(headEqBody.headStr);
@@ -281,7 +282,7 @@ namespace org.mariuszgromada.math.mxparser {
 					for (int i = 1; i < headEqBody.headTokens.Count; i++) {
 						t = headEqBody.headTokens[i];
 						if (t.tokenTypeId != ParserSymbol.TYPE_ID)
-							functionExpression.addArguments(new Argument(t.tokenStr));
+							functionExpression.addArguments(new Argument(token,t.tokenStr));
 					}
 				}
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
@@ -289,7 +290,7 @@ namespace org.mariuszgromada.math.mxparser {
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			} else if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp) ) {
-				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+				HeadEqBody headEqBody = new HeadEqBody(token,functionDefinitionString);
 				this.functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
 				functionExpression.setDescription(headEqBody.headStr);
@@ -386,10 +387,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see    PrimitiveElement
 		 *
 		 */
-		public void setFunction(String functionDefinitionString, params PrimitiveElement[] elements) {
+		public void setFunction(CancellationToken token,String functionDefinitionString, params PrimitiveElement[] elements) {
 			parametersNumber = 0;
 			if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
-				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+				HeadEqBody headEqBody = new HeadEqBody(token,functionDefinitionString);
 				this.functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
 				functionExpression.setDescription(headEqBody.headStr);
@@ -400,7 +401,7 @@ namespace org.mariuszgromada.math.mxparser {
 					for (int i = 1; i < headEqBody.headTokens.Count; i++) {
 						t = headEqBody.headTokens[i];
 						if (t.tokenTypeId != ParserSymbol.TYPE_ID)
-							functionExpression.addArguments(new Argument(t.tokenStr));
+							functionExpression.addArguments(new Argument(token,t.tokenStr));
 					}
 				}
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
@@ -408,7 +409,7 @@ namespace org.mariuszgromada.math.mxparser {
 				functionBodyType = BODY_RUNTIME;
 				addFunctions(this);
 			} else if ( mXparser.regexMatch(functionDefinitionString, ParserSymbol.functionVariadicDefStrRegExp) ) {
-				HeadEqBody headEqBody = new HeadEqBody(functionDefinitionString);
+				HeadEqBody headEqBody = new HeadEqBody(token,functionDefinitionString);
 				this.functionName = headEqBody.headTokens[0].tokenStr;
 				functionExpression = new Expression(headEqBody.bodyStr, elements);
 				functionExpression.setDescription(headEqBody.headStr);
@@ -497,10 +498,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 *                            Function.SYNTAX_ERROR_OR_STATUS_UNKNOWN
 		 *
 		 */
-		public bool checkSyntax() {
+		public bool checkSyntax(CancellationToken token) {
 			bool syntaxStatus = Function.NO_SYNTAX_ERRORS;
 			if (functionBodyType != BODY_EXTENDED)
-				syntaxStatus = functionExpression.checkSyntax();
+				syntaxStatus = functionExpression.checkSyntax(token);
 			checkRecursiveMode();
 			return syntaxStatus;
 		}
@@ -524,9 +525,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return     Function value as double.
 		 */
-		public double calculate() {
+		public double calculate(CancellationToken token) {
 			if (functionBodyType == BODY_RUNTIME)
-				return functionExpression.calculate();
+				return functionExpression.calculate(token);
 			else
 				if (isVariadic == false)
 					return functionExtension.calculate();
@@ -548,7 +549,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return     function value as double.
 		 */
-		public double calculate(params double[] parameters) {
+		public double calculate(CancellationToken token,params double[] parameters) {
 			if (parameters.Length > 0) {
 				functionExpression.UDFVariadicParamsAtRunTime = new List<Double>();
 				foreach (double x in parameters)
@@ -556,14 +557,14 @@ namespace org.mariuszgromada.math.mxparser {
 			} else return Double.NaN;
 			if (isVariadic) {
 				if (functionBodyType == BODY_RUNTIME)
-					return functionExpression.calculate();
+					return functionExpression.calculate(token);
 				else
 					return functionExtensionVariadic.calculate(parameters);
 			} else if (parameters.Length == this.getParametersNumber()) {
 				if (functionBodyType == BODY_RUNTIME) {
 					for (int p = 0; p < parameters.Length; p++)
 						setArgumentValue(p, parameters[p]);
-					return functionExpression.calculate();
+					return functionExpression.calculate(token);
 				} else {
 					for (int p = 0; p < parameters.Length; p++)
 						functionExtension.setParameterValue(p, parameters[p]);
@@ -582,31 +583,31 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return     function value as double
 		 */
-		public double calculate(params Argument[] arguments) {
+		public double calculate(CancellationToken token,params Argument[] arguments) {
 			double[] parameters;
 			if (arguments.Length > 0) {
 				functionExpression.UDFVariadicParamsAtRunTime = new List<Double>();
 				parameters = new double[arguments.Length];
 				double x;
 				for (int i = 0; i < arguments.Length; i++) {
-					x = arguments[i].getArgumentValue();
+					x = arguments[i].getArgumentValue(token);
 					functionExpression.UDFVariadicParamsAtRunTime.Add(x);
 					parameters[i] = x;
 				}
 			} else return Double.NaN;
 			if (isVariadic) {
 				if (functionBodyType == BODY_RUNTIME)
-					return functionExpression.calculate();
+					return functionExpression.calculate(token);
 				else
 					return functionExtensionVariadic.calculate(parameters);
 			} else if (arguments.Length == this.getParametersNumber()) {
 				if (functionBodyType == BODY_RUNTIME) {
 					for (int p = 0; p < arguments.Length; p++)
-						setArgumentValue(p, arguments[p].getArgumentValue());
-					return functionExpression.calculate();
+						setArgumentValue(p, arguments[p].getArgumentValue(token));
+					return functionExpression.calculate(token);
 				} else {
 					for (int p = 0; p < arguments.Length; p++)
-						functionExtension.setParameterValue(p, arguments[p].getArgumentValue());
+						functionExtension.setParameterValue(p, arguments[p].getArgumentValue(token));
 					return functionExtension.calculate();
 				}
 			}
@@ -679,9 +680,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Argument
 		 * @see        RecursiveArgument
 		 */
-		public void defineArguments(params String[] argumentsNames) {
+		public void defineArguments(CancellationToken token,params String[] argumentsNames) {
 			if (functionBodyType == Function.BODY_RUNTIME) {
-				functionExpression.defineArguments(argumentsNames);
+				functionExpression.defineArguments(token,argumentsNames);
 				parametersNumber = functionExpression.getArgumentsNumber() - countRecursiveArguments();
 			}
 		}
@@ -1019,10 +1020,10 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see        Function
 		 */
-		public void defineFunction(String functionName, String  functionExpressionString,
+		public void defineFunction(CancellationToken token,String functionName, String  functionExpressionString,
 				params String[] argumentsNames) {
 			if (functionBodyType == Function.BODY_RUNTIME)
-				functionExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
+				functionExpression.defineFunction(token,functionName, functionExpressionString, argumentsNames);
 		}
 		/**
 		 * Gets index of function associated with the function expression.

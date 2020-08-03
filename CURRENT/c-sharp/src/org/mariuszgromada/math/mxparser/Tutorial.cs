@@ -54,6 +54,7 @@
  *                              "Yes, up to isomorphism."
  */
 using System;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser
 {
@@ -124,43 +125,43 @@ namespace org.mariuszgromada.math.mxparser
 		 * Simple expression
 		 */
 		Expression e1 = new Expression("2+1");
-		mXparser.consolePrintln(e1.getExpressionString() + " = " + e1.calculate());
+		mXparser.consolePrintln(e1.getExpressionString() + " = " + e1.calculate(CancellationToken.None));
 		e1.setExpressionString("2-1");
-		mXparser.consolePrintln(e1.getExpressionString() + " = " + e1.calculate());
+		mXparser.consolePrintln(e1.getExpressionString() + " = " + e1.calculate(CancellationToken.None));
 		/* operators */
 		Expression e2 = new Expression("2-(32-4)/(23+(4)/(5))-(2-4)*(4+6-98.2)+4");
-		mXparser.consolePrintln(e2.getExpressionString() + " = " + e2.calculate());
+		mXparser.consolePrintln(e2.getExpressionString() + " = " + e2.calculate(CancellationToken.None));
 		/* power function */
 		Expression e3 = new Expression("2^3+2^(-3)+2^3^(-4)");
-		mXparser.consolePrintln(e3.getExpressionString() + " = " + e3.calculate());
+		mXparser.consolePrintln(e3.getExpressionString() + " = " + e3.calculate(CancellationToken.None));
 		/*
 		 * Relations
 		 */
 		Expression e4 = new Expression("2=3");
-		mXparser.consolePrintln(e4.getExpressionString() + " = " + e4.calculate());
+		mXparser.consolePrintln(e4.getExpressionString() + " = " + e4.calculate(CancellationToken.None));
 		Expression e5 = new Expression("2<3");
-		mXparser.consolePrintln(e5.getExpressionString() + " = " + e5.calculate());
+		mXparser.consolePrintln(e5.getExpressionString() + " = " + e5.calculate(CancellationToken.None));
 		Expression e6 = new Expression("(2=3) | (2<3)");
-		mXparser.consolePrintln(e6.getExpressionString() + " = " + e6.calculate());
+		mXparser.consolePrintln(e6.getExpressionString() + " = " + e6.calculate(CancellationToken.None));
 		Expression e7 = new Expression("(2=3) & (2<3)");
-		mXparser.consolePrintln(e7.getExpressionString() + " = " + e7.calculate());
+		mXparser.consolePrintln(e7.getExpressionString() + " = " + e7.calculate(CancellationToken.None));
 		/* 1 arg functions */
 		Expression e8 = new Expression("sin(2)-cos(3)");
-		mXparser.consolePrintln(e8.getExpressionString() + " = " + e8.calculate());
+		mXparser.consolePrintln(e8.getExpressionString() + " = " + e8.calculate(CancellationToken.None));
 		/* 2 args functions */
 		Expression e9 = new Expression("min(3,4) + max(-2,-1)");
-		mXparser.consolePrintln(e9.getExpressionString() + " = " + e9.calculate());
+		mXparser.consolePrintln(e9.getExpressionString() + " = " + e9.calculate(CancellationToken.None));
 		/* binomial coefficient */
 		Expression e10 = new Expression("C(10,5)");
-		mXparser.consolePrintln(e10.getExpressionString() + " = " + e10.calculate());
+		mXparser.consolePrintln(e10.getExpressionString() + " = " + e10.calculate(CancellationToken.None));
 		/* 3 args functions */
 		/* conditions */
 		Expression e11 = new Expression("if(2<3,1,0)");
-		mXparser.consolePrintln(e11.getExpressionString() + " = " + e11.calculate());
+		mXparser.consolePrintln(e11.getExpressionString() + " = " + e11.calculate(CancellationToken.None));
 		Expression e12 = new Expression("if(3<2,1,0)");
-		mXparser.consolePrintln(e12.getExpressionString() + " = " + e12.calculate());
+		mXparser.consolePrintln(e12.getExpressionString() + " = " + e12.calculate(CancellationToken.None));
 		Expression e13 = new Expression("if(3<2, 1, if(1=1, 5, 0) )");
-		mXparser.consolePrintln(e13.getExpressionString() + " = " + e13.calculate());
+		mXparser.consolePrintln(e13.getExpressionString() + " = " + e13.calculate(CancellationToken.None));
 		/*
 		 * Free Arguments
 		 */
@@ -169,24 +170,24 @@ namespace org.mariuszgromada.math.mxparser
 		Argument z = new Argument("z", 3);
 		Argument n = new Argument("n", 4);
 		Expression e14 = new Expression("sin(x+y)-cos(y/z)", x, y, z);
-		mXparser.consolePrintln(e14.getExpressionString() + " = " + e14.calculate());
+		mXparser.consolePrintln(e14.getExpressionString() + " = " + e14.calculate(CancellationToken.None));
 		Expression e15 = new Expression("if(x>y, x-z, if(y<z, sin(x+y), cos(z)) )", x, y, z);
-		mXparser.consolePrintln(e15.getExpressionString() + " = " + e15.calculate());
+		mXparser.consolePrintln(e15.getExpressionString() + " = " + e15.calculate(CancellationToken.None));
 		x.setArgumentValue(5);
-		mXparser.consolePrintln(x.getArgumentName() + " = " + x.getArgumentValue());
+		mXparser.consolePrintln(x.getArgumentName() + " = " + x.getArgumentValue(CancellationToken.None));
 		/*
 		 * Dependent arguments
 		 */
 		y = new Argument("y","2*x+5", x);
-		mXparser.consolePrintln(y.getArgumentName() + " = " + y.getArgumentValue());
+		mXparser.consolePrintln(y.getArgumentName() + " = " + y.getArgumentValue(CancellationToken.None));
 		y = new Argument("y","sin(y)-z", y, z);
-		mXparser.consolePrintln(y.getArgumentName() + " = " + y.getArgumentValue());
+		mXparser.consolePrintln(y.getArgumentName() + " = " + y.getArgumentValue(CancellationToken.None));
 		/* syntax checking */
 		y.setArgumentExpressionString("n*sin(y)-z");
-		mXparser.consolePrintln(y.getArgumentName() + " = ... \n syntax = " + y.checkSyntax() + "\n message = \n" + y.getErrorMessage());
+		mXparser.consolePrintln(y.getArgumentName() + " = ... \n syntax = " + y.checkSyntax(CancellationToken.None) + "\n message = \n" + y.getErrorMessage());
 		y.addArguments(n);
-		mXparser.consolePrintln(y.getArgumentName() + " = ... \n syntax = " + y.checkSyntax() + "\n message = \n" + y.getErrorMessage());
-		mXparser.consolePrintln(y.getArgumentName() + " = " + y.getArgumentValue());
+		mXparser.consolePrintln(y.getArgumentName() + " = ... \n syntax = " + y.checkSyntax(CancellationToken.None) + "\n message = \n" + y.getErrorMessage());
+		mXparser.consolePrintln(y.getArgumentName() + " = " + y.getArgumentValue(CancellationToken.None));
 		/*
 		 * the same methods could be called
 		 * for the expression syntax checking
@@ -202,9 +203,9 @@ namespace org.mariuszgromada.math.mxparser
 		 *
 		 */
 		Expression e16 = new Expression("sum(i,1,10,i)");
-		mXparser.consolePrintln(e16.getExpressionString() + " = " + e16.calculate());
+		mXparser.consolePrintln(e16.getExpressionString() + " = " + e16.calculate(CancellationToken.None));
 		Expression e17 = new Expression("sum(i,1,10,i,0.5)");
-		mXparser.consolePrintln(e17.getExpressionString() + " = " + e17.calculate());
+		mXparser.consolePrintln(e17.getExpressionString() + " = " + e17.calculate(CancellationToken.None));
 		/*
 		 * Product operator SIGMA
 		 * prod(index, from, to, expr)
@@ -212,19 +213,19 @@ namespace org.mariuszgromada.math.mxparser
 		 */
 		/* factorial */
 		Expression e18 = new Expression("prod(i,1,5,i)");
-		mXparser.consolePrintln(e18.getExpressionString() + " = " + e18.calculate());
+		mXparser.consolePrintln(e18.getExpressionString() + " = " + e18.calculate(CancellationToken.None));
 		Expression e19 = new Expression("prod(i,1,5,i,0.5)");
-		mXparser.consolePrintln(e19.getExpressionString() + " = " + e19.calculate());
+		mXparser.consolePrintln(e19.getExpressionString() + " = " + e19.calculate(CancellationToken.None));
 		/* Approximation sin(x) by Taylor series
 		 * ! - factorial
 		 */
 		Expression e20 = new Expression("sin(x)-sum(n,0,10,(-1)^n*(x^(2*n+1))/(2*n+1)!)", x);
 		x.setArgumentValue(1);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e20.getExpressionString() + " = " + e20.calculate());
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e20.getExpressionString() + " = " + e20.calculate(CancellationToken.None));
 		x.setArgumentValue(5);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e20.getExpressionString() + " = " + e20.calculate());
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e20.getExpressionString() + " = " + e20.calculate(CancellationToken.None));
 		x.setArgumentValue(10);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e20.getExpressionString() + " = " + e20.calculate());
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e20.getExpressionString() + " = " + e20.calculate(CancellationToken.None));
 		/*
 		 * calculating pi by integral of
 		 * sqrt(1-x^2) from -1 to 1
@@ -232,9 +233,9 @@ namespace org.mariuszgromada.math.mxparser
 		 */
 		Argument d = new Argument("d",0.1);
 		Expression e21 = new Expression("2*sum(x, -1, 1, d*sqrt(1-x^2), d)", d);
-		mXparser.consolePrintln("d = " + d.getArgumentValue() + ", " + e21.getExpressionString() + " = " + e21.calculate());
+		mXparser.consolePrintln("d = " + d.getArgumentValue(CancellationToken.None) + ", " + e21.getExpressionString() + " = " + e21.calculate(CancellationToken.None));
 		d.setArgumentValue(0.01);
-		mXparser.consolePrintln("d = " + d.getArgumentValue() + ", " + e21.getExpressionString() + " = " + e21.calculate());
+		mXparser.consolePrintln("d = " + d.getArgumentValue(CancellationToken.None) + ", " + e21.getExpressionString() + " = " + e21.calculate(CancellationToken.None));
 		/*
 		 * Derivatives
 		 *
@@ -244,46 +245,46 @@ namespace org.mariuszgromada.math.mxparser
 		 */
 		/* cos(x) as derivative from sin(x) */
 		Expression e22 = new Expression("cos(x)-der(sin(x), x)", x);
-		mXparser.consolePrintln(e22.getExpressionString() + " = " + e22.calculate());
+		mXparser.consolePrintln(e22.getExpressionString() + " = " + e22.calculate(CancellationToken.None));
 		/* left and right derivative from |x| */
 		x.setArgumentValue(0);
 		Expression e23 = new Expression("der-(abs(x), x)", x);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e23.getExpressionString() + " = " + e23.calculate());
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e23.getExpressionString() + " = " + e23.calculate(CancellationToken.None));
 		Expression e24 = new Expression("der+(abs(x), x)", x);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e24.getExpressionString() + " = " + e24.calculate());
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e24.getExpressionString() + " = " + e24.calculate(CancellationToken.None));
 		/* derivative from sin(x) as Taylor series (approximation) */
 		x.setArgumentValue(1);
 		Expression e25 = new Expression("cos(x)-der(sum(n,0,10,(-1)^n*(x^(2*n+1))/(2*n+1)!), x)", x);
 		x.setArgumentValue(1);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e25.getExpressionString() + " = " + e25.calculate());
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e25.getExpressionString() + " = " + e25.calculate(CancellationToken.None));
 		x.setArgumentValue(5);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e25.getExpressionString() + " = " + e25.calculate());
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e25.getExpressionString() + " = " + e25.calculate(CancellationToken.None));
 		x.setArgumentValue(10);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e25.getExpressionString() + " = " + e25.calculate());
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e25.getExpressionString() + " = " + e25.calculate(CancellationToken.None));
 		/*
 		 * Integral
 		 * int(f(x,...), x, a, b)
 		 */
 		/* calculating PI value */
 		Expression e26 = new Expression("2*int(sqrt(1-x^2), x, -1, 1)");
-		mXparser.consolePrintln(e26.getExpressionString() + " = " + e26.calculate());
+		mXparser.consolePrintln(e26.getExpressionString() + " = " + e26.calculate(CancellationToken.None));
 		/*
 		 * Parser constants
 		 */
 		Expression e27 = new Expression("pi");
-		mXparser.consolePrintln(e27.getExpressionString() + " = " + e27.calculate());
+		mXparser.consolePrintln(e27.getExpressionString() + " = " + e27.calculate(CancellationToken.None));
 		Expression e28 = new Expression("e");
-		mXparser.consolePrintln(e28.getExpressionString() + " = " + e28.calculate());
+		mXparser.consolePrintln(e28.getExpressionString() + " = " + e28.calculate(CancellationToken.None));
 		/* and many many more ...  */
 		/*
 		 * USER DEFINED FUNCTIONS
 		 * f(x,y) = sin(x+y)
 		 * f(a,b,c,d,...) = ....
 		 */
-		Function f = new Function("f", "x^2", "x");
+		Function f = new Function(CancellationToken.None,"f", "x^2", "x");
 		Expression e29 = new Expression("f(2)");
 		e29.addFunctions(f);
-		mXparser.consolePrintln(e29.getExpressionString() + " = " + e29.calculate());
+		mXparser.consolePrintln(e29.getExpressionString() + " = " + e29.calculate(CancellationToken.None));
 		/*
 		 * Please be informed that sequence of
 		 * arguments names is important. In the below exampe
@@ -293,60 +294,60 @@ namespace org.mariuszgromada.math.mxparser
 		 *
 		 * In the expressions f will be c alled as f( . , . , . )
 		 */
-		f = new Function("f", "a+b+c", "a", "b", "c");
+		f = new Function(CancellationToken.None, "f", "a+b+c", "a", "b", "c");
 		Expression e30 = new Expression("f(1, 2, 3)");
 		e30.addFunctions(f);
-		mXparser.consolePrintln(e30.getExpressionString() + " = " + e30.calculate());
+		mXparser.consolePrintln(e30.getExpressionString() + " = " + e30.calculate(CancellationToken.None));
 		/*
 		 * Using functions in functions
 		 */
-		f = new Function("f", "x^2", "x");
-		Function g = new Function("g", "f(x)^2", "x");
+		f = new Function(CancellationToken.None, "f", "x^2", "x");
+		Function g = new Function(CancellationToken.None, "g", "f(x)^2", "x");
 		g.addFunctions(f);
-		mXparser.consolePrintln("g(2) = " + g.calculate(2));
+		mXparser.consolePrintln("g(2) = " + g.calculate(CancellationToken.None, 2));
 		Expression e31 = new Expression("f(x)+g(2*x)", x);
 		e31.addFunctions(f, g);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e31.getExpressionString() + " = " + e31.calculate());
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e31.getExpressionString() + " = " + e31.calculate(CancellationToken.None));
 		x.setArgumentValue(2);
 		Expression e32 = new Expression("der(g(x),x)", x);
 		e32.addFunctions(g);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e32.getExpressionString() + " = " + e32.calculate());
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e32.getExpressionString() + " = " + e32.calculate(CancellationToken.None));
 		/*
 		 * Fundamental theorem of calculus
 		 * if F(x) = int_a^x f(t) dt
 		 * then F'(x) = f(x)
 		 */
-		f = new Function("f", "sin(x)", "x");
-		Function F = new Function("F", "int(f(t), t, 0, x)", "x");
+		f = new Function(CancellationToken.None, "f", "sin(x)", "x");
+		Function F = new Function(CancellationToken.None, "F", "int(f(t), t, 0, x)", "x");
 		F.addFunctions(f);
 		Expression e33 = new Expression("f(x) - der(F(x),x)", x);
 		e33.addFunctions(f, F);
-		mXparser.consolePrintln("x = " + x.getArgumentValue() + ", " + e33.getExpressionString() + " = " + e33.calculate() +
+		mXparser.consolePrintln("x = " + x.getArgumentValue(CancellationToken.None) + ", " + e33.getExpressionString() + " = " + e33.calculate(CancellationToken.None) +
 				", computing time : " + e33.getComputingTime() + " s.");
 		/*
 		 * Simple (fast) recursion
 		 * Only one index n >= 0, n integer
 		 */
 		/* Fibonacci numbers with add base cases method*/
-		n = new Argument("n");
+		n = new Argument(CancellationToken.None, "n");
 		RecursiveArgument fib1 = new RecursiveArgument("fib1", "fib1(n-1)+fib1(n-2)", n);
 		fib1.addBaseCase(0, 0);
 		fib1.addBaseCase(1, 1);
 		mXparser.consolePrintln("fib1: ");
 		for (int i = 0; i <= 10; i++ )
-			mXparser.consolePrint(fib1.getArgumentValue(i) + ", ");
+			mXparser.consolePrint(fib1.getArgumentValue(CancellationToken.None, i) + ", ");
 		mXparser.consolePrintln();
 		/* Fibonacci numbers with if statement*/
 		RecursiveArgument fib2 = new RecursiveArgument("fib2", "if( n>1, fib2(n-1)+fib2(n-2), if(n=1,1,0) )", n);
 		mXparser.consolePrintln("fib2: ");
 		for (int i = 0; i <= 10; i++ )
-			mXparser.consolePrint(fib2.getArgumentValue(i) + ", ");
+			mXparser.consolePrint(fib2.getArgumentValue(CancellationToken.None, i) + ", ");
 		mXparser.consolePrintln();
 		Expression e34 = new Expression("sum(i, 0, 10, fib1(i))", fib1);
-		mXparser.consolePrintln(e34.getExpressionString() + " = " + e34.calculate() +
+		mXparser.consolePrintln(e34.getExpressionString() + " = " + e34.calculate(CancellationToken.None) +
 				", computing time : " + e34.getComputingTime() + " s.");
 		Expression e35 = new Expression("sum(i, 0, 10, fib2(i))", fib2);
-		mXparser.consolePrintln(e35.getExpressionString() + " = " + e35.calculate() +
+		mXparser.consolePrintln(e35.getExpressionString() + " = " + e35.calculate(CancellationToken.None) +
 				", computing time : " + e35.getComputingTime() + " s.");
 		/*
 		 * Complex recursion (slow)
@@ -355,32 +356,32 @@ namespace org.mariuszgromada.math.mxparser
 		 *
 		 */
 		/* Fibonacci numbers using complex recursion */
-		Function fib3 = new Function("fib3","if(n>1, fib3(n-1)+fib3(n-2), if(n>0,1,0))", "n");
+		Function fib3 = new Function(CancellationToken.None, "fib3","if(n>1, fib3(n-1)+fib3(n-2), if(n>0,1,0))", "n");
 		mXparser.consolePrintln("fib2: ");
 		for (int i = 0; i <= 10; i++ )
-			mXparser.consolePrint(fib3.calculate(i) + ", ");
+			mXparser.consolePrint(fib3.calculate(CancellationToken.None, i) + ", ");
 		mXparser.consolePrintln();
 		Expression e36 = new Expression("sum(i, 0, 10, fib3(i))");
 		e36.addFunctions(fib3);
-		mXparser.consolePrintln(e36.getExpressionString() + " = " + e36.calculate() +
+		mXparser.consolePrintln(e36.getExpressionString() + " = " + e36.calculate(CancellationToken.None) +
 				", computing time : " + e36.getComputingTime() + " s.");
 		/*
 		 * Chebyshev polynomials definition using
 		 * recursive functions
 		 */
-		Function T = new Function("T","if(n>1, 2*x*T(n-1,x)-T(n-2,x), if(n>0, x, 1) )", "n", "x");
+		Function T = new Function(CancellationToken.None, "T","if(n>1, 2*x*T(n-1,x)-T(n-2,x), if(n>0, x, 1) )", "n", "x");
 		Argument k = new Argument("k", 5);
 		Expression e37 = new Expression("T(k,x) - ( (x + sqrt(x^2-1))^k + (x - sqrt(x^2-1))^k)/2", k, x);
 		e37.addFunctions(T);
-		mXparser.consolePrintln(e37.getExpressionString() + " = " + e37.calculate() +
+		mXparser.consolePrintln(e37.getExpressionString() + " = " + e37.calculate(CancellationToken.None) +
 				", computing time : " + e37.getComputingTime() + " s.");
 		/*
 		 * Binomial coefficient using complex recursion
 		 */
-		Function Cnk = new Function("Cnk","if( k>0, if( k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)","n", "k");
+		Function Cnk = new Function(CancellationToken.None, "Cnk","if( k>0, if( k<n, Cnk(n-1,k-1)+Cnk(n-1,k), 1), 1)","n", "k");
 		Expression e38 = new Expression("C(10,5) - Cnk(10,5)");
 		e38.addFunctions(Cnk);
-		mXparser.consolePrintln(e38.getExpressionString() + " = " + e38.calculate() +
+		mXparser.consolePrintln(e38.getExpressionString() + " = " + e38.calculate(CancellationToken.None) +
 				", computing time : " + e38.getComputingTime() + " s.");
 		/*
 		 * Differences between simple and complex recursion
@@ -422,10 +423,10 @@ namespace org.mariuszgromada.math.mxparser
 		 * computing
 		 */
 		e39.setVerboseMode();
-		e39.checkSyntax();
+		e39.checkSyntax(CancellationToken.None);
 		mXparser.consolePrintln();
 		mXparser.consolePrintln(e39.getErrorMessage());
-		mXparser.consolePrintln(e39.getExpressionString() + " = " + e39.calculate() +
+		mXparser.consolePrintln(e39.getExpressionString() + " = " + e39.calculate(CancellationToken.None) +
 				", computing time : " + e39.getComputingTime() + " s.");
 		/*
 		 * There are much more other features in the mXparser API.

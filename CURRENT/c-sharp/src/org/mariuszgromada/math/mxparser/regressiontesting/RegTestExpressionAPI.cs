@@ -57,6 +57,7 @@ using org.mariuszgromada.math.mxparser.mathcollection;
 using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser.regressiontesting
 {
@@ -106,13 +107,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			//Constant c4 = new Constant("c4",4);
 			Constant c5 = new Constant("c5",5);
 			Constant c6 = new Constant("c6",6);
-			Function f1 = new Function("f1","1","x");
-			Function f2 = new Function("f2","2","x");
-			Function f3 = new Function("f3","3","x");
-			Function f4 = new Function("f4","4","x");
+			Function f1 = new Function(CancellationToken.None,"f1","1","x");
+			Function f2 = new Function(CancellationToken.None,"f2","2","x");
+			Function f3 = new Function(CancellationToken.None,"f3","3","x");
+			Function f4 = new Function(CancellationToken.None,"f4","4","x");
 			//Function f5 = new Function("f5","5","x");
-			Function f6 = new Function("f6","6","x");
-			Function f7 = new Function("f7","7","x");
+			Function f6 = new Function(CancellationToken.None,"f6","6","x");
+			Function f7 = new Function(CancellationToken.None,"f7","7","x");
 			Argument a1 = new Argument("a1",1);
 			Argument a2 = new Argument("a2",2);
 			Argument a3 = new Argument("a3",3);
@@ -170,16 +171,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 * 4. void setExpressionString(String expressionString), String getExpressionString(), void clearExpressionString()
 			 */
 			testId++;
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			e.setExpressionString("c2+a1");
 			syn2 = e.getSyntaxStatus();
-			syn3 = e.checkSyntax();
+			syn3 = e.checkSyntax(CancellationToken.None);
 			s1 = e.getExpressionString();
 			syn4 = e.getSyntaxStatus();
-			syn5 = e.checkSyntax();
+			syn5 = e.checkSyntax(CancellationToken.None);
 			e.clearExpressionString();
 			syn6 = e.getSyntaxStatus();
-			syn7 = e.checkSyntax();
+			syn7 = e.checkSyntax(CancellationToken.None);
 			s2 = e.getExpressionString();
 			syn8 = e.getSyntaxStatus();
 			if (	s1.Equals("c2+a1")
@@ -199,7 +200,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e.setExpressionString("c1+a2");
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			e.setDescription("opis");
 			s1 = e.getDescription();
 			e.clearDescription();
@@ -215,7 +216,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 * 6. void setVerboseMode(), boolean getVerboseMode(), void setSilentMode()
 			 */
 			testId++;
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			b1 = e.getVerboseMode();
 			e.setVerboseMode();
 			b2 = e.getVerboseMode();
@@ -233,11 +234,11 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 * 7.
 			 * public boolean getRecursiveMode()
 			 */
-			Function fa = new Function("f(x,y)=sin(x)+cos(y)");
-			Function fb = new Function("f(x,y)=sin(x)+cos(y)+f(1,2)");
+			Function fa = new Function(CancellationToken.None,"f(x,y)=sin(x)+cos(y)");
+			Function fb = new Function(CancellationToken.None,"f(x,y)=sin(x)+cos(y)+f(1,2)");
 			testId++;
-			syn1=fa.checkSyntax();
-			syn2=fb.checkSyntax();
+			syn1=fa.checkSyntax(CancellationToken.None);
+			syn2=fb.checkSyntax(CancellationToken.None);
 			b1 = fa.getRecursiveMode();
 			b2 = fb.getRecursiveMode();
 			if (	b1 == false
@@ -277,16 +278,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e = new Expression("1+2");
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			e.addDefinitions(a6, a7);
 			syn2 = e.getSyntaxStatus();
-			syn3 = e.checkSyntax();
+			syn3 = e.checkSyntax(CancellationToken.None);
 			e.addDefinitions(a1, a2, a3, a4, a5);
 			syn4 = e.getSyntaxStatus();
-			syn5 = e.checkSyntax();
-			e.defineArguments("x1", "x2", "x3");
+			syn5 = e.checkSyntax(CancellationToken.None);
+			e.defineArguments(CancellationToken.None,"x1", "x2", "x3");
 			syn6 = e.getSyntaxStatus();
-			syn7 = e.checkSyntax();
+			syn7 = e.checkSyntax(CancellationToken.None);
 			e.defineArgument("x", 1);
 			syn8 = e.getSyntaxStatus();
 			if (	e.getExpressionString().Equals("1+2")
@@ -311,7 +312,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 * int getArgumentsNumber()
 			 */
 			testId++;
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			i1 = e.getArgumentIndex("asdsa"); //-1
 			i2 = e.getArgumentIndex("x1"); //7
 			A1 = e.getArgument("asasas"); //null
@@ -339,16 +340,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 * double getArgumentValue
 			 */
 			testId++;
-			syn1 = e.checkSyntax();
-			d1 = e.getArgumentValue("a1");
+			syn1 = e.checkSyntax(CancellationToken.None);
+			d1 = e.getArgumentValue(CancellationToken.None,"a1");
 			syn2 = e.getSyntaxStatus();
 			e.setArgumentValue("asds", 1);
 			syn3 = e.getSyntaxStatus();
-			syn4 = e.checkSyntax();
+			syn4 = e.checkSyntax(CancellationToken.None);
 			e.setArgumentValue("a1", 10);
 			syn4 = e.getSyntaxStatus();
-			d2 = e.getArgumentValue("asdfasdf");
-			d3 = e.getArgumentValue("a1");
+			d2 = e.getArgumentValue(CancellationToken.None,"asdfasdf");
+			d3 = e.getArgumentValue(CancellationToken.None,"a1");
 			syn5 = e.getSyntaxStatus();
 			if (	d1 == 1
 					&& Double.IsNaN(d2)
@@ -368,20 +369,20 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e.setExpressionString("1+2");
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			n1 = e.getArgumentsNumber();
 			e.removeArguments("asfdf");
 			syn2 = e.getSyntaxStatus();
 			n2 = e.getArgumentsNumber();
 			e.removeArguments("x1","x2");
 			n3 = e.getArgumentsNumber();
-			syn3 = e.checkSyntax();
+			syn3 = e.checkSyntax(CancellationToken.None);
 			e.removeArguments(a3);
 			n4 = e.getArgumentsNumber();
 			e.removeArguments(a1,a2);
 			syn4 = e.getSyntaxStatus();
 			n5 = e.getArgumentsNumber();
-			syn5 = e.checkSyntax();
+			syn5 = e.checkSyntax(CancellationToken.None);
 			e.removeAllArguments();
 			n6 = e.getArgumentsNumber();
 			syn6 = e.getSyntaxStatus();
@@ -405,17 +406,17 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 * void defineConstant(String constantName, double constantValue)
 			 */
 			testId++;
-			e = new Expression("1+2", new Constant("a=5"));
-			syn1 = e.checkSyntax();
+			e = new Expression("1+2", new Constant(CancellationToken.None,"a=5"));
+			syn1 = e.checkSyntax(CancellationToken.None);
 			e.addDefinitions(c5, c6);
 			syn2 = e.getSyntaxStatus();
-			syn3 = e.checkSyntax();
+			syn3 = e.checkSyntax(CancellationToken.None);
 			e.addDefinitions(c1, c2, c3, c5, c6);
 			syn4 = e.getSyntaxStatus();
-			syn5 = e.checkSyntax();
+			syn5 = e.checkSyntax(CancellationToken.None);
 			e.defineConstant("cx1",1);
 			e.removeDefinitions(c5, c6);
-			syn6 = e.checkSyntax();
+			syn6 = e.checkSyntax(CancellationToken.None);
 			e.removeDefinitions(c5, c6);
 			if (	e.getExpressionString().Equals("1+2")
 					&& e.getArgumentsNumber() == 0
@@ -437,7 +438,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 * int getConstantsNumber()
 			 */
 			testId++;
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			i1 = e.getConstantIndex("asdsa"); //-1
 			i2 = e.getConstantIndex("c6"); //-1
 			C1 = e.getConstant("asasas"); //null
@@ -468,20 +469,20 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			testId++;
 			e.defineConstant("cx2",1);
 			e.setExpressionString("1+2");
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			n1 = e.getConstantsNumber();
 			e.removeConstants("asfdf");
 			syn2 = e.getSyntaxStatus();
 			n2 = e.getConstantsNumber();
 			e.removeConstants("cx1","cx2");
 			n3 = e.getConstantsNumber();
-			syn3 = e.checkSyntax();
+			syn3 = e.checkSyntax(CancellationToken.None);
 			e.removeConstants(c1);
 			n4 = e.getConstantsNumber();
 			e.removeConstants(c2,c3);
 			syn4 = e.getSyntaxStatus();
 			n5 = e.getConstantsNumber();
-			syn5 = e.checkSyntax();
+			syn5 = e.checkSyntax(CancellationToken.None);
 			e.removeAllConstants();
 			n6 = e.getConstantsNumber();
 			syn6 = e.getSyntaxStatus();
@@ -506,15 +507,15 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e = new Expression("1+2");
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			e.addDefinitions(f6, f7);
 			syn2 = e.getSyntaxStatus();
-			syn3 = e.checkSyntax();
+			syn3 = e.checkSyntax(CancellationToken.None);
 			e.addDefinitions(f1, f2, f3, f4, f6);
 			syn4 = e.getSyntaxStatus();
 			e.removeDefinitions(f6);
-			syn5 = e.checkSyntax();
-			e.defineFunction("ff1", "1", "x");
+			syn5 = e.checkSyntax(CancellationToken.None);
+			e.defineFunction(CancellationToken.None,"ff1", "1", "x");
 			syn6 = e.getSyntaxStatus();
 			if (	e.getExpressionString().Equals("1+2")
 					&& e.getArgumentsNumber() == 0
@@ -536,7 +537,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 * int getFunctionsNumber()
 			 */
 			testId++;
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			i1 = e.getFunctionIndex("asdsa"); //-1
 			i2 = e.getFunctionIndex("f7"); //0
 			F1 = e.getFunction("asasas"); //null
@@ -566,20 +567,20 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e.setExpressionString("1+2");
-			syn1 = e.checkSyntax();
+			syn1 = e.checkSyntax(CancellationToken.None);
 			n1 = e.getFunctionsNumber();
 			e.removeFunctions("asfdf");
 			syn2 = e.getSyntaxStatus();
 			n2 = e.getFunctionsNumber();
 			e.removeFunctions("f1","f2");
 			n3 = e.getFunctionsNumber();
-			syn3 = e.checkSyntax();
+			syn3 = e.checkSyntax(CancellationToken.None);
 			e.removeFunctions(f3);
 			n4 = e.getFunctionsNumber();
 			e.removeFunctions(f6,f7);
 			syn4 = e.getSyntaxStatus();
 			n5 = e.getFunctionsNumber();
-			syn5 = e.checkSyntax();
+			syn5 = e.checkSyntax(CancellationToken.None);
 			e.removeAllFunctions();
 			n6 = e.getFunctionsNumber();
 			syn6 = e.getSyntaxStatus();
@@ -604,8 +605,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 * String getLicense()
 			 */
 			testId++;
-			syn1 = e.checkSyntax();
-			d1 = e.calculate();
+			syn1 = e.checkSyntax(CancellationToken.None);
+			d1 = e.calculate(CancellationToken.None);
 			syn2 = e.getSyntaxStatus();
 			if (	syn1 == Expression.NO_SYNTAX_ERRORS
 					&& syn2 == Expression.NO_SYNTAX_ERRORS
@@ -617,7 +618,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e = new Expression("1+(2+3)-sin(10)");
-			List<Token> tokens = e.getCopyOfInitialTokens();
+			List<Token> tokens = e.getCopyOfInitialTokens(CancellationToken.None);
 			mXparser.consolePrintTokens(tokens);
 			if (
 					(tokens[0].tokenStr.Equals("1")) &&
@@ -665,7 +666,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e = new Expression("token1+toke2n*sin(token3-t3^t5)^t45+pi-pie+e");
-			tokens = e.getCopyOfInitialTokens();
+			tokens = e.getCopyOfInitialTokens(CancellationToken.None);
 			mXparser.consolePrintTokens(tokens);
 			if (
 					(tokens[0].tokenStr.Equals("token1")) &&
@@ -737,7 +738,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			Function ff = new Function("ff", new FunExt());
-			if (ff.calculate(2, 3) == 6) test[testId] = true;
+			if (ff.calculate(CancellationToken.None,2, 3) == 6) test[testId] = true;
 			/*
 			 * 24. Function Extension - setArgumentValue - calculate
 			 */
@@ -745,7 +746,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			ff = new Function("ff", new FunExt());
 			ff.setArgumentValue(0, 3);
 			ff.setArgumentValue(1, 4);
-			if (ff.calculate() == 12) test[testId] = true;
+			if (ff.calculate(CancellationToken.None) == 12) test[testId] = true;
 			/*
 			 * 25. Function Extension - parameters
 			 */
@@ -754,22 +755,22 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (
 					(ff.getParametersNumber() == 2) &&
 					(ff.getFunctionBodyType() == Function.BODY_EXTENDED) &&
-					(ff.checkSyntax() == Function.NO_SYNTAX_ERRORS)
+					(ff.checkSyntax(CancellationToken.None) == Function.NO_SYNTAX_ERRORS)
 				) test[testId] = true;
 			/*
 			 * 26. Function Extension - calculate
 			 */
 			testId++;
 			ff = new Function("ff", new FunExt());
-			Argument x = new Argument("x = 5");
-			Argument y = new Argument("y = 6");
-			if (ff.calculate(x, y) == 30) test[testId] = true;
+			Argument x = new Argument(CancellationToken.None,"x = 5");
+			Argument y = new Argument(CancellationToken.None,"y = 6");
+			if (ff.calculate(CancellationToken.None,x, y) == 30) test[testId] = true;
 			/*
 			 * 27. Invalid tokens looks like
 			 */
 			testId++;
 			e = new Expression("1pi+2pi3+((_d1(a)+(_d^_g)))))");
-			tokens = e.getCopyOfInitialTokens();
+			tokens = e.getCopyOfInitialTokens(CancellationToken.None);
 			mXparser.consolePrintTokens(tokens);
 			if (
 					(tokens[0].tokenStr.Equals("1pi")) &&
@@ -806,7 +807,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			testId++;
 			e = new Expression("1+2+3+(4+5)+a+b");
 			if (
-					(e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
+					(e.checkSyntax(CancellationToken.None) == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
 					(e.checkLexSyntax() == Expression.NO_SYNTAX_ERRORS)
 				) test[testId] = true;
 			/*
@@ -815,7 +816,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			testId++;
 			e = new Expression("1+2+3+(4+5)+a)+b");
 			if (
-					(e.checkSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
+					(e.checkSyntax(CancellationToken.None) == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN) &&
 					(e.checkLexSyntax() == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 				) test[testId] = true;
 			/*
@@ -944,45 +945,45 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			if (
-					(NumberTheory.convOthBase2Decimal("11", 2) == 3.0) &&
-					(NumberTheory.convOthBase2Decimal("011", 2) == 3.0) &&
-					(NumberTheory.convOthBase2Decimal("000011", 2) == 3.0) &&
-					(NumberTheory.convOthBase2Decimal("12", 3) == 5.0) &&
-					(NumberTheory.convOthBase2Decimal("012", 3) == 5.0) &&
-					(NumberTheory.convOthBase2Decimal("0012", 3) == 5.0) &&
-					(NumberTheory.convOthBase2Decimal("123", 4) == 27.0) &&
-					(NumberTheory.convOthBase2Decimal("0123", 4) == 27.0) &&
-					(NumberTheory.convOthBase2Decimal("00123", 4) == 27.0) &&
-					(NumberTheory.convOthBase2Decimal("1234", 5) == 194.0) &&
-					(NumberTheory.convOthBase2Decimal("01234", 5) == 194.0) &&
-					(NumberTheory.convOthBase2Decimal("001234", 5) == 194.0) &&
-					(NumberTheory.convOthBase2Decimal("12345", 6) == 1865.0) &&
-					(NumberTheory.convOthBase2Decimal("012345", 6) == 1865.0) &&
-					(NumberTheory.convOthBase2Decimal("0012345", 6) == 1865.0) &&
-					(NumberTheory.convOthBase2Decimal("123456", 7) == 22875.0) &&
-					(NumberTheory.convOthBase2Decimal("0123456", 7) == 22875.0) &&
-					(NumberTheory.convOthBase2Decimal("00123456", 7) == 22875.0) &&
-					(NumberTheory.convOthBase2Decimal("1234567", 8) == 342391.0) &&
-					(NumberTheory.convOthBase2Decimal("01234567", 8) == 342391.0) &&
-					(NumberTheory.convOthBase2Decimal("01234567", 8) == 342391.0) &&
-					(NumberTheory.convOthBase2Decimal("12345678", 9) == 6053444.0) &&
-					(NumberTheory.convOthBase2Decimal("012345678", 9) == 6053444.0) &&
-					(NumberTheory.convOthBase2Decimal("0012345678", 9) == 6053444.0) &&
-					(NumberTheory.convOthBase2Decimal("123456789", 10) == 123456789.0) &&
-					(NumberTheory.convOthBase2Decimal("0123456789", 10) == 123456789.0) &&
-					(NumberTheory.convOthBase2Decimal("00123456789", 10) == 123456789.0) &&
-					(NumberTheory.convOthBase2Decimal("123456789A", 11) == 2853116705.0) &&
-					(NumberTheory.convOthBase2Decimal("0123456789A", 11) == 2853116705.0) &&
-					(NumberTheory.convOthBase2Decimal("00123456789A", 11) == 2853116705.0) &&
-					(NumberTheory.convOthBase2Decimal("123456789Ab", 12) == 73686780563.0) &&
-					(NumberTheory.convOthBase2Decimal("0123456789Ab", 12) == 73686780563.0) &&
-					(NumberTheory.convOthBase2Decimal("00123456789Ab", 12) == 73686780563.0) &&
-					(NumberTheory.convOthBase2Decimal("123456789AbC", 13) == 2103299351334.0) &&
-					(NumberTheory.convOthBase2Decimal("0123456789AbC", 13) == 2103299351334.0) &&
-					(NumberTheory.convOthBase2Decimal("00123456789AbC", 13) == 2103299351334.0) &&
-					(NumberTheory.convOthBase2Decimal("123456789AbCd", 14) == 65751519677857.0) &&
-					(NumberTheory.convOthBase2Decimal("0123456789AbCd", 14) == 65751519677857.0) &&
-					(NumberTheory.convOthBase2Decimal("00123456789AbCd", 14) == 65751519677857.0)
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"11", 2) == 3.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"011", 2) == 3.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"000011", 2) == 3.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"12", 3) == 5.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"012", 3) == 5.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"0012", 3) == 5.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"123", 4) == 27.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"0123", 4) == 27.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"00123", 4) == 27.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"1234", 5) == 194.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"01234", 5) == 194.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"001234", 5) == 194.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"12345", 6) == 1865.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"012345", 6) == 1865.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"0012345", 6) == 1865.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"123456", 7) == 22875.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"0123456", 7) == 22875.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"00123456", 7) == 22875.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"1234567", 8) == 342391.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"01234567", 8) == 342391.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"01234567", 8) == 342391.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"12345678", 9) == 6053444.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"012345678", 9) == 6053444.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"0012345678", 9) == 6053444.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"123456789", 10) == 123456789.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"0123456789", 10) == 123456789.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"00123456789", 10) == 123456789.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"123456789A", 11) == 2853116705.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"0123456789A", 11) == 2853116705.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"00123456789A", 11) == 2853116705.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"123456789Ab", 12) == 73686780563.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"0123456789Ab", 12) == 73686780563.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"00123456789Ab", 12) == 73686780563.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"123456789AbC", 13) == 2103299351334.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"0123456789AbC", 13) == 2103299351334.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"00123456789AbC", 13) == 2103299351334.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"123456789AbCd", 14) == 65751519677857.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"0123456789AbCd", 14) == 65751519677857.0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"00123456789AbCd", 14) == 65751519677857.0)
 				) test[testId] = true;
 			/*
 			 * 37. mXparser.convert2Decimal - loop
@@ -991,8 +992,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			test[testId] = true;
 			for (int decimalNumber = -fractionIterations; decimalNumber < fractionIterations; decimalNumber++)
 				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++) {
-					if (mXparser.isCurrentCalculationCancelled()) return -1;
-					if (NumberTheory.convOthBase2Decimal(NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase), numeralSystemBase) != decimalNumber) {
+					if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) return -1;
+					if (NumberTheory.convOthBase2Decimal(CancellationToken.None,NumberTheory.convDecimal2OthBase(CancellationToken.None,decimalNumber, numeralSystemBase), numeralSystemBase) != decimalNumber) {
 						test[testId] = false;
 						break;
 					}
@@ -1003,16 +1004,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			testId++;
 			char dc_1 = NumberTheory.digitChar(-1);
 			char dc37 = NumberTheory.digitChar(37);
-			int di = NumberTheory.digitIndex('¹');
-			double dec1 = NumberTheory.convOthBase2Decimal("", 1);
-			double decNaN1 = NumberTheory.convOthBase2Decimal("1101", 0);
-			double decNaN2 = NumberTheory.convOthBase2Decimal("1101", 37);
-			double decNaN3 = NumberTheory.convOthBase2Decimal(null, 3);
-			double decNaN4 = NumberTheory.convOthBase2Decimal("", 3);
-			double decNaN5 = NumberTheory.convOthBase2Decimal("1234", 4);
-			String strNaN1 = NumberTheory.convDecimal2OthBase(Double.NaN, 2);
-			String strNaN2 = NumberTheory.convDecimal2OthBase(2, 0);
-			String strNaN3 = NumberTheory.convDecimal2OthBase(2, 37);
+			int di = NumberTheory.digitIndex('ï¿½');
+			double dec1 = NumberTheory.convOthBase2Decimal(CancellationToken.None,"", 1);
+			double decNaN1 = NumberTheory.convOthBase2Decimal(CancellationToken.None,"1101", 0);
+			double decNaN2 = NumberTheory.convOthBase2Decimal(CancellationToken.None,"1101", 37);
+			double decNaN3 = NumberTheory.convOthBase2Decimal(CancellationToken.None,null, 3);
+			double decNaN4 = NumberTheory.convOthBase2Decimal(CancellationToken.None,"", 3);
+			double decNaN5 = NumberTheory.convOthBase2Decimal(CancellationToken.None,"1234", 4);
+			String strNaN1 = NumberTheory.convDecimal2OthBase(CancellationToken.None,Double.NaN, 2);
+			String strNaN2 = NumberTheory.convDecimal2OthBase(CancellationToken.None,2, 0);
+			String strNaN3 = NumberTheory.convDecimal2OthBase(CancellationToken.None,2, 37);
 			if ((dc_1 == '?') &&
 					(dc37 == '?') &&
 					(di == -1) &&
@@ -1034,8 +1035,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			test[testId] = true;
 			for (int decimalNumber = -fractionIterations; decimalNumber < fractionIterations; decimalNumber++)
 				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++) {
-					if (mXparser.isCurrentCalculationCancelled()) return -1;
-					if (NumberTheory.convOthBase2Decimal(NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, 1)) != decimalNumber) {
+					if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) return -1;
+					if (NumberTheory.convOthBase2Decimal(CancellationToken.None,NumberTheory.convDecimal2OthBase(CancellationToken.None,decimalNumber, numeralSystemBase, 1)) != decimalNumber) {
 						test[testId] = false;
 						break;
 					}
@@ -1047,8 +1048,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			test[testId] = true;
 			for (int decimalNumber = -fractionIterations; decimalNumber < fractionIterations; decimalNumber++)
 				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++) {
-					if (mXparser.isCurrentCalculationCancelled()) return -1;
-					if (NumberTheory.convOthBase2Decimal(NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, 2)) != decimalNumber) {
+					if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) return -1;
+					if (NumberTheory.convOthBase2Decimal(CancellationToken.None,NumberTheory.convDecimal2OthBase(CancellationToken.None,decimalNumber, numeralSystemBase, 2)) != decimalNumber) {
 						test[testId] = false;
 						break;
 					}
@@ -1060,8 +1061,8 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			test[testId] = true;
 			for (int decimalNumber = -fractionIterations; decimalNumber < fractionIterations; decimalNumber++)
 				for (int numeralSystemBase = 1; numeralSystemBase <= 36; numeralSystemBase++) {
-					if (mXparser.isCurrentCalculationCancelled()) return -1;
-					if (NumberTheory.convOthBase2Decimal(NumberTheory.convDecimal2OthBase(decimalNumber, numeralSystemBase, 0), numeralSystemBase) != decimalNumber) {
+					if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) return -1;
+					if (NumberTheory.convOthBase2Decimal(CancellationToken.None,NumberTheory.convDecimal2OthBase(CancellationToken.None,decimalNumber, numeralSystemBase, 0), numeralSystemBase) != decimalNumber) {
 						test[testId] = false;
 						break;
 					}
@@ -1318,246 +1319,246 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			if (
-					(NumberTheory.convOthBase2Decimal("b1.") == 0) &&
-					(NumberTheory.convOthBase2Decimal("b1.111") == 3) &&
-					(NumberTheory.convOthBase2Decimal("b2.101") == 5) &&
-					(NumberTheory.convOthBase2Decimal("b3.121") == 16) &&
-					(NumberTheory.convOthBase2Decimal("b4.123") == 27) &&
-					(NumberTheory.convOthBase2Decimal("b5.341") == 96) &&
-					(NumberTheory.convOthBase2Decimal("b6.352") == 140) &&
-					(NumberTheory.convOthBase2Decimal("b7.256") == 139) &&
-					(NumberTheory.convOthBase2Decimal("b8.376") == 254) &&
-					(NumberTheory.convOthBase2Decimal("o.376") == 254) &&
-					(NumberTheory.convOthBase2Decimal("b.101") == 5) &&
-					(NumberTheory.convOthBase2Decimal("b9.821") == 667) &&
-					(NumberTheory.convOthBase2Decimal("b10.394") == 394) &&
-					(NumberTheory.convOthBase2Decimal("b11.3A7") == 480) &&
-					(NumberTheory.convOthBase2Decimal("b12.A5B") == 1511) &&
-					(NumberTheory.convOthBase2Decimal("b13.ACB") == 1857) &&
-					(NumberTheory.convOthBase2Decimal("b14.2AD") == 545) &&
-					(NumberTheory.convOthBase2Decimal("b15.BE4") == 2689) &&
-					(NumberTheory.convOthBase2Decimal("b16.FA2") == 4002) &&
-					(NumberTheory.convOthBase2Decimal("h.FA2") == 4002) &&
-					(NumberTheory.convOthBase2Decimal("b17.AG6") == 3168) &&
-					(NumberTheory.convOthBase2Decimal("b18.FGH") == 5165) &&
-					(NumberTheory.convOthBase2Decimal("b19.2I3") == 1067) &&
-					(NumberTheory.convOthBase2Decimal("b20.9CJ") == 3859) &&
-					(NumberTheory.convOthBase2Decimal("b21.K5F") == 8940) &&
-					(NumberTheory.convOthBase2Decimal("b22.FL5") == 7727) &&
-					(NumberTheory.convOthBase2Decimal("b23.1AM") == 781) &&
-					(NumberTheory.convOthBase2Decimal("b24.5ND") == 3445) &&
-					(NumberTheory.convOthBase2Decimal("b25.5ND5C") == 2320762) &&
-					(NumberTheory.convOthBase2Decimal("b26.3KPB5") == 1739639) &&
-					(NumberTheory.convOthBase2Decimal("b27.IQH67") == 10090258) &&
-					(NumberTheory.convOthBase2Decimal("b28.RKHB2") == 17048390) &&
-					(NumberTheory.convOthBase2Decimal("b29.8BIFS") == 5942128) &&
-					(NumberTheory.convOthBase2Decimal("b30.2TGJB") == 2417981) &&
-					(NumberTheory.convOthBase2Decimal("b31.6PUC0") == 6315103) &&
-					(NumberTheory.convOthBase2Decimal("b32.C0PV0") == 12609504) &&
-					(NumberTheory.convOthBase2Decimal("b33.V000W") == 36763583) &&
-					(NumberTheory.convOthBase2Decimal("b34.NP2XW") == 31721794) &&
-					(NumberTheory.convOthBase2Decimal("b35.120Y0") == 1587565) &&
-					(NumberTheory.convOthBase2Decimal("b36.ZZZZZ") == 60466175) &&
-					(NumberTheory.convOthBase2Decimal("B1.") == 0) &&
-					(NumberTheory.convOthBase2Decimal("B1.111") == 3) &&
-					(NumberTheory.convOthBase2Decimal("B2.00101") == 5) &&
-					(NumberTheory.convOthBase2Decimal("B3.00121") == 16) &&
-					(NumberTheory.convOthBase2Decimal("B4.00123") == 27) &&
-					(NumberTheory.convOthBase2Decimal("B5.00341") == 96) &&
-					(NumberTheory.convOthBase2Decimal("B6.00352") == 140) &&
-					(NumberTheory.convOthBase2Decimal("B7.00256") == 139) &&
-					(NumberTheory.convOthBase2Decimal("B8.00376") == 254) &&
-					(NumberTheory.convOthBase2Decimal("O.00376") == 254) &&
-					(NumberTheory.convOthBase2Decimal("B.00101") == 5) &&
-					(NumberTheory.convOthBase2Decimal("B9.00821") == 667) &&
-					(NumberTheory.convOthBase2Decimal("B10.00394") == 394) &&
-					(NumberTheory.convOthBase2Decimal("B11.003a7") == 480) &&
-					(NumberTheory.convOthBase2Decimal("B12.00a5b") == 1511) &&
-					(NumberTheory.convOthBase2Decimal("B13.00acb") == 1857) &&
-					(NumberTheory.convOthBase2Decimal("B14.002ad") == 545) &&
-					(NumberTheory.convOthBase2Decimal("B15.00be4") == 2689) &&
-					(NumberTheory.convOthBase2Decimal("B16.00fa2") == 4002) &&
-					(NumberTheory.convOthBase2Decimal("H.00fa2") == 4002) &&
-					(NumberTheory.convOthBase2Decimal("B17.00ag6") == 3168) &&
-					(NumberTheory.convOthBase2Decimal("B18.00fgh") == 5165) &&
-					(NumberTheory.convOthBase2Decimal("B19.002i3") == 1067) &&
-					(NumberTheory.convOthBase2Decimal("B20.009cj") == 3859) &&
-					(NumberTheory.convOthBase2Decimal("B21.00k5f") == 8940) &&
-					(NumberTheory.convOthBase2Decimal("B22.00fl5") == 7727) &&
-					(NumberTheory.convOthBase2Decimal("B23.001am") == 781) &&
-					(NumberTheory.convOthBase2Decimal("B24.005nd") == 3445) &&
-					(NumberTheory.convOthBase2Decimal("B25.005nd5c") == 2320762) &&
-					(NumberTheory.convOthBase2Decimal("B26.003kpb5") == 1739639) &&
-					(NumberTheory.convOthBase2Decimal("B27.00iqh67") == 10090258) &&
-					(NumberTheory.convOthBase2Decimal("B28.00rkhb2") == 17048390) &&
-					(NumberTheory.convOthBase2Decimal("B29.008bifs") == 5942128) &&
-					(NumberTheory.convOthBase2Decimal("B30.002tgjb") == 2417981) &&
-					(NumberTheory.convOthBase2Decimal("B31.006puc0") == 6315103) &&
-					(NumberTheory.convOthBase2Decimal("B32.00c0pv0") == 12609504) &&
-					(NumberTheory.convOthBase2Decimal("B33.00v000w") == 36763583) &&
-					(NumberTheory.convOthBase2Decimal("B34.00np2xw") == 31721794) &&
-					(NumberTheory.convOthBase2Decimal("B35.00120y0") == 1587565) &&
-					(NumberTheory.convOthBase2Decimal("B36.00zzzzz") == 60466175) &&
-					(NumberTheory.convOthBase2Decimal("+b1.") == 0) &&
-					(NumberTheory.convOthBase2Decimal("+b1.111") == 3) &&
-					(NumberTheory.convOthBase2Decimal("+b2.101") == 5) &&
-					(NumberTheory.convOthBase2Decimal("+b3.121") == 16) &&
-					(NumberTheory.convOthBase2Decimal("+b4.123") == 27) &&
-					(NumberTheory.convOthBase2Decimal("+b5.341") == 96) &&
-					(NumberTheory.convOthBase2Decimal("+b6.352") == 140) &&
-					(NumberTheory.convOthBase2Decimal("+b7.256") == 139) &&
-					(NumberTheory.convOthBase2Decimal("+b8.376") == 254) &&
-					(NumberTheory.convOthBase2Decimal("+o.376") == 254) &&
-					(NumberTheory.convOthBase2Decimal("+b.101") == 5) &&
-					(NumberTheory.convOthBase2Decimal("+b9.821") == 667) &&
-					(NumberTheory.convOthBase2Decimal("+b10.394") == 394) &&
-					(NumberTheory.convOthBase2Decimal("+b11.3A7") == 480) &&
-					(NumberTheory.convOthBase2Decimal("+b12.A5B") == 1511) &&
-					(NumberTheory.convOthBase2Decimal("+b13.ACB") == 1857) &&
-					(NumberTheory.convOthBase2Decimal("+b14.2AD") == 545) &&
-					(NumberTheory.convOthBase2Decimal("+b15.BE4") == 2689) &&
-					(NumberTheory.convOthBase2Decimal("+b16.FA2") == 4002) &&
-					(NumberTheory.convOthBase2Decimal("+h.FA2") == 4002) &&
-					(NumberTheory.convOthBase2Decimal("+b17.AG6") == 3168) &&
-					(NumberTheory.convOthBase2Decimal("+b18.FGH") == 5165) &&
-					(NumberTheory.convOthBase2Decimal("+b19.2I3") == 1067) &&
-					(NumberTheory.convOthBase2Decimal("+b20.9CJ") == 3859) &&
-					(NumberTheory.convOthBase2Decimal("+b21.K5F") == 8940) &&
-					(NumberTheory.convOthBase2Decimal("+b22.FL5") == 7727) &&
-					(NumberTheory.convOthBase2Decimal("+b23.1AM") == 781) &&
-					(NumberTheory.convOthBase2Decimal("+b24.5ND") == 3445) &&
-					(NumberTheory.convOthBase2Decimal("+b25.5ND5C") == 2320762) &&
-					(NumberTheory.convOthBase2Decimal("+b26.3KPB5") == 1739639) &&
-					(NumberTheory.convOthBase2Decimal("+b27.IQH67") == 10090258) &&
-					(NumberTheory.convOthBase2Decimal("+b28.RKHB2") == 17048390) &&
-					(NumberTheory.convOthBase2Decimal("+b29.8BIFS") == 5942128) &&
-					(NumberTheory.convOthBase2Decimal("+b30.2TGJB") == 2417981) &&
-					(NumberTheory.convOthBase2Decimal("+b31.6PUC0") == 6315103) &&
-					(NumberTheory.convOthBase2Decimal("+b32.C0PV0") == 12609504) &&
-					(NumberTheory.convOthBase2Decimal("+b33.V000W") == 36763583) &&
-					(NumberTheory.convOthBase2Decimal("+b34.NP2XW") == 31721794) &&
-					(NumberTheory.convOthBase2Decimal("+b35.120Y0") == 1587565) &&
-					(NumberTheory.convOthBase2Decimal("+b36.ZZZZZ") == 60466175) &&
-					(NumberTheory.convOthBase2Decimal("+B1.") == 0) &&
-					(NumberTheory.convOthBase2Decimal("+B1.111") == 3) &&
-					(NumberTheory.convOthBase2Decimal("+B2.00101") == 5) &&
-					(NumberTheory.convOthBase2Decimal("+B3.00121") == 16) &&
-					(NumberTheory.convOthBase2Decimal("+B4.00123") == 27) &&
-					(NumberTheory.convOthBase2Decimal("+B5.00341") == 96) &&
-					(NumberTheory.convOthBase2Decimal("+B6.00352") == 140) &&
-					(NumberTheory.convOthBase2Decimal("+B7.00256") == 139) &&
-					(NumberTheory.convOthBase2Decimal("+B8.00376") == 254) &&
-					(NumberTheory.convOthBase2Decimal("+O.00376") == 254) &&
-					(NumberTheory.convOthBase2Decimal("+B.00101") == 5) &&
-					(NumberTheory.convOthBase2Decimal("+B9.00821") == 667) &&
-					(NumberTheory.convOthBase2Decimal("+B10.00394") == 394) &&
-					(NumberTheory.convOthBase2Decimal("+B11.003a7") == 480) &&
-					(NumberTheory.convOthBase2Decimal("+B12.00a5b") == 1511) &&
-					(NumberTheory.convOthBase2Decimal("+B13.00acb") == 1857) &&
-					(NumberTheory.convOthBase2Decimal("+B14.002ad") == 545) &&
-					(NumberTheory.convOthBase2Decimal("+B15.00be4") == 2689) &&
-					(NumberTheory.convOthBase2Decimal("+B16.00fa2") == 4002) &&
-					(NumberTheory.convOthBase2Decimal("+H.00fa2") == 4002) &&
-					(NumberTheory.convOthBase2Decimal("+B17.00ag6") == 3168) &&
-					(NumberTheory.convOthBase2Decimal("+B18.00fgh") == 5165) &&
-					(NumberTheory.convOthBase2Decimal("+B19.002i3") == 1067) &&
-					(NumberTheory.convOthBase2Decimal("+B20.009cj") == 3859) &&
-					(NumberTheory.convOthBase2Decimal("+B21.00k5f") == 8940) &&
-					(NumberTheory.convOthBase2Decimal("+B22.00fl5") == 7727) &&
-					(NumberTheory.convOthBase2Decimal("+B23.001am") == 781) &&
-					(NumberTheory.convOthBase2Decimal("+B24.005nd") == 3445) &&
-					(NumberTheory.convOthBase2Decimal("+B25.005nd5c") == 2320762) &&
-					(NumberTheory.convOthBase2Decimal("+B26.003kpb5") == 1739639) &&
-					(NumberTheory.convOthBase2Decimal("+B27.00iqh67") == 10090258) &&
-					(NumberTheory.convOthBase2Decimal("+B28.00rkhb2") == 17048390) &&
-					(NumberTheory.convOthBase2Decimal("+B29.008bifs") == 5942128) &&
-					(NumberTheory.convOthBase2Decimal("+B30.002tgjb") == 2417981) &&
-					(NumberTheory.convOthBase2Decimal("+B31.006puc0") == 6315103) &&
-					(NumberTheory.convOthBase2Decimal("+B32.00c0pv0") == 12609504) &&
-					(NumberTheory.convOthBase2Decimal("+B33.00v000w") == 36763583) &&
-					(NumberTheory.convOthBase2Decimal("+B34.00np2xw") == 31721794) &&
-					(NumberTheory.convOthBase2Decimal("+B35.00120y0") == 1587565) &&
-					(NumberTheory.convOthBase2Decimal("+B36.00zzzzz") == 60466175) &&
-					(NumberTheory.convOthBase2Decimal("-b1.") == -0) &&
-					(NumberTheory.convOthBase2Decimal("-b1.111") == -3) &&
-					(NumberTheory.convOthBase2Decimal("-b2.101") == -5) &&
-					(NumberTheory.convOthBase2Decimal("-b3.121") == -16) &&
-					(NumberTheory.convOthBase2Decimal("-b4.123") == -27) &&
-					(NumberTheory.convOthBase2Decimal("-b5.341") == -96) &&
-					(NumberTheory.convOthBase2Decimal("-b6.352") == -140) &&
-					(NumberTheory.convOthBase2Decimal("-b7.256") == -139) &&
-					(NumberTheory.convOthBase2Decimal("-b8.376") == -254) &&
-					(NumberTheory.convOthBase2Decimal("-o.376") == -254) &&
-					(NumberTheory.convOthBase2Decimal("-b.101") == -5) &&
-					(NumberTheory.convOthBase2Decimal("-b9.821") == -667) &&
-					(NumberTheory.convOthBase2Decimal("-b10.394") == -394) &&
-					(NumberTheory.convOthBase2Decimal("-b11.3A7") == -480) &&
-					(NumberTheory.convOthBase2Decimal("-b12.A5B") == -1511) &&
-					(NumberTheory.convOthBase2Decimal("-b13.ACB") == -1857) &&
-					(NumberTheory.convOthBase2Decimal("-b14.2AD") == -545) &&
-					(NumberTheory.convOthBase2Decimal("-b15.BE4") == -2689) &&
-					(NumberTheory.convOthBase2Decimal("-b16.FA2") == -4002) &&
-					(NumberTheory.convOthBase2Decimal("-h.FA2") == -4002) &&
-					(NumberTheory.convOthBase2Decimal("-b17.AG6") == -3168) &&
-					(NumberTheory.convOthBase2Decimal("-b18.FGH") == -5165) &&
-					(NumberTheory.convOthBase2Decimal("-b19.2I3") == -1067) &&
-					(NumberTheory.convOthBase2Decimal("-b20.9CJ") == -3859) &&
-					(NumberTheory.convOthBase2Decimal("-b21.K5F") == -8940) &&
-					(NumberTheory.convOthBase2Decimal("-b22.FL5") == -7727) &&
-					(NumberTheory.convOthBase2Decimal("-b23.1AM") == -781) &&
-					(NumberTheory.convOthBase2Decimal("-b24.5ND") == -3445) &&
-					(NumberTheory.convOthBase2Decimal("-b25.5ND5C") == -2320762) &&
-					(NumberTheory.convOthBase2Decimal("-b26.3KPB5") == -1739639) &&
-					(NumberTheory.convOthBase2Decimal("-b27.IQH67") == -10090258) &&
-					(NumberTheory.convOthBase2Decimal("-b28.RKHB2") == -17048390) &&
-					(NumberTheory.convOthBase2Decimal("-b29.8BIFS") == -5942128) &&
-					(NumberTheory.convOthBase2Decimal("-b30.2TGJB") == -2417981) &&
-					(NumberTheory.convOthBase2Decimal("-b31.6PUC0") == -6315103) &&
-					(NumberTheory.convOthBase2Decimal("-b32.C0PV0") == -12609504) &&
-					(NumberTheory.convOthBase2Decimal("-b33.V000W") == -36763583) &&
-					(NumberTheory.convOthBase2Decimal("-b34.NP2XW") == -31721794) &&
-					(NumberTheory.convOthBase2Decimal("-b35.120Y0") == -1587565) &&
-					(NumberTheory.convOthBase2Decimal("-b36.ZZZZZ") == -60466175) &&
-					(NumberTheory.convOthBase2Decimal("-B1.") == -0) &&
-					(NumberTheory.convOthBase2Decimal("-B1.111") == -3) &&
-					(NumberTheory.convOthBase2Decimal("-B2.00101") == -5) &&
-					(NumberTheory.convOthBase2Decimal("-B3.00121") == -16) &&
-					(NumberTheory.convOthBase2Decimal("-B4.00123") == -27) &&
-					(NumberTheory.convOthBase2Decimal("-B5.00341") == -96) &&
-					(NumberTheory.convOthBase2Decimal("-B6.00352") == -140) &&
-					(NumberTheory.convOthBase2Decimal("-B7.00256") == -139) &&
-					(NumberTheory.convOthBase2Decimal("-B8.00376") == -254) &&
-					(NumberTheory.convOthBase2Decimal("-O.00376") == -254) &&
-					(NumberTheory.convOthBase2Decimal("-B.00101") == -5) &&
-					(NumberTheory.convOthBase2Decimal("-B9.00821") == -667) &&
-					(NumberTheory.convOthBase2Decimal("-B10.00394") == -394) &&
-					(NumberTheory.convOthBase2Decimal("-B11.003a7") == -480) &&
-					(NumberTheory.convOthBase2Decimal("-B12.00a5b") == -1511) &&
-					(NumberTheory.convOthBase2Decimal("-B13.00acb") == -1857) &&
-					(NumberTheory.convOthBase2Decimal("-B14.002ad") == -545) &&
-					(NumberTheory.convOthBase2Decimal("-B15.00be4") == -2689) &&
-					(NumberTheory.convOthBase2Decimal("-B16.00fa2") == -4002) &&
-					(NumberTheory.convOthBase2Decimal("-H.00fa2") == -4002) &&
-					(NumberTheory.convOthBase2Decimal("-B17.00ag6") == -3168) &&
-					(NumberTheory.convOthBase2Decimal("-B18.00fgh") == -5165) &&
-					(NumberTheory.convOthBase2Decimal("-B19.002i3") == -1067) &&
-					(NumberTheory.convOthBase2Decimal("-B20.009cj") == -3859) &&
-					(NumberTheory.convOthBase2Decimal("-B21.00k5f") == -8940) &&
-					(NumberTheory.convOthBase2Decimal("-B22.00fl5") == -7727) &&
-					(NumberTheory.convOthBase2Decimal("-B23.001am") == -781) &&
-					(NumberTheory.convOthBase2Decimal("-B24.005nd") == -3445) &&
-					(NumberTheory.convOthBase2Decimal("-B25.005nd5c") == -2320762) &&
-					(NumberTheory.convOthBase2Decimal("-B26.003kpb5") == -1739639) &&
-					(NumberTheory.convOthBase2Decimal("-B27.00iqh67") == -10090258) &&
-					(NumberTheory.convOthBase2Decimal("-B28.00rkhb2") == -17048390) &&
-					(NumberTheory.convOthBase2Decimal("-B29.008bifs") == -5942128) &&
-					(NumberTheory.convOthBase2Decimal("-B30.002tgjb") == -2417981) &&
-					(NumberTheory.convOthBase2Decimal("-B31.006puc0") == -6315103) &&
-					(NumberTheory.convOthBase2Decimal("-B32.00c0pv0") == -12609504) &&
-					(NumberTheory.convOthBase2Decimal("-B33.00v000w") == -36763583) &&
-					(NumberTheory.convOthBase2Decimal("-B34.00np2xw") == -31721794) &&
-					(NumberTheory.convOthBase2Decimal("-B35.00120y0") == -1587565) &&
-					(NumberTheory.convOthBase2Decimal("-B36.00zzzzz") == -60466175)
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b1.") == 0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b1.111") == 3) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b2.101") == 5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b3.121") == 16) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b4.123") == 27) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b5.341") == 96) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b6.352") == 140) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b7.256") == 139) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b8.376") == 254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"o.376") == 254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b.101") == 5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b9.821") == 667) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b10.394") == 394) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b11.3A7") == 480) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b12.A5B") == 1511) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b13.ACB") == 1857) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b14.2AD") == 545) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b15.BE4") == 2689) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b16.FA2") == 4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"h.FA2") == 4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b17.AG6") == 3168) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b18.FGH") == 5165) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b19.2I3") == 1067) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b20.9CJ") == 3859) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b21.K5F") == 8940) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b22.FL5") == 7727) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b23.1AM") == 781) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b24.5ND") == 3445) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b25.5ND5C") == 2320762) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b26.3KPB5") == 1739639) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b27.IQH67") == 10090258) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b28.RKHB2") == 17048390) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b29.8BIFS") == 5942128) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b30.2TGJB") == 2417981) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b31.6PUC0") == 6315103) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b32.C0PV0") == 12609504) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b33.V000W") == 36763583) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b34.NP2XW") == 31721794) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b35.120Y0") == 1587565) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"b36.ZZZZZ") == 60466175) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B1.") == 0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B1.111") == 3) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B2.00101") == 5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B3.00121") == 16) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B4.00123") == 27) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B5.00341") == 96) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B6.00352") == 140) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B7.00256") == 139) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B8.00376") == 254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"O.00376") == 254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B.00101") == 5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B9.00821") == 667) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B10.00394") == 394) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B11.003a7") == 480) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B12.00a5b") == 1511) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B13.00acb") == 1857) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B14.002ad") == 545) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B15.00be4") == 2689) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B16.00fa2") == 4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"H.00fa2") == 4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B17.00ag6") == 3168) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B18.00fgh") == 5165) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B19.002i3") == 1067) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B20.009cj") == 3859) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B21.00k5f") == 8940) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B22.00fl5") == 7727) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B23.001am") == 781) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B24.005nd") == 3445) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B25.005nd5c") == 2320762) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B26.003kpb5") == 1739639) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B27.00iqh67") == 10090258) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B28.00rkhb2") == 17048390) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B29.008bifs") == 5942128) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B30.002tgjb") == 2417981) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B31.006puc0") == 6315103) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B32.00c0pv0") == 12609504) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B33.00v000w") == 36763583) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B34.00np2xw") == 31721794) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B35.00120y0") == 1587565) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"B36.00zzzzz") == 60466175) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b1.") == 0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b1.111") == 3) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b2.101") == 5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b3.121") == 16) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b4.123") == 27) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b5.341") == 96) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b6.352") == 140) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b7.256") == 139) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b8.376") == 254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+o.376") == 254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b.101") == 5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b9.821") == 667) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b10.394") == 394) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b11.3A7") == 480) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b12.A5B") == 1511) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b13.ACB") == 1857) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b14.2AD") == 545) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b15.BE4") == 2689) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b16.FA2") == 4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+h.FA2") == 4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b17.AG6") == 3168) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b18.FGH") == 5165) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b19.2I3") == 1067) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b20.9CJ") == 3859) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b21.K5F") == 8940) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b22.FL5") == 7727) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b23.1AM") == 781) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b24.5ND") == 3445) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b25.5ND5C") == 2320762) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b26.3KPB5") == 1739639) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b27.IQH67") == 10090258) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b28.RKHB2") == 17048390) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b29.8BIFS") == 5942128) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b30.2TGJB") == 2417981) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b31.6PUC0") == 6315103) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b32.C0PV0") == 12609504) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b33.V000W") == 36763583) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b34.NP2XW") == 31721794) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b35.120Y0") == 1587565) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+b36.ZZZZZ") == 60466175) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B1.") == 0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B1.111") == 3) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B2.00101") == 5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B3.00121") == 16) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B4.00123") == 27) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B5.00341") == 96) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B6.00352") == 140) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B7.00256") == 139) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B8.00376") == 254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+O.00376") == 254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B.00101") == 5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B9.00821") == 667) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B10.00394") == 394) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B11.003a7") == 480) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B12.00a5b") == 1511) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B13.00acb") == 1857) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B14.002ad") == 545) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B15.00be4") == 2689) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B16.00fa2") == 4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+H.00fa2") == 4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B17.00ag6") == 3168) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B18.00fgh") == 5165) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B19.002i3") == 1067) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B20.009cj") == 3859) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B21.00k5f") == 8940) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B22.00fl5") == 7727) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B23.001am") == 781) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B24.005nd") == 3445) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B25.005nd5c") == 2320762) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B26.003kpb5") == 1739639) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B27.00iqh67") == 10090258) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B28.00rkhb2") == 17048390) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B29.008bifs") == 5942128) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B30.002tgjb") == 2417981) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B31.006puc0") == 6315103) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B32.00c0pv0") == 12609504) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B33.00v000w") == 36763583) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B34.00np2xw") == 31721794) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B35.00120y0") == 1587565) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"+B36.00zzzzz") == 60466175) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b1.") == -0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b1.111") == -3) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b2.101") == -5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b3.121") == -16) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b4.123") == -27) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b5.341") == -96) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b6.352") == -140) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b7.256") == -139) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b8.376") == -254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-o.376") == -254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b.101") == -5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b9.821") == -667) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b10.394") == -394) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b11.3A7") == -480) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b12.A5B") == -1511) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b13.ACB") == -1857) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b14.2AD") == -545) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b15.BE4") == -2689) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b16.FA2") == -4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-h.FA2") == -4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b17.AG6") == -3168) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b18.FGH") == -5165) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b19.2I3") == -1067) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b20.9CJ") == -3859) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b21.K5F") == -8940) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b22.FL5") == -7727) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b23.1AM") == -781) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b24.5ND") == -3445) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b25.5ND5C") == -2320762) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b26.3KPB5") == -1739639) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b27.IQH67") == -10090258) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b28.RKHB2") == -17048390) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b29.8BIFS") == -5942128) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b30.2TGJB") == -2417981) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b31.6PUC0") == -6315103) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b32.C0PV0") == -12609504) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b33.V000W") == -36763583) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b34.NP2XW") == -31721794) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b35.120Y0") == -1587565) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-b36.ZZZZZ") == -60466175) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B1.") == -0) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B1.111") == -3) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B2.00101") == -5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B3.00121") == -16) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B4.00123") == -27) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B5.00341") == -96) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B6.00352") == -140) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B7.00256") == -139) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B8.00376") == -254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-O.00376") == -254) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B.00101") == -5) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B9.00821") == -667) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B10.00394") == -394) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B11.003a7") == -480) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B12.00a5b") == -1511) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B13.00acb") == -1857) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B14.002ad") == -545) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B15.00be4") == -2689) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B16.00fa2") == -4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-H.00fa2") == -4002) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B17.00ag6") == -3168) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B18.00fgh") == -5165) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B19.002i3") == -1067) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B20.009cj") == -3859) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B21.00k5f") == -8940) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B22.00fl5") == -7727) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B23.001am") == -781) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B24.005nd") == -3445) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B25.005nd5c") == -2320762) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B26.003kpb5") == -1739639) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B27.00iqh67") == -10090258) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B28.00rkhb2") == -17048390) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B29.008bifs") == -5942128) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B30.002tgjb") == -2417981) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B31.006puc0") == -6315103) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B32.00c0pv0") == -12609504) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B33.00v000w") == -36763583) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B34.00np2xw") == -31721794) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B35.00120y0") == -1587565) &&
+					(NumberTheory.convOthBase2Decimal(CancellationToken.None,"-B36.00zzzzz") == -60466175)
 					)
 				test[testId] = true;
 			/*
@@ -1565,240 +1566,240 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			if (
-					(NumberTheory.convDecimal2OthBase(0, 1).Equals("")) &&
-					(NumberTheory.convDecimal2OthBase(3, 1).Equals("111")) &&
-					(NumberTheory.convDecimal2OthBase(5, 2).Equals("101")) &&
-					(NumberTheory.convDecimal2OthBase(16, 3).Equals("121")) &&
-					(NumberTheory.convDecimal2OthBase(27, 4).Equals("123")) &&
-					(NumberTheory.convDecimal2OthBase(96, 5).Equals("341")) &&
-					(NumberTheory.convDecimal2OthBase(140, 6).Equals("352")) &&
-					(NumberTheory.convDecimal2OthBase(139, 7).Equals("256")) &&
-					(NumberTheory.convDecimal2OthBase(254, 8).Equals("376")) &&
-					(NumberTheory.convDecimal2OthBase(667, 9).Equals("821")) &&
-					(NumberTheory.convDecimal2OthBase(394, 10).Equals("394")) &&
-					(NumberTheory.convDecimal2OthBase(480, 11).Equals("3A7")) &&
-					(NumberTheory.convDecimal2OthBase(1511, 12).Equals("A5B")) &&
-					(NumberTheory.convDecimal2OthBase(1857, 13).Equals("ACB")) &&
-					(NumberTheory.convDecimal2OthBase(545, 14).Equals("2AD")) &&
-					(NumberTheory.convDecimal2OthBase(2689, 15).Equals("BE4")) &&
-					(NumberTheory.convDecimal2OthBase(4002, 16).Equals("FA2")) &&
-					(NumberTheory.convDecimal2OthBase(3168, 17).Equals("AG6")) &&
-					(NumberTheory.convDecimal2OthBase(5165, 18).Equals("FGH")) &&
-					(NumberTheory.convDecimal2OthBase(1067, 19).Equals("2I3")) &&
-					(NumberTheory.convDecimal2OthBase(3859, 20).Equals("9CJ")) &&
-					(NumberTheory.convDecimal2OthBase(8940, 21).Equals("K5F")) &&
-					(NumberTheory.convDecimal2OthBase(7727, 22).Equals("FL5")) &&
-					(NumberTheory.convDecimal2OthBase(781, 23).Equals("1AM")) &&
-					(NumberTheory.convDecimal2OthBase(3445, 24).Equals("5ND")) &&
-					(NumberTheory.convDecimal2OthBase(2320762, 25).Equals("5ND5C")) &&
-					(NumberTheory.convDecimal2OthBase(1739639, 26).Equals("3KPB5")) &&
-					(NumberTheory.convDecimal2OthBase(10090258, 27).Equals("IQH67")) &&
-					(NumberTheory.convDecimal2OthBase(17048390, 28).Equals("RKHB2")) &&
-					(NumberTheory.convDecimal2OthBase(5942128, 29).Equals("8BIFS")) &&
-					(NumberTheory.convDecimal2OthBase(2417981, 30).Equals("2TGJB")) &&
-					(NumberTheory.convDecimal2OthBase(6315103, 31).Equals("6PUC0")) &&
-					(NumberTheory.convDecimal2OthBase(12609504, 32).Equals("C0PV0")) &&
-					(NumberTheory.convDecimal2OthBase(36763583, 33).Equals("V000W")) &&
-					(NumberTheory.convDecimal2OthBase(31721794, 34).Equals("NP2XW")) &&
-					(NumberTheory.convDecimal2OthBase(1587565, 35).Equals("120Y0")) &&
-					(NumberTheory.convDecimal2OthBase(60466175, 36).Equals("ZZZZZ")) &&
-					(NumberTheory.convDecimal2OthBase(-0, 1).Equals("")) &&
-					(NumberTheory.convDecimal2OthBase(-3, 1).Equals("-111")) &&
-					(NumberTheory.convDecimal2OthBase(-5, 2).Equals("-101")) &&
-					(NumberTheory.convDecimal2OthBase(-16, 3).Equals("-121")) &&
-					(NumberTheory.convDecimal2OthBase(-27, 4).Equals("-123")) &&
-					(NumberTheory.convDecimal2OthBase(-96, 5).Equals("-341")) &&
-					(NumberTheory.convDecimal2OthBase(-140, 6).Equals("-352")) &&
-					(NumberTheory.convDecimal2OthBase(-139, 7).Equals("-256")) &&
-					(NumberTheory.convDecimal2OthBase(-254, 8).Equals("-376")) &&
-					(NumberTheory.convDecimal2OthBase(-667, 9).Equals("-821")) &&
-					(NumberTheory.convDecimal2OthBase(-394, 10).Equals("-394")) &&
-					(NumberTheory.convDecimal2OthBase(-480, 11).Equals("-3A7")) &&
-					(NumberTheory.convDecimal2OthBase(-1511, 12).Equals("-A5B")) &&
-					(NumberTheory.convDecimal2OthBase(-1857, 13).Equals("-ACB")) &&
-					(NumberTheory.convDecimal2OthBase(-545, 14).Equals("-2AD")) &&
-					(NumberTheory.convDecimal2OthBase(-2689, 15).Equals("-BE4")) &&
-					(NumberTheory.convDecimal2OthBase(-4002, 16).Equals("-FA2")) &&
-					(NumberTheory.convDecimal2OthBase(-3168, 17).Equals("-AG6")) &&
-					(NumberTheory.convDecimal2OthBase(-5165, 18).Equals("-FGH")) &&
-					(NumberTheory.convDecimal2OthBase(-1067, 19).Equals("-2I3")) &&
-					(NumberTheory.convDecimal2OthBase(-3859, 20).Equals("-9CJ")) &&
-					(NumberTheory.convDecimal2OthBase(-8940, 21).Equals("-K5F")) &&
-					(NumberTheory.convDecimal2OthBase(-7727, 22).Equals("-FL5")) &&
-					(NumberTheory.convDecimal2OthBase(-781, 23).Equals("-1AM")) &&
-					(NumberTheory.convDecimal2OthBase(-3445, 24).Equals("-5ND")) &&
-					(NumberTheory.convDecimal2OthBase(-2320762, 25).Equals("-5ND5C")) &&
-					(NumberTheory.convDecimal2OthBase(-1739639, 26).Equals("-3KPB5")) &&
-					(NumberTheory.convDecimal2OthBase(-10090258, 27).Equals("-IQH67")) &&
-					(NumberTheory.convDecimal2OthBase(-17048390, 28).Equals("-RKHB2")) &&
-					(NumberTheory.convDecimal2OthBase(-5942128, 29).Equals("-8BIFS")) &&
-					(NumberTheory.convDecimal2OthBase(-2417981, 30).Equals("-2TGJB")) &&
-					(NumberTheory.convDecimal2OthBase(-6315103, 31).Equals("-6PUC0")) &&
-					(NumberTheory.convDecimal2OthBase(-12609504, 32).Equals("-C0PV0")) &&
-					(NumberTheory.convDecimal2OthBase(-36763583, 33).Equals("-V000W")) &&
-					(NumberTheory.convDecimal2OthBase(-31721794, 34).Equals("-NP2XW")) &&
-					(NumberTheory.convDecimal2OthBase(-1587565, 35).Equals("-120Y0")) &&
-					(NumberTheory.convDecimal2OthBase(-60466175, 36).Equals("-ZZZZZ")))
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,0, 1).Equals("")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3, 1).Equals("111")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5, 2).Equals("101")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,16, 3).Equals("121")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,27, 4).Equals("123")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,96, 5).Equals("341")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,140, 6).Equals("352")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,139, 7).Equals("256")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,254, 8).Equals("376")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,667, 9).Equals("821")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,394, 10).Equals("394")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,480, 11).Equals("3A7")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1511, 12).Equals("A5B")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1857, 13).Equals("ACB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,545, 14).Equals("2AD")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2689, 15).Equals("BE4")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,4002, 16).Equals("FA2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3168, 17).Equals("AG6")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5165, 18).Equals("FGH")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1067, 19).Equals("2I3")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3859, 20).Equals("9CJ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,8940, 21).Equals("K5F")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,7727, 22).Equals("FL5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,781, 23).Equals("1AM")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3445, 24).Equals("5ND")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2320762, 25).Equals("5ND5C")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1739639, 26).Equals("3KPB5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,10090258, 27).Equals("IQH67")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,17048390, 28).Equals("RKHB2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5942128, 29).Equals("8BIFS")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2417981, 30).Equals("2TGJB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,6315103, 31).Equals("6PUC0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,12609504, 32).Equals("C0PV0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,36763583, 33).Equals("V000W")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,31721794, 34).Equals("NP2XW")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1587565, 35).Equals("120Y0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,60466175, 36).Equals("ZZZZZ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-0, 1).Equals("")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3, 1).Equals("-111")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5, 2).Equals("-101")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-16, 3).Equals("-121")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-27, 4).Equals("-123")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-96, 5).Equals("-341")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-140, 6).Equals("-352")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-139, 7).Equals("-256")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-254, 8).Equals("-376")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-667, 9).Equals("-821")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-394, 10).Equals("-394")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-480, 11).Equals("-3A7")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1511, 12).Equals("-A5B")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1857, 13).Equals("-ACB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-545, 14).Equals("-2AD")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2689, 15).Equals("-BE4")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-4002, 16).Equals("-FA2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3168, 17).Equals("-AG6")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5165, 18).Equals("-FGH")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1067, 19).Equals("-2I3")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3859, 20).Equals("-9CJ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-8940, 21).Equals("-K5F")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-7727, 22).Equals("-FL5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-781, 23).Equals("-1AM")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3445, 24).Equals("-5ND")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2320762, 25).Equals("-5ND5C")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1739639, 26).Equals("-3KPB5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-10090258, 27).Equals("-IQH67")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-17048390, 28).Equals("-RKHB2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5942128, 29).Equals("-8BIFS")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2417981, 30).Equals("-2TGJB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-6315103, 31).Equals("-6PUC0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-12609504, 32).Equals("-C0PV0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-36763583, 33).Equals("-V000W")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-31721794, 34).Equals("-NP2XW")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1587565, 35).Equals("-120Y0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-60466175, 36).Equals("-ZZZZZ")))
 				test[testId] = true;
 			/*
 			 * 45. mXparser. conv decimal to oth base - format 0
 			 */
 			testId++;
 			if (
-					(NumberTheory.convDecimal2OthBase(0, 1, 0).Equals("")) &&
-					(NumberTheory.convDecimal2OthBase(3, 1, 0).Equals("111")) &&
-					(NumberTheory.convDecimal2OthBase(5, 2, 0).Equals("101")) &&
-					(NumberTheory.convDecimal2OthBase(16, 3, 0).Equals("121")) &&
-					(NumberTheory.convDecimal2OthBase(27, 4, 0).Equals("123")) &&
-					(NumberTheory.convDecimal2OthBase(96, 5, 0).Equals("341")) &&
-					(NumberTheory.convDecimal2OthBase(140, 6, 0).Equals("352")) &&
-					(NumberTheory.convDecimal2OthBase(139, 7, 0).Equals("256")) &&
-					(NumberTheory.convDecimal2OthBase(254, 8, 0).Equals("376")) &&
-					(NumberTheory.convDecimal2OthBase(667, 9, 0).Equals("821")) &&
-					(NumberTheory.convDecimal2OthBase(394, 10, 0).Equals("394")) &&
-					(NumberTheory.convDecimal2OthBase(480, 11, 0).Equals("3A7")) &&
-					(NumberTheory.convDecimal2OthBase(1511, 12, 0).Equals("A5B")) &&
-					(NumberTheory.convDecimal2OthBase(1857, 13, 0).Equals("ACB")) &&
-					(NumberTheory.convDecimal2OthBase(545, 14, 0).Equals("2AD")) &&
-					(NumberTheory.convDecimal2OthBase(2689, 15, 0).Equals("BE4")) &&
-					(NumberTheory.convDecimal2OthBase(4002, 16, 0).Equals("FA2")) &&
-					(NumberTheory.convDecimal2OthBase(3168, 17, 0).Equals("AG6")) &&
-					(NumberTheory.convDecimal2OthBase(5165, 18, 0).Equals("FGH")) &&
-					(NumberTheory.convDecimal2OthBase(1067, 19, 0).Equals("2I3")) &&
-					(NumberTheory.convDecimal2OthBase(3859, 20, 0).Equals("9CJ")) &&
-					(NumberTheory.convDecimal2OthBase(8940, 21, 0).Equals("K5F")) &&
-					(NumberTheory.convDecimal2OthBase(7727, 22, 0).Equals("FL5")) &&
-					(NumberTheory.convDecimal2OthBase(781, 23, 0).Equals("1AM")) &&
-					(NumberTheory.convDecimal2OthBase(3445, 24, 0).Equals("5ND")) &&
-					(NumberTheory.convDecimal2OthBase(2320762, 25, 0).Equals("5ND5C")) &&
-					(NumberTheory.convDecimal2OthBase(1739639, 26, 0).Equals("3KPB5")) &&
-					(NumberTheory.convDecimal2OthBase(10090258, 27, 0).Equals("IQH67")) &&
-					(NumberTheory.convDecimal2OthBase(17048390, 28, 0).Equals("RKHB2")) &&
-					(NumberTheory.convDecimal2OthBase(5942128, 29, 0).Equals("8BIFS")) &&
-					(NumberTheory.convDecimal2OthBase(2417981, 30, 0).Equals("2TGJB")) &&
-					(NumberTheory.convDecimal2OthBase(6315103, 31, 0).Equals("6PUC0")) &&
-					(NumberTheory.convDecimal2OthBase(12609504, 32, 0).Equals("C0PV0")) &&
-					(NumberTheory.convDecimal2OthBase(36763583, 33, 0).Equals("V000W")) &&
-					(NumberTheory.convDecimal2OthBase(31721794, 34, 0).Equals("NP2XW")) &&
-					(NumberTheory.convDecimal2OthBase(1587565, 35, 0).Equals("120Y0")) &&
-					(NumberTheory.convDecimal2OthBase(60466175, 36, 0).Equals("ZZZZZ")) &&
-					(NumberTheory.convDecimal2OthBase(-0, 1, 0).Equals("")) &&
-					(NumberTheory.convDecimal2OthBase(-3, 1, 0).Equals("-111")) &&
-					(NumberTheory.convDecimal2OthBase(-5, 2, 0).Equals("-101")) &&
-					(NumberTheory.convDecimal2OthBase(-16, 3, 0).Equals("-121")) &&
-					(NumberTheory.convDecimal2OthBase(-27, 4, 0).Equals("-123")) &&
-					(NumberTheory.convDecimal2OthBase(-96, 5, 0).Equals("-341")) &&
-					(NumberTheory.convDecimal2OthBase(-140, 6, 0).Equals("-352")) &&
-					(NumberTheory.convDecimal2OthBase(-139, 7, 0).Equals("-256")) &&
-					(NumberTheory.convDecimal2OthBase(-254, 8, 0).Equals("-376")) &&
-					(NumberTheory.convDecimal2OthBase(-667, 9, 0).Equals("-821")) &&
-					(NumberTheory.convDecimal2OthBase(-394, 10, 0).Equals("-394")) &&
-					(NumberTheory.convDecimal2OthBase(-480, 11, 0).Equals("-3A7")) &&
-					(NumberTheory.convDecimal2OthBase(-1511, 12, 0).Equals("-A5B")) &&
-					(NumberTheory.convDecimal2OthBase(-1857, 13, 0).Equals("-ACB")) &&
-					(NumberTheory.convDecimal2OthBase(-545, 14, 0).Equals("-2AD")) &&
-					(NumberTheory.convDecimal2OthBase(-2689, 15, 0).Equals("-BE4")) &&
-					(NumberTheory.convDecimal2OthBase(-4002, 16, 0).Equals("-FA2")) &&
-					(NumberTheory.convDecimal2OthBase(-3168, 17, 0).Equals("-AG6")) &&
-					(NumberTheory.convDecimal2OthBase(-5165, 18, 0).Equals("-FGH")) &&
-					(NumberTheory.convDecimal2OthBase(-1067, 19, 0).Equals("-2I3")) &&
-					(NumberTheory.convDecimal2OthBase(-3859, 20, 0).Equals("-9CJ")) &&
-					(NumberTheory.convDecimal2OthBase(-8940, 21, 0).Equals("-K5F")) &&
-					(NumberTheory.convDecimal2OthBase(-7727, 22, 0).Equals("-FL5")) &&
-					(NumberTheory.convDecimal2OthBase(-781, 23, 0).Equals("-1AM")) &&
-					(NumberTheory.convDecimal2OthBase(-3445, 24, 0).Equals("-5ND")) &&
-					(NumberTheory.convDecimal2OthBase(-2320762, 25, 0).Equals("-5ND5C")) &&
-					(NumberTheory.convDecimal2OthBase(-1739639, 26, 0).Equals("-3KPB5")) &&
-					(NumberTheory.convDecimal2OthBase(-10090258, 27, 0).Equals("-IQH67")) &&
-					(NumberTheory.convDecimal2OthBase(-17048390, 28, 0).Equals("-RKHB2")) &&
-					(NumberTheory.convDecimal2OthBase(-5942128, 29, 0).Equals("-8BIFS")) &&
-					(NumberTheory.convDecimal2OthBase(-2417981, 30, 0).Equals("-2TGJB")) &&
-					(NumberTheory.convDecimal2OthBase(-6315103, 31, 0).Equals("-6PUC0")) &&
-					(NumberTheory.convDecimal2OthBase(-12609504, 32, 0).Equals("-C0PV0")) &&
-					(NumberTheory.convDecimal2OthBase(-36763583, 33, 0).Equals("-V000W")) &&
-					(NumberTheory.convDecimal2OthBase(-31721794, 34, 0).Equals("-NP2XW")) &&
-					(NumberTheory.convDecimal2OthBase(-1587565, 35, 0).Equals("-120Y0")) &&
-					(NumberTheory.convDecimal2OthBase(-60466175, 36, 0).Equals("-ZZZZZ")))
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,0, 1, 0).Equals("")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3, 1, 0).Equals("111")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5, 2, 0).Equals("101")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,16, 3, 0).Equals("121")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,27, 4, 0).Equals("123")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,96, 5, 0).Equals("341")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,140, 6, 0).Equals("352")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,139, 7, 0).Equals("256")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,254, 8, 0).Equals("376")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,667, 9, 0).Equals("821")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,394, 10, 0).Equals("394")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,480, 11, 0).Equals("3A7")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1511, 12, 0).Equals("A5B")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1857, 13, 0).Equals("ACB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,545, 14, 0).Equals("2AD")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2689, 15, 0).Equals("BE4")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,4002, 16, 0).Equals("FA2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3168, 17, 0).Equals("AG6")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5165, 18, 0).Equals("FGH")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1067, 19, 0).Equals("2I3")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3859, 20, 0).Equals("9CJ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,8940, 21, 0).Equals("K5F")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,7727, 22, 0).Equals("FL5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,781, 23, 0).Equals("1AM")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3445, 24, 0).Equals("5ND")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2320762, 25, 0).Equals("5ND5C")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1739639, 26, 0).Equals("3KPB5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,10090258, 27, 0).Equals("IQH67")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,17048390, 28, 0).Equals("RKHB2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5942128, 29, 0).Equals("8BIFS")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2417981, 30, 0).Equals("2TGJB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,6315103, 31, 0).Equals("6PUC0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,12609504, 32, 0).Equals("C0PV0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,36763583, 33, 0).Equals("V000W")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,31721794, 34, 0).Equals("NP2XW")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1587565, 35, 0).Equals("120Y0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,60466175, 36, 0).Equals("ZZZZZ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-0, 1, 0).Equals("")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3, 1, 0).Equals("-111")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5, 2, 0).Equals("-101")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-16, 3, 0).Equals("-121")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-27, 4, 0).Equals("-123")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-96, 5, 0).Equals("-341")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-140, 6, 0).Equals("-352")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-139, 7, 0).Equals("-256")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-254, 8, 0).Equals("-376")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-667, 9, 0).Equals("-821")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-394, 10, 0).Equals("-394")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-480, 11, 0).Equals("-3A7")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1511, 12, 0).Equals("-A5B")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1857, 13, 0).Equals("-ACB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-545, 14, 0).Equals("-2AD")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2689, 15, 0).Equals("-BE4")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-4002, 16, 0).Equals("-FA2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3168, 17, 0).Equals("-AG6")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5165, 18, 0).Equals("-FGH")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1067, 19, 0).Equals("-2I3")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3859, 20, 0).Equals("-9CJ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-8940, 21, 0).Equals("-K5F")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-7727, 22, 0).Equals("-FL5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-781, 23, 0).Equals("-1AM")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3445, 24, 0).Equals("-5ND")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2320762, 25, 0).Equals("-5ND5C")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1739639, 26, 0).Equals("-3KPB5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-10090258, 27, 0).Equals("-IQH67")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-17048390, 28, 0).Equals("-RKHB2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5942128, 29, 0).Equals("-8BIFS")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2417981, 30, 0).Equals("-2TGJB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-6315103, 31, 0).Equals("-6PUC0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-12609504, 32, 0).Equals("-C0PV0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-36763583, 33, 0).Equals("-V000W")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-31721794, 34, 0).Equals("-NP2XW")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1587565, 35, 0).Equals("-120Y0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-60466175, 36, 0).Equals("-ZZZZZ")))
 				test[testId] = true;
 			/*
 			 * 46. mXparser. conv decimal to oth base - format 1
 			 */
 			testId++;
 			if (
-					(NumberTheory.convDecimal2OthBase(0, 1, 1).Equals("b1.")) &&
-					(NumberTheory.convDecimal2OthBase(3, 1, 1).Equals("b1.111")) &&
-					(NumberTheory.convDecimal2OthBase(5, 2, 1).Equals("b2.101")) &&
-					(NumberTheory.convDecimal2OthBase(16, 3, 1).Equals("b3.121")) &&
-					(NumberTheory.convDecimal2OthBase(27, 4, 1).Equals("b4.123")) &&
-					(NumberTheory.convDecimal2OthBase(96, 5, 1).Equals("b5.341")) &&
-					(NumberTheory.convDecimal2OthBase(140, 6, 1).Equals("b6.352")) &&
-					(NumberTheory.convDecimal2OthBase(139, 7, 1).Equals("b7.256")) &&
-					(NumberTheory.convDecimal2OthBase(254, 8, 1).Equals("b8.376")) &&
-					(NumberTheory.convDecimal2OthBase(667, 9, 1).Equals("b9.821")) &&
-					(NumberTheory.convDecimal2OthBase(394, 10, 1).Equals("b10.394")) &&
-					(NumberTheory.convDecimal2OthBase(480, 11, 1).Equals("b11.3A7")) &&
-					(NumberTheory.convDecimal2OthBase(1511, 12, 1).Equals("b12.A5B")) &&
-					(NumberTheory.convDecimal2OthBase(1857, 13, 1).Equals("b13.ACB")) &&
-					(NumberTheory.convDecimal2OthBase(545, 14, 1).Equals("b14.2AD")) &&
-					(NumberTheory.convDecimal2OthBase(2689, 15, 1).Equals("b15.BE4")) &&
-					(NumberTheory.convDecimal2OthBase(4002, 16, 1).Equals("b16.FA2")) &&
-					(NumberTheory.convDecimal2OthBase(3168, 17, 1).Equals("b17.AG6")) &&
-					(NumberTheory.convDecimal2OthBase(5165, 18, 1).Equals("b18.FGH")) &&
-					(NumberTheory.convDecimal2OthBase(1067, 19, 1).Equals("b19.2I3")) &&
-					(NumberTheory.convDecimal2OthBase(3859, 20, 1).Equals("b20.9CJ")) &&
-					(NumberTheory.convDecimal2OthBase(8940, 21, 1).Equals("b21.K5F")) &&
-					(NumberTheory.convDecimal2OthBase(7727, 22, 1).Equals("b22.FL5")) &&
-					(NumberTheory.convDecimal2OthBase(781, 23, 1).Equals("b23.1AM")) &&
-					(NumberTheory.convDecimal2OthBase(3445, 24, 1).Equals("b24.5ND")) &&
-					(NumberTheory.convDecimal2OthBase(2320762, 25, 1).Equals("b25.5ND5C")) &&
-					(NumberTheory.convDecimal2OthBase(1739639, 26, 1).Equals("b26.3KPB5")) &&
-					(NumberTheory.convDecimal2OthBase(10090258, 27, 1).Equals("b27.IQH67")) &&
-					(NumberTheory.convDecimal2OthBase(17048390, 28, 1).Equals("b28.RKHB2")) &&
-					(NumberTheory.convDecimal2OthBase(5942128, 29, 1).Equals("b29.8BIFS")) &&
-					(NumberTheory.convDecimal2OthBase(2417981, 30, 1).Equals("b30.2TGJB")) &&
-					(NumberTheory.convDecimal2OthBase(6315103, 31, 1).Equals("b31.6PUC0")) &&
-					(NumberTheory.convDecimal2OthBase(12609504, 32, 1).Equals("b32.C0PV0")) &&
-					(NumberTheory.convDecimal2OthBase(36763583, 33, 1).Equals("b33.V000W")) &&
-					(NumberTheory.convDecimal2OthBase(31721794, 34, 1).Equals("b34.NP2XW")) &&
-					(NumberTheory.convDecimal2OthBase(1587565, 35, 1).Equals("b35.120Y0")) &&
-					(NumberTheory.convDecimal2OthBase(60466175, 36, 1).Equals("b36.ZZZZZ")) &&
-					(NumberTheory.convDecimal2OthBase(-0, 1, 1).Equals("b1.")) &&
-					(NumberTheory.convDecimal2OthBase(-3, 1, 1).Equals("-b1.111")) &&
-					(NumberTheory.convDecimal2OthBase(-5, 2, 1).Equals("-b2.101")) &&
-					(NumberTheory.convDecimal2OthBase(-16, 3, 1).Equals("-b3.121")) &&
-					(NumberTheory.convDecimal2OthBase(-27, 4, 1).Equals("-b4.123")) &&
-					(NumberTheory.convDecimal2OthBase(-96, 5, 1).Equals("-b5.341")) &&
-					(NumberTheory.convDecimal2OthBase(-140, 6, 1).Equals("-b6.352")) &&
-					(NumberTheory.convDecimal2OthBase(-139, 7, 1).Equals("-b7.256")) &&
-					(NumberTheory.convDecimal2OthBase(-254, 8, 1).Equals("-b8.376")) &&
-					(NumberTheory.convDecimal2OthBase(-667, 9, 1).Equals("-b9.821")) &&
-					(NumberTheory.convDecimal2OthBase(-394, 10, 1).Equals("-b10.394")) &&
-					(NumberTheory.convDecimal2OthBase(-480, 11, 1).Equals("-b11.3A7")) &&
-					(NumberTheory.convDecimal2OthBase(-1511, 12, 1).Equals("-b12.A5B")) &&
-					(NumberTheory.convDecimal2OthBase(-1857, 13, 1).Equals("-b13.ACB")) &&
-					(NumberTheory.convDecimal2OthBase(-545, 14, 1).Equals("-b14.2AD")) &&
-					(NumberTheory.convDecimal2OthBase(-2689, 15, 1).Equals("-b15.BE4")) &&
-					(NumberTheory.convDecimal2OthBase(-4002, 16, 1).Equals("-b16.FA2")) &&
-					(NumberTheory.convDecimal2OthBase(-3168, 17, 1).Equals("-b17.AG6")) &&
-					(NumberTheory.convDecimal2OthBase(-5165, 18, 1).Equals("-b18.FGH")) &&
-					(NumberTheory.convDecimal2OthBase(-1067, 19, 1).Equals("-b19.2I3")) &&
-					(NumberTheory.convDecimal2OthBase(-3859, 20, 1).Equals("-b20.9CJ")) &&
-					(NumberTheory.convDecimal2OthBase(-8940, 21, 1).Equals("-b21.K5F")) &&
-					(NumberTheory.convDecimal2OthBase(-7727, 22, 1).Equals("-b22.FL5")) &&
-					(NumberTheory.convDecimal2OthBase(-781, 23, 1).Equals("-b23.1AM")) &&
-					(NumberTheory.convDecimal2OthBase(-3445, 24, 1).Equals("-b24.5ND")) &&
-					(NumberTheory.convDecimal2OthBase(-2320762, 25, 1).Equals("-b25.5ND5C")) &&
-					(NumberTheory.convDecimal2OthBase(-1739639, 26, 1).Equals("-b26.3KPB5")) &&
-					(NumberTheory.convDecimal2OthBase(-10090258, 27, 1).Equals("-b27.IQH67")) &&
-					(NumberTheory.convDecimal2OthBase(-17048390, 28, 1).Equals("-b28.RKHB2")) &&
-					(NumberTheory.convDecimal2OthBase(-5942128, 29, 1).Equals("-b29.8BIFS")) &&
-					(NumberTheory.convDecimal2OthBase(-2417981, 30, 1).Equals("-b30.2TGJB")) &&
-					(NumberTheory.convDecimal2OthBase(-6315103, 31, 1).Equals("-b31.6PUC0")) &&
-					(NumberTheory.convDecimal2OthBase(-12609504, 32, 1).Equals("-b32.C0PV0")) &&
-					(NumberTheory.convDecimal2OthBase(-36763583, 33, 1).Equals("-b33.V000W")) &&
-					(NumberTheory.convDecimal2OthBase(-31721794, 34, 1).Equals("-b34.NP2XW")) &&
-					(NumberTheory.convDecimal2OthBase(-1587565, 35, 1).Equals("-b35.120Y0")) &&
-					(NumberTheory.convDecimal2OthBase(-60466175, 36, 1).Equals("-b36.ZZZZZ"))
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,0, 1, 1).Equals("b1.")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3, 1, 1).Equals("b1.111")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5, 2, 1).Equals("b2.101")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,16, 3, 1).Equals("b3.121")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,27, 4, 1).Equals("b4.123")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,96, 5, 1).Equals("b5.341")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,140, 6, 1).Equals("b6.352")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,139, 7, 1).Equals("b7.256")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,254, 8, 1).Equals("b8.376")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,667, 9, 1).Equals("b9.821")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,394, 10, 1).Equals("b10.394")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,480, 11, 1).Equals("b11.3A7")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1511, 12, 1).Equals("b12.A5B")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1857, 13, 1).Equals("b13.ACB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,545, 14, 1).Equals("b14.2AD")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2689, 15, 1).Equals("b15.BE4")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,4002, 16, 1).Equals("b16.FA2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3168, 17, 1).Equals("b17.AG6")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5165, 18, 1).Equals("b18.FGH")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1067, 19, 1).Equals("b19.2I3")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3859, 20, 1).Equals("b20.9CJ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,8940, 21, 1).Equals("b21.K5F")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,7727, 22, 1).Equals("b22.FL5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,781, 23, 1).Equals("b23.1AM")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3445, 24, 1).Equals("b24.5ND")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2320762, 25, 1).Equals("b25.5ND5C")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1739639, 26, 1).Equals("b26.3KPB5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,10090258, 27, 1).Equals("b27.IQH67")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,17048390, 28, 1).Equals("b28.RKHB2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5942128, 29, 1).Equals("b29.8BIFS")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2417981, 30, 1).Equals("b30.2TGJB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,6315103, 31, 1).Equals("b31.6PUC0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,12609504, 32, 1).Equals("b32.C0PV0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,36763583, 33, 1).Equals("b33.V000W")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,31721794, 34, 1).Equals("b34.NP2XW")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1587565, 35, 1).Equals("b35.120Y0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,60466175, 36, 1).Equals("b36.ZZZZZ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-0, 1, 1).Equals("b1.")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3, 1, 1).Equals("-b1.111")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5, 2, 1).Equals("-b2.101")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-16, 3, 1).Equals("-b3.121")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-27, 4, 1).Equals("-b4.123")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-96, 5, 1).Equals("-b5.341")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-140, 6, 1).Equals("-b6.352")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-139, 7, 1).Equals("-b7.256")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-254, 8, 1).Equals("-b8.376")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-667, 9, 1).Equals("-b9.821")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-394, 10, 1).Equals("-b10.394")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-480, 11, 1).Equals("-b11.3A7")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1511, 12, 1).Equals("-b12.A5B")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1857, 13, 1).Equals("-b13.ACB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-545, 14, 1).Equals("-b14.2AD")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2689, 15, 1).Equals("-b15.BE4")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-4002, 16, 1).Equals("-b16.FA2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3168, 17, 1).Equals("-b17.AG6")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5165, 18, 1).Equals("-b18.FGH")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1067, 19, 1).Equals("-b19.2I3")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3859, 20, 1).Equals("-b20.9CJ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-8940, 21, 1).Equals("-b21.K5F")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-7727, 22, 1).Equals("-b22.FL5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-781, 23, 1).Equals("-b23.1AM")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3445, 24, 1).Equals("-b24.5ND")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2320762, 25, 1).Equals("-b25.5ND5C")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1739639, 26, 1).Equals("-b26.3KPB5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-10090258, 27, 1).Equals("-b27.IQH67")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-17048390, 28, 1).Equals("-b28.RKHB2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5942128, 29, 1).Equals("-b29.8BIFS")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2417981, 30, 1).Equals("-b30.2TGJB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-6315103, 31, 1).Equals("-b31.6PUC0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-12609504, 32, 1).Equals("-b32.C0PV0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-36763583, 33, 1).Equals("-b33.V000W")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-31721794, 34, 1).Equals("-b34.NP2XW")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1587565, 35, 1).Equals("-b35.120Y0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-60466175, 36, 1).Equals("-b36.ZZZZZ"))
 					)
 				test[testId] = true;
 			/*
@@ -1806,91 +1807,91 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			if (
-					(NumberTheory.convDecimal2OthBase(0, 1, 2).Equals("b1.")) &&
-					(NumberTheory.convDecimal2OthBase(3, 1, 2).Equals("b1.111")) &&
-					(NumberTheory.convDecimal2OthBase(5, 2, 2).Equals("b.101")) &&
-					(NumberTheory.convDecimal2OthBase(16, 3, 2).Equals("b3.121")) &&
-					(NumberTheory.convDecimal2OthBase(27, 4, 2).Equals("b4.123")) &&
-					(NumberTheory.convDecimal2OthBase(96, 5, 2).Equals("b5.341")) &&
-					(NumberTheory.convDecimal2OthBase(140, 6, 2).Equals("b6.352")) &&
-					(NumberTheory.convDecimal2OthBase(139, 7, 2).Equals("b7.256")) &&
-					(NumberTheory.convDecimal2OthBase(254, 8, 2).Equals("o.376")) &&
-					(NumberTheory.convDecimal2OthBase(667, 9, 2).Equals("b9.821")) &&
-					(NumberTheory.convDecimal2OthBase(394, 10, 2).Equals("b10.394")) &&
-					(NumberTheory.convDecimal2OthBase(480, 11, 2).Equals("b11.3A7")) &&
-					(NumberTheory.convDecimal2OthBase(1511, 12, 2).Equals("b12.A5B")) &&
-					(NumberTheory.convDecimal2OthBase(1857, 13, 2).Equals("b13.ACB")) &&
-					(NumberTheory.convDecimal2OthBase(545, 14, 2).Equals("b14.2AD")) &&
-					(NumberTheory.convDecimal2OthBase(2689, 15, 2).Equals("b15.BE4")) &&
-					(NumberTheory.convDecimal2OthBase(4002, 16, 2).Equals("h.FA2")) &&
-					(NumberTheory.convDecimal2OthBase(3168, 17, 2).Equals("b17.AG6")) &&
-					(NumberTheory.convDecimal2OthBase(5165, 18, 2).Equals("b18.FGH")) &&
-					(NumberTheory.convDecimal2OthBase(1067, 19, 2).Equals("b19.2I3")) &&
-					(NumberTheory.convDecimal2OthBase(3859, 20, 2).Equals("b20.9CJ")) &&
-					(NumberTheory.convDecimal2OthBase(8940, 21, 2).Equals("b21.K5F")) &&
-					(NumberTheory.convDecimal2OthBase(7727, 22, 2).Equals("b22.FL5")) &&
-					(NumberTheory.convDecimal2OthBase(781, 23, 2).Equals("b23.1AM")) &&
-					(NumberTheory.convDecimal2OthBase(3445, 24, 2).Equals("b24.5ND")) &&
-					(NumberTheory.convDecimal2OthBase(2320762, 25, 2).Equals("b25.5ND5C")) &&
-					(NumberTheory.convDecimal2OthBase(1739639, 26, 2).Equals("b26.3KPB5")) &&
-					(NumberTheory.convDecimal2OthBase(10090258, 27, 2).Equals("b27.IQH67")) &&
-					(NumberTheory.convDecimal2OthBase(17048390, 28, 2).Equals("b28.RKHB2")) &&
-					(NumberTheory.convDecimal2OthBase(5942128, 29, 2).Equals("b29.8BIFS")) &&
-					(NumberTheory.convDecimal2OthBase(2417981, 30, 2).Equals("b30.2TGJB")) &&
-					(NumberTheory.convDecimal2OthBase(6315103, 31, 2).Equals("b31.6PUC0")) &&
-					(NumberTheory.convDecimal2OthBase(12609504, 32, 2).Equals("b32.C0PV0")) &&
-					(NumberTheory.convDecimal2OthBase(36763583, 33, 2).Equals("b33.V000W")) &&
-					(NumberTheory.convDecimal2OthBase(31721794, 34, 2).Equals("b34.NP2XW")) &&
-					(NumberTheory.convDecimal2OthBase(1587565, 35, 2).Equals("b35.120Y0")) &&
-					(NumberTheory.convDecimal2OthBase(60466175, 36, 2).Equals("b36.ZZZZZ")) &&
-					(NumberTheory.convDecimal2OthBase(-0, 1, 2).Equals("b1.")) &&
-					(NumberTheory.convDecimal2OthBase(-3, 1, 2).Equals("-b1.111")) &&
-					(NumberTheory.convDecimal2OthBase(-5, 2, 2).Equals("-b.101")) &&
-					(NumberTheory.convDecimal2OthBase(-16, 3, 2).Equals("-b3.121")) &&
-					(NumberTheory.convDecimal2OthBase(-27, 4, 2).Equals("-b4.123")) &&
-					(NumberTheory.convDecimal2OthBase(-96, 5, 2).Equals("-b5.341")) &&
-					(NumberTheory.convDecimal2OthBase(-140, 6, 2).Equals("-b6.352")) &&
-					(NumberTheory.convDecimal2OthBase(-139, 7, 2).Equals("-b7.256")) &&
-					(NumberTheory.convDecimal2OthBase(-254, 8, 2).Equals("-o.376")) &&
-					(NumberTheory.convDecimal2OthBase(-667, 9, 2).Equals("-b9.821")) &&
-					(NumberTheory.convDecimal2OthBase(-394, 10, 2).Equals("-b10.394")) &&
-					(NumberTheory.convDecimal2OthBase(-480, 11, 2).Equals("-b11.3A7")) &&
-					(NumberTheory.convDecimal2OthBase(-1511, 12, 2).Equals("-b12.A5B")) &&
-					(NumberTheory.convDecimal2OthBase(-1857, 13, 2).Equals("-b13.ACB")) &&
-					(NumberTheory.convDecimal2OthBase(-545, 14, 2).Equals("-b14.2AD")) &&
-					(NumberTheory.convDecimal2OthBase(-2689, 15, 2).Equals("-b15.BE4")) &&
-					(NumberTheory.convDecimal2OthBase(-4002, 16, 2).Equals("-h.FA2")) &&
-					(NumberTheory.convDecimal2OthBase(-3168, 17, 2).Equals("-b17.AG6")) &&
-					(NumberTheory.convDecimal2OthBase(-5165, 18, 2).Equals("-b18.FGH")) &&
-					(NumberTheory.convDecimal2OthBase(-1067, 19, 2).Equals("-b19.2I3")) &&
-					(NumberTheory.convDecimal2OthBase(-3859, 20, 2).Equals("-b20.9CJ")) &&
-					(NumberTheory.convDecimal2OthBase(-8940, 21, 2).Equals("-b21.K5F")) &&
-					(NumberTheory.convDecimal2OthBase(-7727, 22, 2).Equals("-b22.FL5")) &&
-					(NumberTheory.convDecimal2OthBase(-781, 23, 2).Equals("-b23.1AM")) &&
-					(NumberTheory.convDecimal2OthBase(-3445, 24, 2).Equals("-b24.5ND")) &&
-					(NumberTheory.convDecimal2OthBase(-2320762, 25, 2).Equals("-b25.5ND5C")) &&
-					(NumberTheory.convDecimal2OthBase(-1739639, 26, 2).Equals("-b26.3KPB5")) &&
-					(NumberTheory.convDecimal2OthBase(-10090258, 27, 2).Equals("-b27.IQH67")) &&
-					(NumberTheory.convDecimal2OthBase(-17048390, 28, 2).Equals("-b28.RKHB2")) &&
-					(NumberTheory.convDecimal2OthBase(-5942128, 29, 2).Equals("-b29.8BIFS")) &&
-					(NumberTheory.convDecimal2OthBase(-2417981, 30, 2).Equals("-b30.2TGJB")) &&
-					(NumberTheory.convDecimal2OthBase(-6315103, 31, 2).Equals("-b31.6PUC0")) &&
-					(NumberTheory.convDecimal2OthBase(-12609504, 32, 2).Equals("-b32.C0PV0")) &&
-					(NumberTheory.convDecimal2OthBase(-36763583, 33, 2).Equals("-b33.V000W")) &&
-					(NumberTheory.convDecimal2OthBase(-31721794, 34, 2).Equals("-b34.NP2XW")) &&
-					(NumberTheory.convDecimal2OthBase(-1587565, 35, 2).Equals("-b35.120Y0")) &&
-					(NumberTheory.convDecimal2OthBase(-60466175, 36, 2).Equals("-b36.ZZZZZ"))
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,0, 1, 2).Equals("b1.")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3, 1, 2).Equals("b1.111")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5, 2, 2).Equals("b.101")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,16, 3, 2).Equals("b3.121")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,27, 4, 2).Equals("b4.123")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,96, 5, 2).Equals("b5.341")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,140, 6, 2).Equals("b6.352")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,139, 7, 2).Equals("b7.256")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,254, 8, 2).Equals("o.376")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,667, 9, 2).Equals("b9.821")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,394, 10, 2).Equals("b10.394")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,480, 11, 2).Equals("b11.3A7")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1511, 12, 2).Equals("b12.A5B")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1857, 13, 2).Equals("b13.ACB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,545, 14, 2).Equals("b14.2AD")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2689, 15, 2).Equals("b15.BE4")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,4002, 16, 2).Equals("h.FA2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3168, 17, 2).Equals("b17.AG6")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5165, 18, 2).Equals("b18.FGH")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1067, 19, 2).Equals("b19.2I3")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3859, 20, 2).Equals("b20.9CJ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,8940, 21, 2).Equals("b21.K5F")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,7727, 22, 2).Equals("b22.FL5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,781, 23, 2).Equals("b23.1AM")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,3445, 24, 2).Equals("b24.5ND")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2320762, 25, 2).Equals("b25.5ND5C")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1739639, 26, 2).Equals("b26.3KPB5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,10090258, 27, 2).Equals("b27.IQH67")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,17048390, 28, 2).Equals("b28.RKHB2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,5942128, 29, 2).Equals("b29.8BIFS")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,2417981, 30, 2).Equals("b30.2TGJB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,6315103, 31, 2).Equals("b31.6PUC0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,12609504, 32, 2).Equals("b32.C0PV0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,36763583, 33, 2).Equals("b33.V000W")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,31721794, 34, 2).Equals("b34.NP2XW")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,1587565, 35, 2).Equals("b35.120Y0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,60466175, 36, 2).Equals("b36.ZZZZZ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-0, 1, 2).Equals("b1.")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3, 1, 2).Equals("-b1.111")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5, 2, 2).Equals("-b.101")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-16, 3, 2).Equals("-b3.121")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-27, 4, 2).Equals("-b4.123")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-96, 5, 2).Equals("-b5.341")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-140, 6, 2).Equals("-b6.352")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-139, 7, 2).Equals("-b7.256")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-254, 8, 2).Equals("-o.376")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-667, 9, 2).Equals("-b9.821")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-394, 10, 2).Equals("-b10.394")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-480, 11, 2).Equals("-b11.3A7")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1511, 12, 2).Equals("-b12.A5B")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1857, 13, 2).Equals("-b13.ACB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-545, 14, 2).Equals("-b14.2AD")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2689, 15, 2).Equals("-b15.BE4")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-4002, 16, 2).Equals("-h.FA2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3168, 17, 2).Equals("-b17.AG6")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5165, 18, 2).Equals("-b18.FGH")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1067, 19, 2).Equals("-b19.2I3")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3859, 20, 2).Equals("-b20.9CJ")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-8940, 21, 2).Equals("-b21.K5F")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-7727, 22, 2).Equals("-b22.FL5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-781, 23, 2).Equals("-b23.1AM")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-3445, 24, 2).Equals("-b24.5ND")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2320762, 25, 2).Equals("-b25.5ND5C")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1739639, 26, 2).Equals("-b26.3KPB5")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-10090258, 27, 2).Equals("-b27.IQH67")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-17048390, 28, 2).Equals("-b28.RKHB2")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-5942128, 29, 2).Equals("-b29.8BIFS")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-2417981, 30, 2).Equals("-b30.2TGJB")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-6315103, 31, 2).Equals("-b31.6PUC0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-12609504, 32, 2).Equals("-b32.C0PV0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-36763583, 33, 2).Equals("-b33.V000W")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-31721794, 34, 2).Equals("-b34.NP2XW")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-1587565, 35, 2).Equals("-b35.120Y0")) &&
+					(NumberTheory.convDecimal2OthBase(CancellationToken.None,-60466175, 36, 2).Equals("-b36.ZZZZZ"))
 					)
 				test[testId] = true;
 			/*
 			 * 48. mXparser. conv oth to decimal - special cases
 			 */
 			testId++;
-			double potNaN1 = NumberTheory.convOthBase2Decimal((String)null);
-			double potNaN2 = NumberTheory.convOthBase2Decimal("1");
-			double potNaN3 = NumberTheory.convOthBase2Decimal("12");
-			double potNaN4 = NumberTheory.convOthBase2Decimal("b1.123");
-			double potNaN5 = NumberTheory.convOthBase2Decimal("b37.123");
+			double potNaN1 = NumberTheory.convOthBase2Decimal(CancellationToken.None,(String)null);
+			double potNaN2 = NumberTheory.convOthBase2Decimal(CancellationToken.None,"1");
+			double potNaN3 = NumberTheory.convOthBase2Decimal(CancellationToken.None,"12");
+			double potNaN4 = NumberTheory.convOthBase2Decimal(CancellationToken.None,"b1.123");
+			double potNaN5 = NumberTheory.convOthBase2Decimal(CancellationToken.None,"b37.123");
 			if (
 					(Double.IsNaN(potNaN1)) &&
 					(Double.IsNaN(potNaN2)) &&
@@ -1904,7 +1905,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e = new Expression("sin(x) + cos(x) + f(x,y) + x + y / z + 2*pi");
-			String[] misArgs = e.getMissingUserDefinedArguments();
+			String[] misArgs = e.getMissingUserDefinedArguments(CancellationToken.None);
 			if (
 					(misArgs[0].Equals("x")) &&
 					(misArgs[1].Equals("y")) &&
@@ -1917,7 +1918,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e = new Expression("sin(x) + cos(x) + f(x,y) + x + y / z + 2*pi");
-			String[] misFun = e.getMissingUserDefinedFunctions();
+			String[] misFun = e.getMissingUserDefinedFunctions(CancellationToken.None);
 			if (
 					(misFun[0].Equals("f")) &&
 					(misFun.Length == 1)
@@ -1948,246 +1949,246 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			if (
-					( MathFunctions.roundHalfUp( 0.0, 0 ) == 0.0) &&
-					( MathFunctions.roundHalfUp( 0.0, 1 ) == 0.0) &&
-					( MathFunctions.roundHalfUp( 0.0, 2 ) == 0.0) &&
-					( MathFunctions.roundHalfUp( 0.0, 100 ) == 0.0) &&
-					( Double.IsNaN( MathFunctions.roundHalfUp( 0.0, -1 ) ) ) &&
-					( MathFunctions.roundHalfUp( 1.0, 0 ) == 1.0) &&
-					( MathFunctions.roundHalfUp( 1.0, 1 ) == 1.0) &&
-					( MathFunctions.roundHalfUp( 1.0, 2 ) == 1.0) &&
-					( MathFunctions.roundHalfUp( 1.0, 100 ) == 1.0) &&
-					( Double.IsNaN( MathFunctions.roundHalfUp( 1.0, -1 ) ) ) &&
-					( MathFunctions.roundHalfUp( 9856.0, 0 ) == 9856.0) &&
-					( MathFunctions.roundHalfUp( 9856.0, 1 ) == 9856.0) &&
-					( MathFunctions.roundHalfUp( 9856.0, 2 ) == 9856.0) &&
-					( MathFunctions.roundHalfUp( 9856.0, 100 ) == 9856.0) &&
-					( Double.IsNaN( MathFunctions.roundHalfUp( 9856.0, -1 ) ) ) &&
-					( MathFunctions.roundHalfUp( 9.856E303, 0 ) == 9.856E303) &&
-					( MathFunctions.roundHalfUp( 9.856E303, 1 ) == 9.856E303) &&
-					( MathFunctions.roundHalfUp( 9.856E303, 2 ) == 9.856E303) &&
-					( MathFunctions.roundHalfUp( 9.856E303, 100 ) == 9.856E303) &&
-					( Double.IsNaN( MathFunctions.roundHalfUp( 9.856E303, -1 ) ) ) &&
-					( MathFunctions.roundHalfUp( -1.0, 0 ) == -1.0) &&
-					( MathFunctions.roundHalfUp( -1.0, 1 ) == -1.0) &&
-					( MathFunctions.roundHalfUp( -1.0, 2 ) == -1.0) &&
-					( MathFunctions.roundHalfUp( -1.0, 100 ) == -1.0) &&
-					( Double.IsNaN( MathFunctions.roundHalfUp( -1.0, -1 ) ) ) &&
-					( MathFunctions.roundHalfUp( -9856.0, 0 ) == -9856.0) &&
-					( MathFunctions.roundHalfUp( -9856.0, 1 ) == -9856.0) &&
-					( MathFunctions.roundHalfUp( -9856.0, 2 ) == -9856.0) &&
-					( MathFunctions.roundHalfUp( -9856.0, 100 ) == -9856.0) &&
-					( Double.IsNaN( MathFunctions.roundHalfUp( -9856.0, -1 ) ) ) &&
-					( MathFunctions.roundHalfUp( -9.856E303, 0 ) == -9.856E303) &&
-					( MathFunctions.roundHalfUp( -9.856E303, 1 ) == -9.856E303) &&
-					( MathFunctions.roundHalfUp( -9.856E303, 2 ) == -9.856E303) &&
-					( MathFunctions.roundHalfUp( -9.856E303, 100 ) == -9.856E303) &&
-					( Double.IsNaN( MathFunctions.roundHalfUp( -9.856E303, -1 ) ) ) &&
-					( MathFunctions.roundHalfUp( 1.0E-5, 5 ) == 1.0E-5) &&
-					( MathFunctions.roundHalfUp( 1.0E-5, 6 ) == 1.0E-5) &&
-					( MathFunctions.roundHalfUp( 1.0E-5, 100 ) == 1.0E-5) &&
-					( MathFunctions.roundHalfUp( 1.0E-5, 500 ) == 1.0E-5) &&
-					( MathFunctions.roundHalfUp( 1.0E-5, 4 ) == 0.0) &&
-					( MathFunctions.roundHalfUp( 1.0E-5, 3 ) == 0.0) &&
-					( MathFunctions.roundHalfUp( 1.0E-5, 2 ) == 0.0) &&
-					( MathFunctions.roundHalfUp( 1.0E-5, 1 ) == 0.0) &&
-					( MathFunctions.roundHalfUp( 1.0E-5, 0 ) == 0.0) &&
-					( MathFunctions.roundHalfUp( -1.0E-5, 5 ) == -1.0E-5) &&
-					( MathFunctions.roundHalfUp( -1.0E-5, 6 ) == -1.0E-5) &&
-					( MathFunctions.roundHalfUp( -1.0E-5, 100 ) == -1.0E-5) &&
-					( MathFunctions.roundHalfUp( -1.0E-5, 500 ) == -1.0E-5) &&
-					( MathFunctions.roundHalfUp( -1.0E-5, 4 ) == -0.0) &&
-					( MathFunctions.roundHalfUp( -1.0E-5, 3 ) == -0.0) &&
-					( MathFunctions.roundHalfUp( -1.0E-5, 2 ) == -0.0) &&
-					( MathFunctions.roundHalfUp( -1.0E-5, 1 ) == -0.0) &&
-					( MathFunctions.roundHalfUp( -1.0E-5, 0 ) == -0.0) &&
-					( MathFunctions.roundHalfUp( 10.000000000123, 14 ) == 10.000000000123) &&
-					( MathFunctions.roundHalfUp( 10.000000000123, 13 ) == 10.000000000123) &&
-					( MathFunctions.roundHalfUp( 10.000000000123, 12 ) == 10.000000000123) &&
-					( MathFunctions.roundHalfUp( 10.000000000123, 11 ) == 10.00000000012) &&
-					( MathFunctions.roundHalfUp( 10.000000000123, 10 ) == 10.0000000001) &&
-					( MathFunctions.roundHalfUp( 10.000000000123, 9 ) == 10.0) &&
-					( MathFunctions.roundHalfUp( 10.000000000123, 3 ) == 10.0) &&
-					( MathFunctions.roundHalfUp( 10.000000000123, 0 ) == 10.0) &&
-					( MathFunctions.roundHalfUp( -10.000000000123, 14 ) == -10.000000000123) &&
-					( MathFunctions.roundHalfUp( -10.000000000123, 13 ) == -10.000000000123) &&
-					( MathFunctions.roundHalfUp( -10.000000000123, 12 ) == -10.000000000123) &&
-					( MathFunctions.roundHalfUp( -10.000000000123, 11 ) == -10.00000000012) &&
-					( MathFunctions.roundHalfUp( -10.000000000123, 10 ) == -10.0000000001) &&
-					( MathFunctions.roundHalfUp( -10.000000000123, 9 ) == -10.0) &&
-					( MathFunctions.roundHalfUp( -10.000000000123, 3 ) == -10.0) &&
-					( MathFunctions.roundHalfUp( -10.000000000123, 0 ) == -10.0) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 200 ) == 100.444444444445) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 14 ) == 100.444444444445) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 13 ) == 100.444444444445) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 12 ) == 100.444444444445) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 11 ) == 100.44444444445) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 10 ) == 100.4444444444) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 9 ) == 100.444444444) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 8 ) == 100.44444444) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 7 ) == 100.4444444) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 6 ) == 100.444444) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 5 ) == 100.44444) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 4 ) == 100.4444) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 3 ) == 100.444) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 2 ) == 100.44) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 1 ) == 100.4) &&
-					( MathFunctions.roundHalfUp( 100.444444444445, 0 ) == 100.0) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 200 ) == -100.444444444445) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 14 ) == -100.444444444445) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 13 ) == -100.444444444445) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 12 ) == -100.444444444445) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 11 ) == -100.44444444445) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 10 ) == -100.4444444444) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 9 ) == -100.444444444) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 8 ) == -100.44444444) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 7 ) == -100.4444444) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 6 ) == -100.444444) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 5 ) == -100.44444) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 4 ) == -100.4444) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 3 ) == -100.444) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 2 ) == -100.44) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 1 ) == -100.4) &&
-					( MathFunctions.roundHalfUp( -100.444444444445, 0 ) == -100.0) &&
-					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 100 ) == 1.2345678907654321E9) &&
-					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 8 ) == 1.2345678907654321E9) &&
-					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 7 ) == 1.2345678907654321E9) &&
-					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 6 ) == 1.234567890765432E9) &&
-					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 5 ) == 1.23456789076543E9) &&
-					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 4 ) == 1.2345678907654E9) &&
-					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 3 ) == 1.234567890765E9) &&
-					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 2 ) == 1.23456789077E9) &&
-					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 1 ) == 1.2345678908E9) &&
-					( MathFunctions.roundHalfUp( 1.2345678907654321E9, 0 ) == 1.234567891E9) &&
-					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 100 ) == -1.2345678907654321E9) &&
-					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 8 ) == -1.2345678907654321E9) &&
-					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 7 ) == -1.2345678907654321E9) &&
-					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 6 ) == -1.234567890765432E9) &&
-					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 5 ) == -1.23456789076543E9) &&
-					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 4 ) == -1.2345678907654E9) &&
-					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 3 ) == -1.234567890765E9) &&
-					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 2 ) == -1.23456789077E9) &&
-					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 1 ) == -1.2345678908E9) &&
-					( MathFunctions.roundHalfUp( -1.2345678907654321E9, 0 ) == -1.234567891E9) &&
-					( MathFunctions.roundHalfUp( 5.9999999999, 11 ) == 5.9999999999) &&
-					( MathFunctions.roundHalfUp( 5.9999999999, 10 ) == 5.9999999999) &&
-					( MathFunctions.roundHalfUp( 5.9999999999, 9 ) == 6.0) &&
-					( MathFunctions.roundHalfUp( 5.9999999999, 3 ) == 6.0) &&
-					( MathFunctions.roundHalfUp( 5.9999999999, 0 ) == 6.0) &&
-					( MathFunctions.roundHalfUp( -5.9999999999, 11 ) == -5.9999999999) &&
-					( MathFunctions.roundHalfUp( -5.9999999999, 10 ) == -5.9999999999) &&
-					( MathFunctions.roundHalfUp( -5.9999999999, 9 ) == -6.0) &&
-					( MathFunctions.roundHalfUp( -5.9999999999, 3 ) == -6.0) &&
-					( MathFunctions.roundHalfUp( -5.9999999999, 0 ) == -6.0) &&
-					( MathFunctions.roundHalfUp( 1.2300000000000001E305, 307 ) == 1.2300000000000001E305) &&
-					( MathFunctions.roundHalfUp( 1.2300000000000001E305, 10 ) == 1.2300000000000001E305) &&
-					( MathFunctions.roundHalfUp( 1.2300000000000001E305, 1 ) == 1.2300000000000001E305) &&
-					( MathFunctions.roundHalfUp( 1.2300000000000001E305, 0 ) == 1.2300000000000001E305) &&
-					( MathFunctions.roundHalfUp( -1.2300000000000001E305, 307 ) == -1.2300000000000001E305) &&
-					( MathFunctions.roundHalfUp( -1.2300000000000001E305, 10 ) == -1.2300000000000001E305) &&
-					( MathFunctions.roundHalfUp( -1.2300000000000001E305, 1 ) == -1.2300000000000001E305) &&
-					( MathFunctions.roundHalfUp( -1.2300000000000001E305, 0 ) == -1.2300000000000001E305) &&
-					( Double.IsNaN( MathFunctions.roundHalfUp( Double.NaN, 0 ) ) ) &&
-					( Double.IsPositiveInfinity(MathFunctions.roundHalfUp( Double.PositiveInfinity, 100 ))) &&
-					( Double.IsNegativeInfinity(MathFunctions.roundHalfUp( Double.NegativeInfinity, 100 )))
+					( MathFunctions.roundHalfUp(CancellationToken.None, 0.0, 0 ) == 0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 0.0, 1 ) == 0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 0.0, 2 ) == 0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 0.0, 100 ) == 0.0) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp(CancellationToken.None, 0.0, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0, 0 ) == 1.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0, 1 ) == 1.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0, 2 ) == 1.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0, 100 ) == 1.0) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp(CancellationToken.None, 1.0, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 9856.0, 0 ) == 9856.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 9856.0, 1 ) == 9856.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 9856.0, 2 ) == 9856.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 9856.0, 100 ) == 9856.0) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp(CancellationToken.None, 9856.0, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 9.856E303, 0 ) == 9.856E303) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 9.856E303, 1 ) == 9.856E303) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 9.856E303, 2 ) == 9.856E303) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 9.856E303, 100 ) == 9.856E303) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp(CancellationToken.None, 9.856E303, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0, 0 ) == -1.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0, 1 ) == -1.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0, 2 ) == -1.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0, 100 ) == -1.0) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp(CancellationToken.None, -1.0, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -9856.0, 0 ) == -9856.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -9856.0, 1 ) == -9856.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -9856.0, 2 ) == -9856.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -9856.0, 100 ) == -9856.0) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp(CancellationToken.None, -9856.0, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -9.856E303, 0 ) == -9.856E303) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -9.856E303, 1 ) == -9.856E303) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -9.856E303, 2 ) == -9.856E303) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -9.856E303, 100 ) == -9.856E303) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp(CancellationToken.None, -9.856E303, -1 ) ) ) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0E-5, 5 ) == 1.0E-5) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0E-5, 6 ) == 1.0E-5) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0E-5, 100 ) == 1.0E-5) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0E-5, 500 ) == 1.0E-5) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0E-5, 4 ) == 0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0E-5, 3 ) == 0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0E-5, 2 ) == 0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0E-5, 1 ) == 0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.0E-5, 0 ) == 0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0E-5, 5 ) == -1.0E-5) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0E-5, 6 ) == -1.0E-5) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0E-5, 100 ) == -1.0E-5) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0E-5, 500 ) == -1.0E-5) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0E-5, 4 ) == -0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0E-5, 3 ) == -0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0E-5, 2 ) == -0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0E-5, 1 ) == -0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.0E-5, 0 ) == -0.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 10.000000000123, 14 ) == 10.000000000123) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 10.000000000123, 13 ) == 10.000000000123) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 10.000000000123, 12 ) == 10.000000000123) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 10.000000000123, 11 ) == 10.00000000012) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 10.000000000123, 10 ) == 10.0000000001) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 10.000000000123, 9 ) == 10.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 10.000000000123, 3 ) == 10.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 10.000000000123, 0 ) == 10.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -10.000000000123, 14 ) == -10.000000000123) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -10.000000000123, 13 ) == -10.000000000123) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -10.000000000123, 12 ) == -10.000000000123) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -10.000000000123, 11 ) == -10.00000000012) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -10.000000000123, 10 ) == -10.0000000001) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -10.000000000123, 9 ) == -10.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -10.000000000123, 3 ) == -10.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -10.000000000123, 0 ) == -10.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 200 ) == 100.444444444445) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 14 ) == 100.444444444445) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 13 ) == 100.444444444445) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 12 ) == 100.444444444445) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 11 ) == 100.44444444445) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 10 ) == 100.4444444444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 9 ) == 100.444444444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 8 ) == 100.44444444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 7 ) == 100.4444444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 6 ) == 100.444444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 5 ) == 100.44444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 4 ) == 100.4444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 3 ) == 100.444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 2 ) == 100.44) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 1 ) == 100.4) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 100.444444444445, 0 ) == 100.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 200 ) == -100.444444444445) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 14 ) == -100.444444444445) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 13 ) == -100.444444444445) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 12 ) == -100.444444444445) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 11 ) == -100.44444444445) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 10 ) == -100.4444444444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 9 ) == -100.444444444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 8 ) == -100.44444444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 7 ) == -100.4444444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 6 ) == -100.444444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 5 ) == -100.44444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 4 ) == -100.4444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 3 ) == -100.444) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 2 ) == -100.44) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 1 ) == -100.4) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -100.444444444445, 0 ) == -100.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2345678907654321E9, 100 ) == 1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2345678907654321E9, 8 ) == 1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2345678907654321E9, 7 ) == 1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2345678907654321E9, 6 ) == 1.234567890765432E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2345678907654321E9, 5 ) == 1.23456789076543E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2345678907654321E9, 4 ) == 1.2345678907654E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2345678907654321E9, 3 ) == 1.234567890765E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2345678907654321E9, 2 ) == 1.23456789077E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2345678907654321E9, 1 ) == 1.2345678908E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2345678907654321E9, 0 ) == 1.234567891E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2345678907654321E9, 100 ) == -1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2345678907654321E9, 8 ) == -1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2345678907654321E9, 7 ) == -1.2345678907654321E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2345678907654321E9, 6 ) == -1.234567890765432E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2345678907654321E9, 5 ) == -1.23456789076543E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2345678907654321E9, 4 ) == -1.2345678907654E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2345678907654321E9, 3 ) == -1.234567890765E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2345678907654321E9, 2 ) == -1.23456789077E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2345678907654321E9, 1 ) == -1.2345678908E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2345678907654321E9, 0 ) == -1.234567891E9) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 5.9999999999, 11 ) == 5.9999999999) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 5.9999999999, 10 ) == 5.9999999999) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 5.9999999999, 9 ) == 6.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 5.9999999999, 3 ) == 6.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 5.9999999999, 0 ) == 6.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -5.9999999999, 11 ) == -5.9999999999) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -5.9999999999, 10 ) == -5.9999999999) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -5.9999999999, 9 ) == -6.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -5.9999999999, 3 ) == -6.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -5.9999999999, 0 ) == -6.0) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2300000000000001E305, 307 ) == 1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2300000000000001E305, 10 ) == 1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2300000000000001E305, 1 ) == 1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, 1.2300000000000001E305, 0 ) == 1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2300000000000001E305, 307 ) == -1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2300000000000001E305, 10 ) == -1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2300000000000001E305, 1 ) == -1.2300000000000001E305) &&
+					( MathFunctions.roundHalfUp(CancellationToken.None, -1.2300000000000001E305, 0 ) == -1.2300000000000001E305) &&
+					( Double.IsNaN( MathFunctions.roundHalfUp(CancellationToken.None, Double.NaN, 0 ) ) ) &&
+					( Double.IsPositiveInfinity(MathFunctions.roundHalfUp(CancellationToken.None, Double.PositiveInfinity, 100 ))) &&
+					( Double.IsNegativeInfinity(MathFunctions.roundHalfUp(CancellationToken.None, Double.NegativeInfinity, 100 )))
 				) test[testId] = true;
 			/*
 			 * 55. To Mixed fraction
 			 */
 			testId++;
 			if (
-					(NumberTheory.toMixedFractionString(0.0).Equals("0")) &&
-					(NumberTheory.toMixedFractionString(1.0).Equals("1")) &&
-					(NumberTheory.toMixedFractionString(2.0).Equals("2")) &&
-					(NumberTheory.toMixedFractionString(1234567890.0).Equals("1234567890")) &&
-					(NumberTheory.toMixedFractionString(-1.0).Equals("-1")) &&
-					(NumberTheory.toMixedFractionString(-2.0).Equals("-2")) &&
-					(NumberTheory.toMixedFractionString(-1234567890.0).Equals("-1234567890")) &&
-					(NumberTheory.toMixedFractionString(1.0/2.0).Equals("1/2")) &&
-					(NumberTheory.toMixedFractionString(-1.0/2.0).Equals("-1/2")) &&
-					(NumberTheory.toMixedFractionString(2.0/3.0).Equals("2/3")) &&
-					(NumberTheory.toMixedFractionString(-2.0/3.0).Equals("-2/3")) &&
-					(NumberTheory.toMixedFractionString(263.0/326.0).Equals("263/326")) &&
-					(NumberTheory.toMixedFractionString(-263.0/326.0).Equals("-263/326")) &&
-					(NumberTheory.toMixedFractionString(2.0+5.0/6.0).Equals("2+5/6")) &&
-					(NumberTheory.toMixedFractionString(-2.0-5.0/6.0).Equals("-2-5/6")) &&
-					(NumberTheory.toMixedFractionString(2+263.0/326.0).Equals("2+263/326")) &&
-					(NumberTheory.toMixedFractionString(-2-263.0/326.0).Equals("-2-263/326")) &&
-					(NumberTheory.toMixedFractionString(20+263.0/326.0).Equals("20+263/326")) &&
-					(NumberTheory.toMixedFractionString(-20-263.0/326.0).Equals("-20-263/326")) &&
-					(NumberTheory.toMixedFractionString(200+263.0/326.0).Equals("200+263/326")) &&
-					(NumberTheory.toMixedFractionString(-200-263.0/326.0).Equals("-200-263/326")) &&
-					(NumberTheory.toMixedFractionString(2000+263.0/326.0).Equals("2000+263/326")) &&
-					(NumberTheory.toMixedFractionString(-2000-263.0/326.0).Equals("-2000-263/326")) &&
-					(NumberTheory.toMixedFractionString(20000+263.0/326.0).Equals("20000+263/326")) &&
-					(NumberTheory.toMixedFractionString(-20000-263.0/326.0).Equals("-20000-263/326")) &&
-					(NumberTheory.toMixedFractionString(200000+263.0/326.0).Equals("200000+263/326")) &&
-					(NumberTheory.toMixedFractionString(-200000-263.0/326.0).Equals("-200000-263/326")) &&
-					(NumberTheory.toMixedFractionString(2000000+263.0/326.0).Equals("2000000+263/326")) &&
-					(NumberTheory.toMixedFractionString(-2000000-263.0/326.0).Equals("-2000000-263/326")) &&
-					(NumberTheory.toMixedFractionString(20000000+263.0/326.0).Equals("20000000+263/326")) &&
-					(NumberTheory.toMixedFractionString(-20000000-263.0/326.0).Equals("-20000000-263/326")) &&
-					(NumberTheory.toMixedFractionString(200000000+263.0/326.0).Equals("200000000+263/326")) &&
-					(NumberTheory.toMixedFractionString(-200000000-263.0/326.0).Equals("-200000000-263/326")) &&
-					(NumberTheory.toMixedFractionString(2000000000+263.0/326.0).Equals("2000000000+263/326")) &&
-					(NumberTheory.toMixedFractionString(-2000000000-263.0/326.0).Equals("-2000000000-263/326")) &&
-					(NumberTheory.toMixedFractionString(20000000000.0+263.0/326.0).Equals("20000000000+263/326")) &&
-					(NumberTheory.toMixedFractionString(-20000000000.0-263.0/326.0).Equals("-20000000000-263/326"))
+					(NumberTheory.toMixedFractionString(CancellationToken.None,0.0).Equals("0")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,1.0).Equals("1")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,2.0).Equals("2")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,1234567890.0).Equals("1234567890")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-1.0).Equals("-1")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-2.0).Equals("-2")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-1234567890.0).Equals("-1234567890")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,1.0/2.0).Equals("1/2")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-1.0/2.0).Equals("-1/2")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,2.0/3.0).Equals("2/3")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-2.0/3.0).Equals("-2/3")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,263.0/326.0).Equals("263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-263.0/326.0).Equals("-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,2.0+5.0/6.0).Equals("2+5/6")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-2.0-5.0/6.0).Equals("-2-5/6")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,2+263.0/326.0).Equals("2+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-2-263.0/326.0).Equals("-2-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,20+263.0/326.0).Equals("20+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-20-263.0/326.0).Equals("-20-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,200+263.0/326.0).Equals("200+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-200-263.0/326.0).Equals("-200-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,2000+263.0/326.0).Equals("2000+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-2000-263.0/326.0).Equals("-2000-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,20000+263.0/326.0).Equals("20000+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-20000-263.0/326.0).Equals("-20000-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,200000+263.0/326.0).Equals("200000+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-200000-263.0/326.0).Equals("-200000-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,2000000+263.0/326.0).Equals("2000000+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-2000000-263.0/326.0).Equals("-2000000-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,20000000+263.0/326.0).Equals("20000000+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-20000000-263.0/326.0).Equals("-20000000-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,200000000+263.0/326.0).Equals("200000000+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-200000000-263.0/326.0).Equals("-200000000-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,2000000000+263.0/326.0).Equals("2000000000+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-2000000000-263.0/326.0).Equals("-2000000000-263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,20000000000.0+263.0/326.0).Equals("20000000000+263/326")) &&
+					(NumberTheory.toMixedFractionString(CancellationToken.None,-20000000000.0-263.0/326.0).Equals("-20000000000-263/326"))
 					) test[testId] = true;
 			/*
 			 * 56. To fraction
 			 */
 			testId++;
 			if (
-					(NumberTheory.toFractionString(0.0).Equals("0")) &&
-					(NumberTheory.toFractionString(1.0).Equals("1")) &&
-					(NumberTheory.toFractionString(2.0).Equals("2")) &&
-					(NumberTheory.toFractionString(1234567890.0).Equals("1234567890")) &&
-					(NumberTheory.toFractionString(-1.0).Equals("-1")) &&
-					(NumberTheory.toFractionString(-2.0).Equals("-2")) &&
-					(NumberTheory.toFractionString(-1234567890.0).Equals("-1234567890")) &&
-					(NumberTheory.toFractionString(1.0/2.0).Equals("1/2")) &&
-					(NumberTheory.toFractionString(-1.0/2.0).Equals("-1/2")) &&
-					(NumberTheory.toFractionString(2.0/3.0).Equals("2/3")) &&
-					(NumberTheory.toFractionString(-2.0/3.0).Equals("-2/3")) &&
-					(NumberTheory.toFractionString(263.0/326.0).Equals("263/326")) &&
-					(NumberTheory.toFractionString(-263.0/326.0).Equals("-263/326")) &&
-					(NumberTheory.toFractionString(17.0/6.0).Equals("17/6")) &&
-					(NumberTheory.toFractionString(-17.0/6.0).Equals("-17/6")) &&
-					(NumberTheory.toFractionString(915.0/326.0).Equals("915/326")) &&
-					(NumberTheory.toFractionString(-915.0/326.0).Equals("-915/326")) &&
-					(NumberTheory.toFractionString(6783.0/326.0).Equals("6783/326")) &&
-					(NumberTheory.toFractionString(-6783.0/326.0).Equals("-6783/326")) &&
-					(NumberTheory.toFractionString(65463.0/326.0).Equals("65463/326")) &&
-					(NumberTheory.toFractionString(-65463.0/326.0).Equals("-65463/326")) &&
-					(NumberTheory.toFractionString(652263.0/326.0).Equals("652263/326")) &&
-					(NumberTheory.toFractionString(-652263.0/326.0).Equals("-652263/326")) &&
-					(NumberTheory.toFractionString(6520263.0/326.0).Equals("6520263/326")) &&
-					(NumberTheory.toFractionString(-6520263.0/326.0).Equals("-6520263/326")) &&
-					(NumberTheory.toFractionString(65200263.0/326.0).Equals("65200263/326")) &&
-					(NumberTheory.toFractionString(-65200263.0/326.0).Equals("-65200263/326")) &&
-					(NumberTheory.toFractionString(652000263.0/326.0).Equals("652000263/326")) &&
-					(NumberTheory.toFractionString(-652000263.0/326.0).Equals("-652000263/326")) &&
-					(NumberTheory.toFractionString(6520000263.0/326.0).Equals("6520000263/326")) &&
-					(NumberTheory.toFractionString(-6520000263.0/326.0).Equals("-6520000263/326")) &&
-					(NumberTheory.toFractionString(65200000263.0/326.0).Equals("65200000263/326")) &&
-					(NumberTheory.toFractionString(-65200000263.0/326.0).Equals("-65200000263/326")) &&
-					(NumberTheory.toFractionString(652000000263.0/326.0).Equals("652000000263/326")) &&
-					(NumberTheory.toFractionString(-652000000263.0/326.0).Equals("-652000000263/326")) &&
-					(NumberTheory.toFractionString(6520000000263.0/326.0).Equals("6520000000263/326")) &&
-					(NumberTheory.toFractionString(-6520000000263.0/326.0).Equals("-6520000000263/326"))
+					(NumberTheory.toFractionString(CancellationToken.None,0.0).Equals("0")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,1.0).Equals("1")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,2.0).Equals("2")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,1234567890.0).Equals("1234567890")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-1.0).Equals("-1")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-2.0).Equals("-2")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-1234567890.0).Equals("-1234567890")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,1.0/2.0).Equals("1/2")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-1.0/2.0).Equals("-1/2")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,2.0/3.0).Equals("2/3")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-2.0/3.0).Equals("-2/3")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,263.0/326.0).Equals("263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-263.0/326.0).Equals("-263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,17.0/6.0).Equals("17/6")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-17.0/6.0).Equals("-17/6")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,915.0/326.0).Equals("915/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-915.0/326.0).Equals("-915/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,6783.0/326.0).Equals("6783/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-6783.0/326.0).Equals("-6783/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,65463.0/326.0).Equals("65463/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-65463.0/326.0).Equals("-65463/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,652263.0/326.0).Equals("652263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-652263.0/326.0).Equals("-652263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,6520263.0/326.0).Equals("6520263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-6520263.0/326.0).Equals("-6520263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,65200263.0/326.0).Equals("65200263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-65200263.0/326.0).Equals("-65200263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,652000263.0/326.0).Equals("652000263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-652000263.0/326.0).Equals("-652000263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,6520000263.0/326.0).Equals("6520000263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-6520000263.0/326.0).Equals("-6520000263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,65200000263.0/326.0).Equals("65200000263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-65200000263.0/326.0).Equals("-65200000263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,652000000263.0/326.0).Equals("652000000263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-652000000263.0/326.0).Equals("-652000000263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,6520000000263.0/326.0).Equals("6520000000263/326")) &&
+					(NumberTheory.toFractionString(CancellationToken.None,-6520000000263.0/326.0).Equals("-6520000000263/326"))
 					) test[testId] = true;
 			/*
 			 * 57. Variadic user function
 			 */
 			testId++;
-			Function f = new Function("f(...) = sum( i, 1, [npar], par(i) )");
+			Function f = new Function(CancellationToken.None,"f(...) = sum( i, 1, [npar], par(i) )");
 			if (
-					(f.calculate(1) == 1) &&
-					(f.calculate(1,2) == 3) &&
-					(f.calculate(1,2,3) == 6) &&
-					(f.calculate(1,2,3,4) == 10) &&
-					(f.calculate(1,2,3,4,5) == 15)
+					(f.calculate(CancellationToken.None,1) == 1) &&
+					(f.calculate(CancellationToken.None,1,2) == 3) &&
+					(f.calculate(CancellationToken.None,1,2,3) == 6) &&
+					(f.calculate(CancellationToken.None,1,2,3,4) == 10) &&
+					(f.calculate(CancellationToken.None,1,2,3,4,5) == 15)
 				) test[testId] = true;
 			/*
 			 * 58. Variadic user function with extension
@@ -2196,11 +2197,11 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			FunExtVar gx = new FunExtVar();
 			Function g = new Function("g", gx);
 			if (
-					(g.calculate(1) == 1) &&
-					(g.calculate(1,2) == 3) &&
-					(g.calculate(1,2,3) == 6) &&
-					(g.calculate(1,2,3,4) == 10) &&
-					(g.calculate(1,2,3,4,5) == 15)
+					(g.calculate(CancellationToken.None,1) == 1) &&
+					(g.calculate(CancellationToken.None,1,2) == 3) &&
+					(g.calculate(CancellationToken.None,1,2,3) == 6) &&
+					(g.calculate(CancellationToken.None,1,2,3,4) == 10) &&
+					(g.calculate(CancellationToken.None,1,2,3,4,5) == 15)
 				) test[testId] = true;
 			/*
 			 * 59. Almost int rounding disable / enable
@@ -2218,7 +2219,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			e = new Expression("");
-			tokens = e.getCopyOfInitialTokens();
+			tokens = e.getCopyOfInitialTokens(CancellationToken.None);
 			if (tokens.Count == 0)
 				test[testId] = true;
 			/*
@@ -2226,38 +2227,38 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			 */
 			testId++;
 			x = new Argument("AAAAA", 730000000);
-			if (x.checkSyntax() == Argument.NO_SYNTAX_ERRORS)
+			if (x.checkSyntax(CancellationToken.None) == Argument.NO_SYNTAX_ERRORS)
 				test[testId] = true;
 			/*
 			 * 62. Argument check syntax #145
 			 */
 			testId++;
-			x = new Argument("AAAAA = 730000000");
-			if (x.checkSyntax() == Argument.NO_SYNTAX_ERRORS)
+			x = new Argument(CancellationToken.None,"AAAAA = 730000000");
+			if (x.checkSyntax(CancellationToken.None) == Argument.NO_SYNTAX_ERRORS)
 				test[testId] = true;
 			/*
 			 * 63. Argument check syntax #145
 			 */
 			testId++;
-			x = new Argument("AAAAA = y*730000000");
-			if (x.checkSyntax() == Argument.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
+			x = new Argument(CancellationToken.None,"AAAAA = y*730000000");
+			if (x.checkSyntax(CancellationToken.None) == Argument.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 				test[testId] = true;
 			/*
 			 * 64. Argument check syntax #145
 			 */
 			testId++;
 			y = new Argument("y", 2);
-			x = new Argument("AAAAA = y*730000000", y);
-			if (x.checkSyntax() == Argument.NO_SYNTAX_ERRORS)
+			x = new Argument(CancellationToken.None,"AAAAA = y*730000000", y);
+			if (x.checkSyntax(CancellationToken.None) == Argument.NO_SYNTAX_ERRORS)
 				test[testId] = true;
 			/*
 			 * 65. Argument check syntax #145
 			 */
 			testId++;
 			e = new Expression("f(2)-2 * [ww]+a+[qq1]");
-			String[] units = e.getMissingUserDefinedUnits();
-			String[] args = e.getMissingUserDefinedArguments();
-			String[] fun = e.getMissingUserDefinedFunctions();
+			String[] units = e.getMissingUserDefinedUnits(CancellationToken.None);
+			String[] args = e.getMissingUserDefinedArguments(CancellationToken.None);
+			String[] fun = e.getMissingUserDefinedFunctions(CancellationToken.None);
 			if (units.Length == 2 && args.Length == 1 && fun.Length == 1)
 				if (units[0].Equals("[ww]") && units[1].Equals("[qq1]"))
 					if (args[0].Equals("a") && fun[0].Equals("f"))
@@ -2484,7 +2485,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (pim.getArgumentBodyType() != Argument.BODY_EXTENDED) test[testId] = false;
 			pim.setArgumentValue(3.0);
 			if (pim.getArgumentBodyType() != Argument.BODY_RUNTIME) test[testId] = false;
-			if (pim.getArgumentValue() != 3.0) test[testId] = false;
+			if (pim.getArgumentValue(CancellationToken.None) != 3.0) test[testId] = false;
 			/*
 			 * 84. Argument extension test
 			 */
@@ -2494,7 +2495,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			if (pim.getArgumentBodyType() != Argument.BODY_EXTENDED) test[testId] = false;
 			pim.setArgumentExpressionString("2+3");
 			if (pim.getArgumentBodyType() != Argument.BODY_RUNTIME) test[testId] = false;
-			if (pim.getArgumentValue() != 5.0) test[testId] = false;
+			if (pim.getArgumentValue(CancellationToken.None) != 5.0) test[testId] = false;
 
 			/* ============================================= */
 			long end =  mXparser.currentTimeMillis();

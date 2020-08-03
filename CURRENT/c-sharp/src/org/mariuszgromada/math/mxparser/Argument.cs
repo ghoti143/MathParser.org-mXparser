@@ -55,6 +55,7 @@
  */
 using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser {
 	/**
@@ -224,7 +225,7 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
 		 */
-		public Argument(String argumentDefinitionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID)
+		public Argument(CancellationToken token,String argumentDefinitionString, params PrimitiveElement[] elements) : base(Argument.TYPE_ID)
 		{
 			if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp)) {
 				argumentName = argumentDefinitionString;
@@ -233,10 +234,10 @@ namespace org.mariuszgromada.math.mxparser {
 				argumentExpression = new Expression(elements);
 			}
 			else if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp)) {
-				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+				HeadEqBody headEqBody = new HeadEqBody(token,argumentDefinitionString);
 				argumentName = headEqBody.headTokens[0].tokenStr;
 				Expression bodyExpr = new Expression(headEqBody.bodyStr);
-				double bodyValue = bodyExpr.calculate();
+				double bodyValue = bodyExpr.calculate(token);
 				if ((bodyExpr.getSyntaxStatus() == Expression.NO_SYNTAX_ERRORS) && (bodyValue != Double.NaN)) {
 					argumentExpression = new Expression();
 					argumentValue = bodyValue;
@@ -249,13 +250,13 @@ namespace org.mariuszgromada.math.mxparser {
 				}
 			}
 			else if (mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp)) {
-				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+				HeadEqBody headEqBody = new HeadEqBody(token,argumentDefinitionString);
 				argumentName = headEqBody.headTokens[0].tokenStr;
 				argumentExpression = new Expression(headEqBody.bodyStr, elements);
 				argumentExpression.setDescription(headEqBody.headStr);
 				argumentValue = ARGUMENT_INITIAL_VALUE;
 				argumentType = DEPENDENT_ARGUMENT;
-				n = new Argument(headEqBody.headTokens[2].tokenStr);
+				n = new Argument(token,headEqBody.headTokens[2].tokenStr);
 			}
 			else {
 				argumentValue = ARGUMENT_INITIAL_VALUE;
@@ -281,14 +282,14 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @param      forceDependent   If true parser will try to create dependent argument
 		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
 		 */
-		public Argument(String argumentDefinitionString, bool forceDependent, params PrimitiveElement[] elements)  : base(Argument.TYPE_ID) {
+		public Argument(CancellationToken token,String argumentDefinitionString, bool forceDependent, params PrimitiveElement[] elements)  : base(Argument.TYPE_ID) {
 			if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.nameOnlyTokenRegExp) ) {
 				argumentName = argumentDefinitionString;
 				argumentValue = ARGUMENT_INITIAL_VALUE;
 				argumentType = FREE_ARGUMENT;
 				argumentExpression = new Expression(elements);
 			} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.constArgDefStrRegExp) ) {
-				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+				HeadEqBody headEqBody = new HeadEqBody(token,argumentDefinitionString);
 				argumentName = headEqBody.headTokens[0].tokenStr;
 				Expression bodyExpr = new Expression(headEqBody.bodyStr);
 				if (forceDependent == true) {
@@ -296,7 +297,7 @@ namespace org.mariuszgromada.math.mxparser {
 					addDefinitions(elements);
 					argumentType = DEPENDENT_ARGUMENT;
 				} else {
-					double bodyValue = bodyExpr.calculate();
+					double bodyValue = bodyExpr.calculate(token);
 					if ( (bodyExpr.getSyntaxStatus() == Expression.NO_SYNTAX_ERRORS) && (bodyValue != Double.NaN) ) {
 						argumentExpression = new Expression();
 						argumentValue = bodyValue;
@@ -308,13 +309,13 @@ namespace org.mariuszgromada.math.mxparser {
 					}
 				}
 			} else if ( mXparser.regexMatch(argumentDefinitionString, ParserSymbol.functionDefStrRegExp) ) {
-				HeadEqBody headEqBody = new HeadEqBody(argumentDefinitionString);
+				HeadEqBody headEqBody = new HeadEqBody(token,argumentDefinitionString);
 				argumentName = headEqBody.headTokens[0].tokenStr;
 				argumentExpression = new Expression(headEqBody.bodyStr, elements);
 				argumentExpression.setDescription(headEqBody.headStr);
 				argumentValue = ARGUMENT_INITIAL_VALUE;
 				argumentType = DEPENDENT_ARGUMENT;
-				n = new Argument(headEqBody.headTokens[2].tokenStr);
+				n = new Argument(token,headEqBody.headTokens[2].tokenStr);
 			} else {
 				argumentValue = ARGUMENT_INITIAL_VALUE;
 				argumentType = FREE_ARGUMENT;
@@ -546,12 +547,12 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @return    syntax status: Argument.NO_SYNTAX_ERRORS,
 		 *            Argument.SYNTAX_ERROR_OR_STATUS_UNKNOWN
 		 */
-		public bool checkSyntax() {
+		public bool checkSyntax(CancellationToken token) {
 			if (argumentBodyType == BODY_EXTENDED) return Argument.NO_SYNTAX_ERRORS;
 			if (argumentType == FREE_ARGUMENT)
 				return Argument.NO_SYNTAX_ERRORS;
 			else
-				return argumentExpression.checkSyntax();
+				return argumentExpression.checkSyntax(token);
 		}
 		/**
 		 * Returns error message after checking the syntax
@@ -568,13 +569,13 @@ namespace org.mariuszgromada.math.mxparser {
 		 *             otherwise returns calculated argument value
 		 *             based on the argument expression.
 		 */
-		public double getArgumentValue() {
+		public double getArgumentValue(CancellationToken token) {
 			if (argumentBodyType == BODY_EXTENDED)
 				return argumentExtension.getArgumentValue();
 			if (argumentType == FREE_ARGUMENT)
 				return argumentValue;
 			else
-				return argumentExpression.calculate();
+				return argumentExpression.calculate(token);
 		}
 		/**
 		 * Adds user defined elements (such as: Arguments, Constants, Functions)
@@ -626,8 +627,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 * @see        Argument
 		 * @see        RecursiveArgument
 		 */
-		public void defineArguments(params String[] argumentsNames) {
-			argumentExpression.defineArguments(argumentsNames);
+		public void defineArguments(CancellationToken token,params String[] argumentsNames) {
+			argumentExpression.defineArguments(token,argumentsNames);
 		}
 		/**
 		 * Enables to define the argument (associated with the argument expression)
@@ -879,9 +880,9 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @see        Function
 		 */
-		public void defineFunction(String functionName, String  functionExpressionString,
+		public void defineFunction(CancellationToken token,String functionName, String  functionExpressionString,
 				params String[] argumentsNames) {
-			argumentExpression.defineFunction(functionName, functionExpressionString, argumentsNames);
+			argumentExpression.defineFunction(token,functionName, functionExpressionString, argumentsNames);
 		}
 		/**
 		 * Gets index of function associated with the argument expression.
@@ -1005,8 +1006,8 @@ namespace org.mariuszgromada.math.mxparser {
 		 *
 		 * @return     clone of the argument.
 		 */
-		public Argument clone() {
-			Argument newArg = new Argument(this.argumentName);
+		public Argument clone(CancellationToken token) {
+			Argument newArg = new Argument(token,this.argumentName);
 			newArg.argumentExpression = this.argumentExpression;
 			newArg.argumentType = this.argumentType;
 			newArg.argumentBodyType = this.argumentBodyType;

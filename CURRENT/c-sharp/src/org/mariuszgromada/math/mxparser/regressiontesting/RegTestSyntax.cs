@@ -55,6 +55,7 @@
  */
 using org.mariuszgromada.math.mxparser.mathcollection;
 using System;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser.regressiontesting
 {
@@ -93,7 +94,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			bool reg;
 			String expStr = "";
 			String msg = "";
-			Argument x = new Argument("x");
+			Argument x = new Argument(CancellationToken.None,"x");
 			Expression e;
 			Constant c1;
 			Function f;
@@ -105,7 +106,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr, x);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -116,7 +117,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -127,7 +128,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -138,7 +139,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -149,7 +150,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -160,7 +161,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -171,7 +172,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -182,7 +183,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -193,7 +194,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -204,7 +205,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -215,7 +216,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -226,7 +227,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -237,7 +238,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -248,7 +249,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -259,7 +260,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -270,7 +271,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -281,7 +282,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -292,7 +293,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -303,7 +304,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -314,7 +315,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -325,7 +326,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -336,7 +337,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -347,7 +348,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -358,7 +359,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -369,7 +370,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -380,7 +381,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -391,7 +392,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -402,7 +403,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -413,7 +414,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -424,7 +425,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -435,7 +436,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -446,7 +447,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -457,7 +458,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -468,7 +469,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -479,7 +480,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -490,7 +491,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -501,7 +502,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -512,7 +513,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -523,7 +524,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -534,7 +535,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -545,7 +546,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -556,7 +557,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -567,7 +568,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -578,7 +579,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -589,7 +590,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -600,7 +601,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -611,7 +612,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -622,7 +623,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -633,7 +634,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -644,7 +645,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -655,7 +656,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -666,7 +667,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -677,7 +678,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -688,7 +689,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -699,7 +700,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -710,7 +711,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -722,7 +723,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -733,7 +734,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -744,7 +745,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -755,7 +756,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -766,7 +767,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -777,7 +778,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -788,7 +789,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -799,7 +800,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -810,7 +811,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -821,7 +822,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -832,7 +833,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -843,7 +844,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -854,7 +855,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -865,7 +866,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -876,7 +877,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -887,7 +888,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -898,7 +899,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -909,7 +910,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -920,7 +921,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -931,7 +932,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -942,7 +943,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -953,7 +954,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -964,7 +965,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -975,7 +976,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -986,7 +987,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -997,7 +998,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -1008,7 +1009,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -1019,7 +1020,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -1030,7 +1031,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -1041,7 +1042,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> ");
@@ -1049,12 +1050,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 86:
 				expStr = "f()=x+y";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				msg = f.getErrorMessage();
 				e = new Expression("f", f);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1062,12 +1063,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 87:
 				expStr = "f(1,x,y)=x+y";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				msg = f.getErrorMessage();
 				e = new Expression("f", f);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1075,12 +1076,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 88:
 				expStr = "f(1)=x+y";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				msg = f.getErrorMessage();
 				e = new Expression("f", f);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1088,12 +1089,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 89:
 				expStr = "f(x,)=x+y";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				msg = f.getErrorMessage();
 				e = new Expression("f", f);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1101,12 +1102,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 90:
 				expStr = "f(x,  a, x, )=x+y";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				msg = f.getErrorMessage();
 				e = new Expression("f", f);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1114,12 +1115,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 91:
 				expStr = "  f   (x ,   y,    z   )  = x +  y  +z  ";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				msg = f.getErrorMessage();
 				e = new Expression("f(1,2,3)", f);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (
 					(msg.IndexOf("pattern not mathes") == -1) &&
 					(reg == syn)
@@ -1130,12 +1131,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 92:
 				expStr = "x()=y+z";
 				mXparser.consolePrint(expStr + " ...... ");
-				x = new Argument(expStr);
+				x = new Argument(CancellationToken.None,expStr);
 				msg = x.getErrorMessage();
 				e = new Expression("x", x);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("Invalid argument definition") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1143,12 +1144,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 93:
 				expStr = "x(1,a,b)=a+b";
 				mXparser.consolePrint(expStr + " ...... ");
-				x = new Argument(expStr);
+				x = new Argument(CancellationToken.None,expStr);
 				msg = x.getErrorMessage();
 				e = new Expression("x", x);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("Invalid argument definition") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1156,12 +1157,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 94:
 				expStr = "x(1)=a+b";
 				mXparser.consolePrint(expStr + " ...... ");
-				x = new Argument(expStr);
+				x = new Argument(CancellationToken.None,expStr);
 				msg = x.getErrorMessage();
 				e = new Expression("x", x);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("Invalid argument definition") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1169,12 +1170,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 95:
 				expStr = "x(a,)=a+b";
 				mXparser.consolePrint(expStr + " ...... ");
-				x = new Argument(expStr);
+				x = new Argument(CancellationToken.None,expStr);
 				msg = x.getErrorMessage();
 				e = new Expression("x", x);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("Invalid argument definition") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1182,12 +1183,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 96:
 				expStr = "x(a, b, c,)=a+c";
 				mXparser.consolePrint(expStr + " ...... ");
-				x = new Argument(expStr);
+				x = new Argument(CancellationToken.None,expStr);
 				msg = x.getErrorMessage();
 				e = new Expression("x", x);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("Invalid argument definition") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1195,29 +1196,29 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 97:
 				expStr = "  x (  a, b   , c  ) = a+b+c";
 				mXparser.consolePrint(expStr + " ...... ");
-				x = new Argument(expStr, new Argument("a = 1"), new Argument("b = 2"), new Argument("   c = 3"));
+				x = new Argument(CancellationToken.None,expStr, new Argument(CancellationToken.None,"a = 1"), new Argument(CancellationToken.None,"b = 2"), new Argument(CancellationToken.None,"   c = 3"));
 				msg = x.getErrorMessage();
 				e = new Expression("x", x);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (
 					(msg.IndexOf("Invalid argument definition") == -1) &&
 					(reg == syn) &&
-					(e.calculate() == 6)
+					(e.calculate(CancellationToken.None) == 6)
 					)
 					testResult = true;
-				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate() + " " + msg);
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate(CancellationToken.None) + " " + msg);
 				break;
 			case 98:
 				expStr = "x 5";
 				mXparser.consolePrint(expStr + " ...... ");
-				x = new Argument(expStr);
+				x = new Argument(CancellationToken.None,expStr);
 				msg = x.getErrorMessage();
 				e = new Expression("x", x);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("Invalid argument definition") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1225,29 +1226,29 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 99:
 				expStr = "  x = 5 + 1 + 2";
 				mXparser.consolePrint(expStr + " ...... ");
-				x = new Argument(expStr, new Argument("a = 1"), new Argument("b = 2"), new Argument("   c = 3"));
+				x = new Argument(CancellationToken.None,expStr, new Argument(CancellationToken.None,"a = 1"), new Argument(CancellationToken.None,"b = 2"), new Argument(CancellationToken.None,"   c = 3"));
 				msg = x.getErrorMessage();
 				e = new Expression("x", x);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (
 					(msg.IndexOf("Invalid argument definition") == -1) &&
 					(reg == syn) &&
-					(e.calculate() == 8)
+					(e.calculate(CancellationToken.None) == 8)
 					)
 					testResult = true;
-				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate() + " " + msg);
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate(CancellationToken.None) + " " + msg);
 				break;
 			case 100:
 				expStr = "f(n,m)=n*f(n-1)";
 				mXparser.consolePrint(expStr + " ...... ");
-				x = new RecursiveArgument(expStr);
+				x = new RecursiveArgument(CancellationToken.None,expStr);
 				msg = x.getErrorMessage();
 				e = new Expression("x", x);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("Invalid argument definition") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1255,12 +1256,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 101:
 				expStr = "RecursiveArgument name    1fa";
 				mXparser.consolePrint(expStr + " ...... ");
-				x = new RecursiveArgument("1fa","f(n-1)", "n");
+				x = new RecursiveArgument(CancellationToken.None,"1fa","f(n-1)", "n");
 				msg = x.getErrorMessage();
 				e = new Expression("x(1)", x);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("Invalid argument name") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1268,12 +1269,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 102:
 				expStr = "x()=y+z";
 				mXparser.consolePrint(expStr + " ...... ");
-				c1 = new Constant(expStr);
+				c1 = new Constant(CancellationToken.None,expStr);
 				msg = c1.getErrorMessage();
 				e = new Expression("x", c1);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1281,12 +1282,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 103:
 				expStr = "x(1,a,b)=a+b";
 				mXparser.consolePrint(expStr + " ...... ");
-				c1 = new Constant(expStr);
+				c1 = new Constant(CancellationToken.None,expStr);
 				msg = c1.getErrorMessage();
 				e = new Expression("x", c1);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1294,12 +1295,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 104:
 				expStr = "x(1)=a+b";
 				mXparser.consolePrint(expStr + " ...... ");
-				c1 = new Constant(expStr);
+				c1 = new Constant(CancellationToken.None,expStr);
 				msg = c1.getErrorMessage();
 				e = new Expression("x", c1);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1307,12 +1308,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 105:
 				expStr = "x(a,)=a+b";
 				mXparser.consolePrint(expStr + " ...... ");
-				c1 = new Constant(expStr);
+				c1 = new Constant(CancellationToken.None,expStr);
 				msg = c1.getErrorMessage();
 				e = new Expression("x", c1);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1320,12 +1321,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 106:
 				expStr = "x(a, b, c,)=a+c";
 				mXparser.consolePrint(expStr + " ...... ");
-				c1 = new Constant(expStr);
+				c1 = new Constant(CancellationToken.None,expStr);
 				msg = c1.getErrorMessage();
 				e = new Expression("x", c1);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1333,29 +1334,29 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 107:
 				expStr = "  x = a+b+c";
 				mXparser.consolePrint(expStr + " ...... ");
-				c1 = new Constant(expStr, new Argument("a = 1"), new Argument("b = 2"), new Argument("   c = 3"));
+				c1 = new Constant(CancellationToken.None,expStr, new Argument(CancellationToken.None,"a = 1"), new Argument(CancellationToken.None,"b = 2"), new Argument(CancellationToken.None,"   c = 3"));
 				msg = c1.getErrorMessage();
 				e = new Expression("x", c1);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (
 					(msg.IndexOf("pattern not mathes") == -1) &&
 					(reg == syn) &&
-					(e.calculate() == 6)
+					(e.calculate(CancellationToken.None) == 6)
 					)
 					testResult = true;
-				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate() + " " + msg);
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate(CancellationToken.None) + " " + msg);
 				break;
 			case 108:
 				expStr = "x 5";
 				mXparser.consolePrint(expStr + " ...... ");
-				c1 = new Constant(expStr);
+				c1 = new Constant(CancellationToken.None,expStr);
 				msg = c1.getErrorMessage();
 				e = new Expression("x", c1);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("pattern not mathes") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1363,19 +1364,19 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 109:
 				expStr = "  x = 5 + 1 + 2";
 				mXparser.consolePrint(expStr + " ...... ");
-				c1 = new Constant(expStr);
+				c1 = new Constant(CancellationToken.None,expStr);
 				msg = c1.getErrorMessage();
 				e = new Expression("x", c1);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (
 					(msg.IndexOf("pattern not mathes") == -1) &&
 					(reg == syn) &&
-					(e.calculate() == 8)
+					(e.calculate(CancellationToken.None) == 8)
 					)
 					testResult = true;
-				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate() + " " + msg);
+				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + e.calculate(CancellationToken.None) + " " + msg);
 				break;
 			case 110:
 				expStr = "Constant name    1fa";
@@ -1385,7 +1386,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression("1fa", c1);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (msg.IndexOf("invalid constant name") >= 0)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1397,7 +1398,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr, ff);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == Expression.NO_SYNTAX_ERRORS)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1409,7 +1410,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr, ff);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1420,7 +1421,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1433,7 +1434,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.unremoveAllBuiltinTokens();
 				if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 					testResult = true;
@@ -1447,7 +1448,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.unmodifyAllBuiltinTokens();
 				if (syn == Expression.SYNTAX_ERROR_OR_STATUS_UNKNOWN)
 					testResult = true;
@@ -1461,7 +1462,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.unmodifyAllBuiltinTokens();
 				if (syn == Expression.NO_SYNTAX_ERRORS)
 					testResult = true;
@@ -1469,30 +1470,30 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 117:
 				mXparser.setNotToOverrideBuiltinTokens();
-				Function sin = new Function("sin(x,y) = 2*x + y");
-				Argument ee = new Argument("e = 5");
-				Constant pi = new Constant("pi = 2");
+				Function sin = new Function(CancellationToken.None,"sin(x,y) = 2*x + y");
+				Argument ee = new Argument(CancellationToken.None,"e = 5");
+				Constant pi = new Constant(CancellationToken.None,"pi = 2");
 				expStr = "sin(e,pi)";
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr, sin, ee, pi);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 				break;
 			case 118:
 				mXparser.setToOverrideBuiltinTokens();
-				sin = new Function("sin(x,y) = 2*x + y");
-				ee = new Argument("e = 5");
-				pi = new Constant("pi = 2");
+				sin = new Function(CancellationToken.None,"sin(x,y) = 2*x + y");
+				ee = new Argument(CancellationToken.None,"e = 5");
+				pi = new Constant(CancellationToken.None,"pi = 2");
 				expStr = "sin(e,pi)";
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr, sin, ee, pi);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1503,7 +1504,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1514,7 +1515,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1525,7 +1526,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1536,7 +1537,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1547,7 +1548,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1558,7 +1559,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1569,7 +1570,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1580,7 +1581,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1591,7 +1592,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1602,7 +1603,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1613,7 +1614,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1624,7 +1625,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1635,7 +1636,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1646,7 +1647,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1657,7 +1658,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1668,7 +1669,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1679,7 +1680,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1690,7 +1691,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1701,7 +1702,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1712,7 +1713,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1723,7 +1724,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1734,7 +1735,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1745,7 +1746,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1756,7 +1757,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1767,7 +1768,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1778,7 +1779,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1789,7 +1790,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1800,7 +1801,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1811,7 +1812,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1822,7 +1823,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1833,7 +1834,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1844,7 +1845,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1855,7 +1856,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1866,7 +1867,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1877,7 +1878,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1888,7 +1889,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1899,7 +1900,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1910,7 +1911,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1921,7 +1922,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1932,7 +1933,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1943,7 +1944,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1954,7 +1955,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1965,7 +1966,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1976,7 +1977,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1987,7 +1988,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -1998,7 +1999,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2009,7 +2010,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2020,7 +2021,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2031,7 +2032,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2042,7 +2043,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2053,7 +2054,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2064,7 +2065,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2075,7 +2076,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2086,7 +2087,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2097,7 +2098,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2108,7 +2109,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2119,7 +2120,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2130,7 +2131,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2141,7 +2142,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2152,7 +2153,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2163,7 +2164,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2174,7 +2175,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2185,7 +2186,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2196,7 +2197,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2207,7 +2208,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2218,7 +2219,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2229,7 +2230,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2240,7 +2241,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2251,7 +2252,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2262,7 +2263,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2273,7 +2274,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2284,7 +2285,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2295,7 +2296,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2306,7 +2307,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2317,7 +2318,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2328,7 +2329,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2339,7 +2340,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2350,7 +2351,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2361,42 +2362,42 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 				break;
 			case 198:
-				expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyz¹ + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
+				expStr = "b36.0123456789abcdefghijklmnopqrstuvwxyzï¿½ + B36.00123456789ABCDEFGIJKLMNOPQRSTUVWXYZ";
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 				break;
 			case 199:
-				x = new Argument("x = pi");
+				x = new Argument(CancellationToken.None,"x = pi");
 				expStr = "der( sin(x), x )";
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr, x);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 				break;
 			case 200:
-				x = new Argument("x = pi");
+				x = new Argument(CancellationToken.None,"x = pi");
 				expStr = "der( sin(x), x, 0.01, 100 )";
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr, x);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2407,7 +2408,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2418,7 +2419,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr, x);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2429,7 +2430,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2440,7 +2441,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr, x);
 				exp[testId] = e;
 				reg = true;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2451,7 +2452,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2462,7 +2463,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				reg = false;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
@@ -2473,7 +2474,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				mXparser.unremoveAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2485,9 +2486,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				mXparser.unremoveAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.removeBuiltinTokens("sin", "cos");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2500,11 +2501,11 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				mXparser.unremoveAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.removeBuiltinTokens("sin", "cos");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.unremoveBuiltinTokens("cos");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2517,13 +2518,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				mXparser.unremoveAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.removeBuiltinTokens("sin", "cos");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.unremoveBuiltinTokens("cos");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.unremoveAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2535,7 +2536,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				mXparser.unmodifyAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2547,9 +2548,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				mXparser.unmodifyAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.modifyBuiltinToken("sin", "sine");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2562,11 +2563,11 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				mXparser.unmodifyAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.modifyBuiltinToken("sin", "sine");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.modifyBuiltinToken("cos", "cosine", "My new cosine token");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2579,13 +2580,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				mXparser.unmodifyAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.modifyBuiltinToken("sin", "sine");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.modifyBuiltinToken("cos", "cosine", "My new cosine token");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.unmodifyBuiltinTokens("sin");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2598,13 +2599,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				e = new Expression(expStr);
 				exp[testId] = e;
 				mXparser.unmodifyAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.modifyBuiltinToken("sin", "sine");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.modifyBuiltinToken("cos", "cosine", "My new cosine token");
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.unmodifyAllBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2613,12 +2614,12 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 216:
 				expStr = "sin(pi)";
 				mXparser.consolePrint(expStr + " ...... ");
-				sin = new Function("sin(x) = 2*x");
-				pi = new Constant("pi = 1");
+				sin = new Function(CancellationToken.None,"sin(x) = 2*x");
+				pi = new Constant(CancellationToken.None,"pi = 1");
 				e = new Expression(expStr, sin, pi);
 				exp[testId] = e;
 				mXparser.setNotToOverrideBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2627,14 +2628,14 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 217:
 				expStr = "sin(pi)";
 				mXparser.consolePrint(expStr + " ...... ");
-				sin = new Function("sin(x) = 2*x");
-				pi = new Constant("pi = 1");
+				sin = new Function(CancellationToken.None,"sin(x) = 2*x");
+				pi = new Constant(CancellationToken.None,"pi = 1");
 				e = new Expression(expStr, sin, pi);
 				exp[testId] = e;
 				mXparser.setNotToOverrideBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.setToOverrideBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2644,16 +2645,16 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 218:
 				expStr = "sin(pi)";
 				mXparser.consolePrint(expStr + " ...... ");
-				sin = new Function("sin(x) = 2*x");
-				pi = new Constant("pi = 1");
+				sin = new Function(CancellationToken.None,"sin(x) = 2*x");
+				pi = new Constant(CancellationToken.None,"pi = 1");
 				e = new Expression(expStr, sin, pi);
 				exp[testId] = e;
 				mXparser.setNotToOverrideBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.setToOverrideBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				mXparser.setNotToOverrideBuiltinTokens();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2664,7 +2665,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2675,7 +2676,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2686,7 +2687,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2697,7 +2698,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2708,7 +2709,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2719,7 +2720,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2730,7 +2731,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2741,7 +2742,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2752,7 +2753,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2763,7 +2764,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2774,7 +2775,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2783,9 +2784,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 230:
 				expStr = "f(x) = (3 + 5*x";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				exp[testId] = new Expression("");
-				syn = f.checkSyntax();
+				syn = f.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2794,9 +2795,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 231:
 				expStr = "f(x) = (3 + 5*x)";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				exp[testId] = new Expression("");
-				syn = f.checkSyntax();
+				syn = f.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2807,7 +2808,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2818,7 +2819,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2827,9 +2828,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 234:
 				expStr = "f(x) = [npar] + par(1)";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				exp[testId] = new Expression("");
-				syn = f.checkSyntax();
+				syn = f.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2838,9 +2839,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 235:
 				expStr = "f(...) = [npar] + par(1)";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				exp[testId] = new Expression("");
-				syn = f.checkSyntax();
+				syn = f.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2849,9 +2850,9 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			case 236:
 				expStr = "f(... = [npar] + par(1)";
 				mXparser.consolePrint(expStr + " ...... ");
-				f = new Function(expStr);
+				f = new Function(CancellationToken.None,expStr);
 				exp[testId] = new Expression("");
-				syn = f.checkSyntax();
+				syn = f.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg)
 					testResult = true;
@@ -2863,7 +2864,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				FunExtVar fx = new FunExtVar();
 				f = new Function("f", fx);
 				exp[testId] = new Expression("");
-				syn = f.checkSyntax();
+				syn = f.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2871,13 +2872,13 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				break;
 			case 238:
 				FunExtVar gx = new FunExtVar();
-				f = new Function("f(...) = sum(i, 1, [npar], par(i) )");
+				f = new Function(CancellationToken.None,"f(...) = sum(i, 1, [npar], par(i) )");
 				Function g = new Function("g", gx);
 				expStr = "f(1) + f(1,2) + f(1,2,3) + g(1) + g(1,2) + g(1,2,3)";
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr, f, g);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2888,7 +2889,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2899,7 +2900,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2910,7 +2911,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2921,7 +2922,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2932,7 +2933,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
@@ -2943,21 +2944,21 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr);
 				exp[testId] = e;
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = true;
 				if (syn == reg)
 					testResult = true;
 				mXparser.consolePrint(syn + " reg ... " + reg + " --> " + " -----> " + msg);
 				break;
 			case 245:
-				Argument fun = new Argument("fun");
-				x = new Argument("x");
+				Argument fun = new Argument(CancellationToken.None,"fun");
+				x = new Argument(CancellationToken.None,"x");
 				expStr = "fun(x)";
 				mXparser.consolePrint(expStr + " ...... ");
 				e = new Expression(expStr, fun, x);
 				exp[testId] = e;
 				bool lex = e.checkLexSyntax();
-				syn = e.checkSyntax();
+				syn = e.checkSyntax(CancellationToken.None);
 				reg = false;
 				if (syn == reg && lex == true)
 					testResult = true;
@@ -2983,7 +2984,7 @@ namespace org.mariuszgromada.math.mxparser.regressiontesting
 			bool test;
 			long start =  mXparser.currentTimeMillis();
 			for (int testId = 0; testId <= numberOfTests; testId++) {
-				if (mXparser.isCurrentCalculationCancelled()) return -1;
+				if (mXparser.isCurrentCalculationCancelled(CancellationToken.None)) return -1;
 				test = runTest(testId);
 				tests[testId] = test;
 				if (test == true)

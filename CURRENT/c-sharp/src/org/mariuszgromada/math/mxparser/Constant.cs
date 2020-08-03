@@ -56,6 +56,7 @@
 using org.mariuszgromada.math.mxparser.parsertokens;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace org.mariuszgromada.math.mxparser {
 	/**
@@ -194,16 +195,16 @@ namespace org.mariuszgromada.math.mxparser {
 		 *                                      of one String, ie "c = 2" or "c = 2*sin(pi/3)"
 		 * @param      elements   Optional parameters (comma separated) such as Arguments, Constants, Functions
 		 */
-		public Constant(String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID) {
+		public Constant(CancellationToken token,String constantDefinitionString, params PrimitiveElement[] elements) : base(Constant.TYPE_ID) {
 			description = "";
 			syntaxStatus = SYNTAX_ERROR_OR_STATUS_UNKNOWN;
 			relatedExpressionsList = new List<Expression>();
 			if (mXparser.regexMatch(constantDefinitionString, ParserSymbol.constUnitgDefStrRegExp))
 			{
-				HeadEqBody headEqBody = new HeadEqBody(constantDefinitionString);
+				HeadEqBody headEqBody = new HeadEqBody(token,constantDefinitionString);
 				constantName = headEqBody.headTokens[0].tokenStr;
 				Expression bodyExpression = new Expression(headEqBody.bodyStr, elements);
-				constantValue = bodyExpression.calculate();
+				constantValue = bodyExpression.calculate(token);
 				syntaxStatus = bodyExpression.getSyntaxStatus();
 				errorMessage = bodyExpression.getErrorMessage();
 			}
